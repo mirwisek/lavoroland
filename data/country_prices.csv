@@ -1,0 +1,244 @@
+country,currency,yearLastUpdate,monthLastUpdate,contributors,item_id,item_name,average_price,lowest_price,highest_price
+Austria,EUR,2023,12,982,1,"Meal, Inexpensive Restaurant, Restaurants",15.0,9.527009999999999,20.0
+Austria,EUR,2023,12,982,18,"One-way Ticket (Local Transport), Transportation",2.5,2.2,3.0
+Austria,EUR,2023,12,982,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",832.3695804195804,600.0,1200.0
+Austria,EUR,2023,12,982,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",672.5398601398601,500.0,950.0
+Austria,EUR,2023,12,982,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",315.59755690270316,184.16666666666666,472.22222222222223
+Austria,EUR,2023,12,982,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",33.519669421487606,25.0,42.0
+Austria,EUR,2023,12,982,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",21.080136986301383,9.99,30.0
+Austria,EUR,2023,12,982,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",36.96504672897196,20.0,60.0
+Austria,EUR,2023,12,982,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",2355.7124683544303,2355.7124683544303,2355.7124683544303
+Belgium,EUR,2023,12,972,1,"Meal, Inexpensive Restaurant, Restaurants",18.0,10.5,27.0
+Belgium,EUR,2023,12,972,18,"One-way Ticket (Local Transport), Transportation",2.5,2.0,3.0
+Belgium,EUR,2023,12,972,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",815.8063676470588,650.0,1100.0
+Belgium,EUR,2023,12,972,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",686.52536,550.0,900.0
+Belgium,EUR,2023,12,972,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",188.3555601471083,120.0,350.0
+Belgium,EUR,2023,12,972,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",49.163467741935484,35.0,75.0
+Belgium,EUR,2023,12,972,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",20.699215686274517,15.0,30.0
+Belgium,EUR,2023,12,972,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",29.704700000000003,20.0,56.0
+Belgium,EUR,2023,12,972,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",2426.448,2426.448,2426.448
+Bulgaria,EUR,2023,12,1006,1,"Meal, Inexpensive Restaurant, Restaurants",7.674973178744865,5.11664878582991,15.34994635748973
+Bulgaria,EUR,2023,12,1006,18,"One-way Ticket (Local Transport), Transportation",0.8186638057327856,0.511664878582991,1.023329757165982
+Bulgaria,EUR,2023,12,1006,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",354.6880363495891,220.01589779068613,613.9978542995892
+Bulgaria,EUR,2023,12,1006,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",266.1252402632995,153.4994635748973,409.3319028663928
+Bulgaria,EUR,2023,12,1006,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",101.10554639488288,61.39978542995892,163.09318004832838
+Bulgaria,EUR,2023,12,1006,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",11.866177438284579,8.698302935910847,16.373276114655713
+Bulgaria,EUR,2023,12,1006,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",15.013248621083054,12.279957085991784,20.46659514331964
+Bulgaria,EUR,2023,12,1006,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",26.417763739720808,15.34994635748973,40.93319028663928
+Bulgaria,EUR,2023,12,1006,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",753.8647201269238,753.8647201269238,753.8647201269238
+Croatia,EUR,2023,12,1004,1,"Meal, Inexpensive Restaurant, Restaurants",9.945367036954094,5.291315390048539,15.0
+Croatia,EUR,2023,12,1004,18,"One-way Ticket (Local Transport), Transportation",1.458421177343788,0.6,2.0
+Croatia,EUR,2023,12,1004,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",501.1947776597476,331.70447058163825,793.7068482523813
+Croatia,EUR,2023,12,1004,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",386.4699620712841,263.43239692172926,600.0
+Croatia,EUR,2023,12,1004,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",159.1976992833439,100.0,283.03478437754274
+Croatia,EUR,2023,12,1004,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",23.76495035350854,19.00563232861472,33.14243345236417
+Croatia,EUR,2023,12,1004,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",19.5,11.9,20.57
+Croatia,EUR,2023,12,1004,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",39.103257239445874,26.361009579026977,50.0
+Croatia,EUR,2023,12,1004,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",1073.6347578361915,1073.6347578361915,1073.6347578361915
+Cyprus,EUR,2023,12,619,1,"Meal, Inexpensive Restaurant, Restaurants",15.0,8.8386289873294,25.0
+Cyprus,EUR,2023,12,619,18,"One-way Ticket (Local Transport), Transportation",1.5,1.5,2.0
+Cyprus,EUR,2023,12,619,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",940.6880740590894,500.0,1800.0
+Cyprus,EUR,2023,12,619,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",774.0331839288635,450.0,1400.0
+Cyprus,EUR,2023,12,619,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",183.1648015999595,120.0,300.0
+Cyprus,EUR,2023,12,619,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",33.92308823529412,25.0,50.0
+Cyprus,EUR,2023,12,619,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",20.415250000000004,10.0,30.0
+Cyprus,EUR,2023,12,619,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",60.18464285714286,40.0,80.0
+Cyprus,EUR,2023,12,619,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",1448.2592592592594,1448.2592592592594,1448.2592592592594
+Czech Republic,EUR,2023,12,1123,1,"Meal, Inexpensive Restaurant, Restaurants",7.413041723831813,4.942027815887875,10.70772693442373
+Czech Republic,EUR,2023,12,1123,18,"One-way Ticket (Local Transport), Transportation",1.029589128309974,0.8236713026479792,1.6473426052959583
+Czech Republic,EUR,2023,12,1123,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",655.1776733588055,473.61099902258803,1120.072607729347
+Czech Republic,EUR,2023,12,1123,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",530.4609108674108,391.2438687577901,823.6713026479792
+Czech Republic,EUR,2023,12,1123,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",263.5317623903221,185.3260430957953,555.978129287386
+Czech Republic,EUR,2023,12,1123,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",20.211660626898993,14.414247796339636,32.94685210591917
+Czech Republic,EUR,2023,12,1123,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",28.19031506738762,20.55059900106708,49.42027815887875
+Czech Republic,EUR,2023,12,1123,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",47.90063689355868,24.710139079439376,73.03493440579632
+Czech Republic,EUR,2023,12,1123,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",1447.8998988744577,1447.8998988744577,1447.8998988744577
+Denmark,EUR,2023,11,832,1,"Meal, Inexpensive Restaurant, Restaurants",19.5,12.739572536023474,33.5251908842723
+Denmark,EUR,2023,11,832,18,"One-way Ticket (Local Transport), Transportation",3.218418324890141,2.682015270741784,4.023022906112676
+Denmark,EUR,2023,11,832,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",1028.2547460367994,670.503817685446,1944.4610712877934
+Denmark,EUR,2023,11,832,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",756.4024704885269,500.0,1341.007635370892
+Denmark,EUR,2023,11,832,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",202.94564846381715,132.9832571742801,348.66198519643194
+Denmark,EUR,2023,11,832,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",33.02078234680483,22.797129801305164,42.77814356833146
+Denmark,EUR,2023,11,832,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",18.579241723177656,9.252952684059155,19.98101376702629
+Denmark,EUR,2023,11,832,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",35.34226815926628,24.004036673138966,48.276274873352115
+Denmark,EUR,2023,11,832,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",3323.6420016157663,3323.6420016157663,3323.6420016157663
+Estonia,EUR,2023,12,439,1,"Meal, Inexpensive Restaurant, Restaurants",10.0,6.0,20.0
+Estonia,EUR,2023,12,439,18,"One-way Ticket (Local Transport), Transportation",1.5,0.9,2.0
+Estonia,EUR,2023,12,439,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",543.5967741935484,350.0,800.0
+Estonia,EUR,2023,12,439,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",408.5892857142857,250.0,600.0
+Estonia,EUR,2023,12,439,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",233.74474171661674,165.0,340.0
+Estonia,EUR,2023,12,439,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",25.178301886792454,20.0,36.2
+Estonia,EUR,2023,12,439,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",19.2,10.0,24.0
+Estonia,EUR,2023,12,439,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",44.49982456140351,20.0,67.0
+Estonia,EUR,2023,12,439,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",1432.2785245901641,1432.2785245901641,1432.2785245901641
+Finland,EUR,2023,11,837,1,"Meal, Inexpensive Restaurant, Restaurants",12.7,10.0,20.0
+Finland,EUR,2023,11,837,18,"One-way Ticket (Local Transport), Transportation",3.1,2.8,3.8
+Finland,EUR,2023,11,837,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",784.2642857142857,600.0,1200.0
+Finland,EUR,2023,11,837,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",646.3947328244275,500.0,950.0
+Finland,EUR,2023,11,837,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",115.3033395800417,68.25,236.7857142857143
+Finland,EUR,2023,11,837,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",20.6562962962963,12.5,32.0
+Finland,EUR,2023,11,837,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",26.69784615384616,20.0,27.0
+Finland,EUR,2023,11,837,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",38.28547400611621,20.0,60.0
+Finland,EUR,2023,11,837,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",2663.887385964912,2663.887385964912,2663.887385964912
+France,EUR,2023,12,2459,1,"Meal, Inexpensive Restaurant, Restaurants",15.0,10.0,25.0
+France,EUR,2023,12,2459,18,"One-way Ticket (Local Transport), Transportation",1.775,1.4,2.1
+France,EUR,2023,12,2459,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",714.9688089026462,500.0,1329.878048780488
+France,EUR,2023,12,2459,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",575.2406779661017,400.0,935.7894736842105
+France,EUR,2023,12,2459,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",170.3921912344527,100.0,297.5
+France,EUR,2023,12,2459,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",29.821494252873556,20.0,40.0
+France,EUR,2023,12,2459,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",29.32582568807326,11.5,31.99
+France,EUR,2023,12,2459,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",32.7528233513727,20.0,50.0
+France,EUR,2023,12,2459,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",2302.848979193206,2302.848979193206,2302.848979193206
+Germany,EUR,2023,12,5308,1,"Meal, Inexpensive Restaurant, Restaurants",12.0,8.0,20.0
+Germany,EUR,2023,12,5308,18,"One-way Ticket (Local Transport), Transportation",3.0,2.4,3.7
+Germany,EUR,2023,12,5308,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",815.575505758814,520.0,1500.0
+Germany,EUR,2023,12,5308,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",618.3020695102686,400.0,1114.7083333333333
+Germany,EUR,2023,12,5308,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",273.32510022449645,170.0,425.0
+Germany,EUR,2023,12,5308,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",43.37706741511484,30.0,47.95
+Germany,EUR,2023,12,5308,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",31.843848484848543,12.0,39.95
+Germany,EUR,2023,12,5308,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",33.792071917808215,20.0,60.0
+Germany,EUR,2023,12,5308,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",2777.0616700930004,2777.0616700930004,2777.0616700930004
+Greece,EUR,2023,12,1658,1,"Meal, Inexpensive Restaurant, Restaurants",12.0,7.0,24.0
+Greece,EUR,2023,12,1658,18,"One-way Ticket (Local Transport), Transportation",1.2,1.0,1.8
+Greece,EUR,2023,12,1658,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",420.4528349650349,270.0,700.0
+Greece,EUR,2023,12,1658,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",350.65055762081784,250.0,600.0
+Greece,EUR,2023,12,1658,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",205.53589386231724,120.0,386.3636363636363
+Greece,EUR,2023,12,1658,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",30.18423868312757,25.0,41.0
+Greece,EUR,2023,12,1658,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",20.401449275362307,17.8,30.0
+Greece,EUR,2023,12,1658,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",39.37481481481481,20.0,60.0
+Greece,EUR,2023,12,1658,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",861.4485923423424,861.4485923423424,861.4485923423424
+Hungary,EUR,2023,12,954,1,"Meal, Inexpensive Restaurant, Restaurants",7.899329057394058,5.266219371596039,13.165548428990098
+Hungary,EUR,2023,12,954,18,"One-way Ticket (Local Transport), Transportation",1.1322371648931484,0.9215883900293068,1.3165548428990097
+Hungary,EUR,2023,12,954,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",426.41492235894714,315.97316229576234,658.2774214495049
+Hungary,EUR,2023,12,954,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",345.00731534149344,236.97987172182175,526.6219371596039
+Hungary,EUR,2023,12,954,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",141.5941950208294,105.32438743192078,223.81432329283166
+Hungary,EUR,2023,12,954,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",14.84442145385388,10.532438743192078,25.014542015081187
+Hungary,EUR,2023,12,954,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",25.223041312650498,13.165548428990098,30.280761386677224
+Hungary,EUR,2023,12,954,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",38.585251905396824,23.697987172182177,55.29530340175841
+Hungary,EUR,2023,12,954,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",875.7349706755203,875.7349706755203,875.7349706755203
+Ireland,EUR,2023,12,1461,1,"Meal, Inexpensive Restaurant, Restaurants",16.0,10.0,30.0
+Ireland,EUR,2023,12,1461,18,"One-way Ticket (Local Transport), Transportation",2.05,1.9,3.5
+Ireland,EUR,2023,12,1461,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",1471.5027472527472,950.0,2100.0
+Ireland,EUR,2023,12,1461,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",1249.6198830409357,800.0,1900.0
+Ireland,EUR,2023,12,1461,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",209.96291286864243,134.21052631578948,354.16666666666663
+Ireland,EUR,2023,12,1461,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",48.51455782312925,35.0,65.0
+Ireland,EUR,2023,12,1461,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",20.28301886792453,15.0,30.0
+Ireland,EUR,2023,12,1461,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",47.05428571428572,30.0,80.0
+Ireland,EUR,2023,12,1461,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",2851.1990263605435,2851.1990263605435,2851.1990263605435
+Italy,EUR,2023,12,4094,1,"Meal, Inexpensive Restaurant, Restaurants",15.0,10.0,25.0
+Italy,EUR,2023,12,4094,18,"One-way Ticket (Local Transport), Transportation",1.5,1.3,2.2
+Italy,EUR,2023,12,4094,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",664.5277349859155,450.0,1427.948717948718
+Italy,EUR,2023,12,4094,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",512.8757396449704,350.0,912.7073170731708
+Italy,EUR,2023,12,4094,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",198.32307674957192,120.0,350.0
+Italy,EUR,2023,12,4094,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",27.629143569696964,24.9,35.0
+Italy,EUR,2023,12,4094,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",13.548337662337545,7.0,14.99
+Italy,EUR,2023,12,4094,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",47.55452428476381,29.0,70.0
+Italy,EUR,2023,12,4094,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",1571.8105370632672,1571.8105370632672,1571.8105370632672
+Latvia,EUR,2023,12,448,1,"Meal, Inexpensive Restaurant, Restaurants",10.0,4.5,15.0
+Latvia,EUR,2023,12,448,18,"One-way Ticket (Local Transport), Transportation",1.5,0.7,2.0
+Latvia,EUR,2023,12,448,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",388.25581395348837,220.0,650.0
+Latvia,EUR,2023,12,448,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",275.0,180.0,370.0
+Latvia,EUR,2023,12,448,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",295.46091218150036,200.0,472.22222222222223
+Latvia,EUR,2023,12,448,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",15.286851851851852,10.0,22.0
+Latvia,EUR,2023,12,448,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",16.775000000000002,13.5,20.0
+Latvia,EUR,2023,12,448,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",38.70813953488372,21.0,50.0
+Latvia,EUR,2023,12,448,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",980.536757718497,980.536757718497,980.536757718497
+Lithuania,EUR,2023,12,625,1,"Meal, Inexpensive Restaurant, Restaurants",10.0,6.0,20.0
+Lithuania,EUR,2023,12,625,18,"One-way Ticket (Local Transport), Transportation",1.0,0.65,1.0
+Lithuania,EUR,2023,12,625,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",626.2405063291139,400.0,900.0
+Lithuania,EUR,2023,12,625,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",396.8939393939394,250.0,600.0
+Lithuania,EUR,2023,12,625,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",187.71517072683125,140.0,300.0
+Lithuania,EUR,2023,12,625,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",13.911551724137931,10.0,20.0
+Lithuania,EUR,2023,12,625,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",13.816666666666661,9.0,15.0
+Lithuania,EUR,2023,12,625,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",32.98292307692307,19.0,60.0
+Lithuania,EUR,2023,12,625,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",1146.3107462686569,1146.3107462686569,1146.3107462686569
+Luxembourg,EUR,2023,12,297,1,"Meal, Inexpensive Restaurant, Restaurants",18.0,9.5,25.0
+Luxembourg,EUR,2023,12,297,18,"One-way Ticket (Local Transport), Transportation",0.0,0.0,0.0
+Luxembourg,EUR,2023,12,297,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",1590.0192307692307,1266.0,2000.0
+Luxembourg,EUR,2023,12,297,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",1283.1521739130435,1000.0,1700.0
+Luxembourg,EUR,2023,12,297,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",211.2127251461988,161.0,400.0
+Luxembourg,EUR,2023,12,297,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",47.28,40.0,58.9
+Luxembourg,EUR,2023,12,297,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",19.28125,12.0,40.0
+Luxembourg,EUR,2023,12,297,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",35.96612903225807,20.0,80.0
+Luxembourg,EUR,2023,12,297,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",4724.037037037037,4724.037037037037,4724.037037037037
+Malta,EUR,2023,12,510,1,"Meal, Inexpensive Restaurant, Restaurants",15.0,10.0,30.0
+Malta,EUR,2023,12,510,18,"One-way Ticket (Local Transport), Transportation",2.0,1.5,2.0
+Malta,EUR,2023,12,510,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",900.8163265306123,700.0,1300.0
+Malta,EUR,2023,12,510,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",749.5402298850574,550.0,1000.0
+Malta,EUR,2023,12,510,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",95.85681037486064,60.0,180.0
+Malta,EUR,2023,12,510,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",31.40888888888889,25.0,60.0
+Malta,EUR,2023,12,510,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",24.9914705882353,15.0,26.0
+Malta,EUR,2023,12,510,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",57.32440476190476,30.0,85.0
+Malta,EUR,2023,12,510,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",1440.4566210045664,1440.4566210045664,1440.4566210045664
+Netherlands,EUR,2023,12,2396,1,"Meal, Inexpensive Restaurant, Restaurants",15.0,8.0,25.0
+Netherlands,EUR,2023,12,2396,18,"One-way Ticket (Local Transport), Transportation",3.4,2.25,4.8
+Netherlands,EUR,2023,12,2396,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",1196.690561577381,900.0,1800.0
+Netherlands,EUR,2023,12,2396,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",964.4997049698796,699.1445454545454,1500.0
+Netherlands,EUR,2023,12,2396,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",210.08528867844734,150.0,357.0
+Netherlands,EUR,2023,12,2396,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",39.94150819672131,30.5,60.0
+Netherlands,EUR,2023,12,2396,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",23.028894736842105,9.5,27.5
+Netherlands,EUR,2023,12,2396,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",30.32880046136102,18.0,58.0
+Netherlands,EUR,2023,12,2396,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",3254.151097849469,3254.151097849469,3254.151097849469
+Poland,EUR,2023,12,2217,1,"Meal, Inexpensive Restaurant, Restaurants",8.062845516037912,5.759175368598509,12.67018581091672
+Poland,EUR,2023,12,2217,18,"One-way Ticket (Local Transport), Transportation",1.0136148648733376,0.8293212530781854,1.267018581091672
+Poland,EUR,2023,12,2217,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",659.4789965084478,460.7340294878807,967.5414619245495
+Poland,EUR,2023,12,2217,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",525.1170688235752,345.55052211591055,783.2478501293972
+Poland,EUR,2023,12,2217,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",235.99066097620235,161.25691032075827,345.55052211591055
+Poland,EUR,2023,12,2217,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",13.37308982922442,11.518350737197018,18.42936117951523
+Poland,EUR,2023,12,2217,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",11.850564221617226,5.759175368598509,14.973855958356124
+Poland,EUR,2023,12,2217,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",30.335442448841807,20.733031326954634,43.76973280134867
+Poland,EUR,2023,12,2217,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",1209.3775421570697,1209.3775421570697,1209.3775421570697
+Portugal,EUR,2023,12,2097,1,"Meal, Inexpensive Restaurant, Restaurants",9.0,6.0,15.0
+Portugal,EUR,2023,12,2097,18,"One-way Ticket (Local Transport), Transportation",1.75,1.3,2.5
+Portugal,EUR,2023,12,2097,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",773.78283734375,500.0,1300.0
+Portugal,EUR,2023,12,2097,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",598.8423416370107,400.0,950.0
+Portugal,EUR,2023,12,2097,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",105.91130328488556,76.5,175.0
+Portugal,EUR,2023,12,2097,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",35.10931877534812,28.0,50.0
+Portugal,EUR,2023,12,2097,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",18.739247311827956,10.0,29.99
+Portugal,EUR,2023,12,2097,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",34.12112,20.0,50.0
+Portugal,EUR,2023,12,2097,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",1038.6411498607024,1038.6411498607024,1038.6411498607024
+Romania,EUR,2023,12,1894,1,"Meal, Inexpensive Restaurant, Restaurants",7.064216655680069,5.045869039771478,13.119259503405843
+Romania,EUR,2023,12,1894,18,"One-way Ticket (Local Transport), Transportation",0.6055042847725773,0.4036695231817182,0.8073390463634365
+Romania,EUR,2023,12,1894,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",347.26691956885395,222.01823774994503,600.0
+Romania,EUR,2023,12,1894,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",267.2088407450605,161.4678092726873,403.66952318171826
+Romania,EUR,2023,12,1894,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",127.12981214498076,80.73390463634365,205.8714568226763
+Romania,EUR,2023,12,1894,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",8.250412906967783,6.055042847725773,13.321094264996702
+Romania,EUR,2023,12,1894,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",7.187291500962222,5.045869039771478,10.091738079542957
+Romania,EUR,2023,12,1894,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",35.184455804555895,20.183476159085913,50.45869039771478
+Romania,EUR,2023,12,1894,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",724.5780198128276,724.5780198128276,724.5780198128276
+Slovakia,EUR,2023,11,723,1,"Meal, Inexpensive Restaurant, Restaurants",7.0,5.0,12.0
+Slovakia,EUR,2023,11,723,18,"One-way Ticket (Local Transport), Transportation",0.9,0.6,1.1
+Slovakia,EUR,2023,11,723,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",517.8061224489796,364.44444444444446,800.0
+Slovakia,EUR,2023,11,723,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",423.89473684210526,300.0,600.0
+Slovakia,EUR,2023,11,723,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",209.1331571071337,150.0,318.75
+Slovakia,EUR,2023,11,723,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",17.724883720930233,12.9,25.0
+Slovakia,EUR,2023,11,723,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",32.02325581395349,17.0,33.0
+Slovakia,EUR,2023,11,723,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",33.14705882352941,20.0,50.0
+Slovakia,EUR,2023,11,723,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",1029.7711388888888,1029.7711388888888,1029.7711388888888
+Slovenia,EUR,2023,11,476,1,"Meal, Inexpensive Restaurant, Restaurants",10.0,7.0,15.0
+Slovenia,EUR,2023,11,476,18,"One-way Ticket (Local Transport), Transportation",1.3,1.2,2.0
+Slovenia,EUR,2023,11,476,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",597.9969692307692,358.76359999999994,900.0
+Slovenia,EUR,2023,11,476,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",475.4761904761905,300.0,800.0
+Slovenia,EUR,2023,11,476,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",218.49072802197804,150.0,425.0
+Slovenia,EUR,2023,11,476,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",33.26634615384616,25.0,50.0
+Slovenia,EUR,2023,11,476,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",9.527999999999999,7.99,20.0
+Slovenia,EUR,2023,11,476,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",40.10606060606061,25.0,60.0
+Slovenia,EUR,2023,11,476,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",1296.45825,1296.45825,1296.45825
+Spain,EUR,2023,12,3162,1,"Meal, Inexpensive Restaurant, Restaurants",12.0,8.0,18.0
+Spain,EUR,2023,12,3162,18,"One-way Ticket (Local Transport), Transportation",1.5,1.05,2.4
+Spain,EUR,2023,12,3162,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",756.0885160714287,500.0,1200.0
+Spain,EUR,2023,12,3162,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",615.2491766984537,420.0,1000.0
+Spain,EUR,2023,12,3162,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",126.31010295551319,85.0,212.5
+Spain,EUR,2023,12,3162,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",32.26725536992841,24.7551724137931,50.0
+Spain,EUR,2023,12,3162,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",19.12099644128114,10.0,20.0
+Spain,EUR,2023,12,3162,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",38.87902523933855,25.0,60.0
+Spain,EUR,2023,12,3162,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",1767.6560189877894,1767.6560189877894,1767.6560189877894
+Sweden,EUR,2023,11,1520,1,"Meal, Inexpensive Restaurant, Restaurants",10.566360407159465,7.924770305369599,17.17033566163413
+Sweden,EUR,2023,11,1520,18,"One-way Ticket (Local Transport), Transportation",3.0818551187548437,2.37743109161088,3.5221201357198217
+Sweden,EUR,2023,11,1520,26,"Apartment (1 bedroom) in City Centre, Rent Per Month",787.9307620866248,513.877327801522,1358.5086795325287
+Sweden,EUR,2023,11,1520,27,"Apartment (1 bedroom) Outside of Centre, Rent Per Month",592.88448437146,361.01731391128175,1056.6360407159466
+Sweden,EUR,2023,11,1520,30,"Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment, Utilities (Monthly)",90.0216821280668,40.50438156077795,199.58680769078987
+Sweden,EUR,2023,11,1520,33,"Internet (60 Mbps or More, Unlimited Data, Cable/ADSL), Utilities (Monthly)",27.972257235606452,17.61060067859911,42.177388625244866
+Sweden,EUR,2023,11,1520,34,"Mobile Phone Monthly Plan with Calls and 10GB+ Data, Utilities (Monthly)",26.10467919556135,17.522547675206113,26.415901017898662
+Sweden,EUR,2023,11,1520,40,"Fitness Club, Monthly Fee for 1 Adult, Sports And Leisure",32.99759692728406,22.013250848248884,49.74994691704248
+Sweden,EUR,2023,11,1520,105,"Average Monthly Net Salary (After Tax), Salaries And Financing",2488.5217908903755,2488.5217908903755,2488.5217908903755
