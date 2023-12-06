@@ -4,7 +4,9 @@ var margin = {top: 10, right: 30, bottom: 20, left: 50},
 width = 460 - margin.left - margin.right,
 height = 400 - margin.top - margin.bottom;
 
-d3.csv("https://raw.githubusercontent.com/SYusupov/DecisionModelling_CS/main/insurance_proportion_all.csv", function(data) {
+var data_link = "https://raw.githubusercontent.com/SYusupov/DecisionModelling_CS/main/insurance_proportion_all.csv"
+
+d3.csv(data_link, function(data) {
 
     // console.log("here", data)
     var filteredData = data.filter(function(d) 
@@ -15,41 +17,68 @@ d3.csv("https://raw.githubusercontent.com/SYusupov/DecisionModelling_CS/main/ins
                 return d;
             } 
 
-        })
-    // header = data.columns;
-    // var filteredData = [header].concat(filteredData);
-    // console.log('filteredData', filteredData.name)
+    })
+
     var subgroups = data.columns.slice(1)
     createMarimekkoChart(filteredData, subgroups)
 
-    // // Get unique country pairs
-    // const countryPairs = data.flatMap(d => data.map(e => [d.country, e.country]))
-    //                         .filter(pair => pair[0] !== pair[1]);
-    // console.log(countryPairs)
+    // Get unique country names
+    var uniqueNames = d3.map(data, function(d) {
+        return d.name;
+      }).keys();
+    console.log('unique',uniqueNames)
 
-    // // Populate the dropdown menu with options
-    // const select = d3.select("#countryPairs");
+    // Populate the dropdown menus with country options
+    var select1 = document.getElementById("country1");
+    var select2 = document.getElementById("country2");
 
-    // select.selectAll("option")
-    //     .data(countryPairs)
-    //     .enter()
-    //     .append("option")
-    //     .text(pair => `${pair[0]} - ${pair[1]}`)
-    //     .attr("value", pair => pair.join(',')); // Combine pairs into a single value
+    for(i = 0; i < uniqueNames.length; i++) {
+        var opt = uniqueNames[i];
 
-    // // Listen for changes in the dropdown menu
-    // select.on("change", function() {
-    //     const selectedCountries = Array.from(this.selectedOptions, option => option.value.split(','));
-    //     updateChart(selectedCountries, data);
-    // });
-    })
+        var el1 = document.createElement("option");
+        el1.textContent = opt;
+        el1.value = opt;
+        select1.appendChild(el1);
 
-function updateChart(selectedCountries, data) {
-    // Clear existing chart
-    d3.select("#my_dataviz").selectAll("*").remove();
+        var el2 = document.createElement("option");
+        el2.textContent = opt;
+        el2.value = opt;
+        select2.appendChild(el2);
+    }
 
-    // Filter the data for selected countries
-    const filteredData = data.filter(d => selectedCountries.flat().includes(d.name));
+    // const btn = document.querySelector("button");
+})
+
+function updateChart(data) {
+    alert("test");
+
+    d3.csv(data_link, function(data) {    
+    
+        var c1 = document.getElementById("country1");
+        var c2 = document.getElementById("country2");
+        console.log('c1',c1.selectedIndex);
+        console.log('c2',c2.selectedIndex);
+        var c1_txt = c1.options[c1.selectedIndex].text;
+        var c2_txt = c2.options[c2.selectedIndex].text;
+
+        // Clear existing chart
+        d3.select("#my_dataviz").selectAll("*").remove();
+
+        console.log("here1", data)
+        // Filter the data for selected countries
+        var filteredData = data.filter(function(d) 
+        { 
+
+                if( (d["name"] == c1_txt) || (d["name"]==c2_txt))
+                { 
+                    return d;
+                } 
+
+        })
+
+        var subgroups = data.columns.slice(1)
+        createMarimekkoChart(filteredData, subgroups)
+    });
 }
 
 const createMarimekkoChart = (filteredData, subgroups) => {

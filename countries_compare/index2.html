@@ -11,11 +11,16 @@
 	<h1 class="responsive-svg-container">
 		Let's compare the 2 countries selected in more detail
 	</h1>
-    
+
     <label for="countryPairs">Select Country Pairs:</label>
-    <select id="countryPairs" multiple>
+    <select id="country1" multiple>
         <!-- Options will be dynamically populated using JavaScript -->
     </select>
+    <select id="country2" multiple>
+        <!-- Options will be dynamically populated using JavaScript -->
+    </select>
+
+    <button type="button" id="compare_btn" onclick="updateChart()">Compare</button>
 
 	<div id="my_dataviz"></div>
 
