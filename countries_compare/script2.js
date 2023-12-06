@@ -4,21 +4,23 @@ var margin = {top: 10, right: 30, bottom: 20, left: 50},
 width = 460 - margin.left - margin.right,
 height = 400 - margin.top - margin.bottom;
 
-d3.csv("https://raw.githubusercontent.com/SYusupov/DecisionModelling_CS/main/insurance_proportion_2.csv", function(data) {
+d3.csv("https://raw.githubusercontent.com/SYusupov/DecisionModelling_CS/main/insurance_proportion_all.csv", function(data) {
 
-    // var filteredData = data.filter(function(d) 
-    // { 
+    // console.log("here", data)
+    var filteredData = data.filter(function(d) 
+    { 
 
-    //         if( (d["name"] == "Austria") || (d["name"]=="Belgium"))
-    //         { 
-    //             return d;
-    //         } 
+            if( (d["name"] == "Germany") || (d["name"]=="France"))
+            { 
+                return d;
+            } 
 
-    //     })
+        })
     // header = data.columns;
     // var filteredData = [header].concat(filteredData);
     // console.log('filteredData', filteredData.name)
-    createMarimekkoChart(data, data.columns)
+    var subgroups = data.columns.slice(1)
+    createMarimekkoChart(filteredData, subgroups)
 
     // // Get unique country pairs
     // const countryPairs = data.flatMap(d => data.map(e => [d.country, e.country]))
@@ -61,8 +63,9 @@ const createMarimekkoChart = (filteredData, subgroups) => {
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
+
     // List of subgroups = header of the csv files = soil condition here
-    var subgroups = filteredData.columns.slice(1)
+    // var subgroups = filteredData.columns.slice(1)
 
     // List of groups = species here = value of the first column called group -> I show them on the X axis
     var groups = d3.map(filteredData, function(d){return(d.name)}).keys()
@@ -106,7 +109,6 @@ const createMarimekkoChart = (filteredData, subgroups) => {
         .keys(subgroups)
         (filteredData)
 
-        console.log(filteredData.name)
         console.log("Number of groups:", stackedData.length);
         console.log("Number of bars in the first group:", stackedData[1].length)
 
