@@ -9,19 +9,26 @@ h1 {
 }
 
 .responsive-svg-container {
-  float: left;
   margin-right: auto;
   margin-left: 100px;
   width: 100%;
-  max-width: 700px;
+  max-width: auto;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .country {
-  display: inline-block; 
-  width: 10%; 
+  opacity: 0;
+  display: flex; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 5%; 
   margin: 4%; 
   text-align: center; 
   box-sizing: border-box;
+  font-size: 0.8em;
+  animation: spreadFlags 0.5s ease-out forwards;
 }
 
 .country-circle {
@@ -39,11 +46,10 @@ h1 {
 
 .country-circle:hover {
   animation: floatAnimation 0.8s ease-in-out infinite; /* Apply the floating animation on hover */
-  transform: sclae(1.2); /* Increase the size of the circle on hover */
+  /* transform: scale(1.2); Increase the size of the circle on hover */
   cursor: pointer; /* Change cursor to pointer */
 }
 
-/* Keyframes for floating animation */
 @keyframes floatAnimation {
   0%, 100% {
     transform: translateY(0) scale(1);
@@ -66,7 +72,6 @@ h1 {
   left: 0;
   width: 100px; 
   height: auto; 
-  z-index: 10; /* Ensure the image stays on top of other elements */
 }
 
 #tooltip {
@@ -116,4 +121,186 @@ h1 {
 .axis-label {
   font-size: 0.8em;
   stroke: none;
+}
+
+.main-container {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.left-container {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  width: 30%;
+  height: 100%;
+}
+
+.text-box {
+  display: flex; 
+  flex-wrap: nowrap; 
+  justify-content: space-around; 
+  align-items: flex-start;
+  padding-left: 90px; 
+}
+
+.text-paragraph {
+  flex: 1;
+  margin: 0 5px; /* Margin on the left and right of each paragraph */
+  font-size: 0.7em;
+}
+
+#filter-box {
+  width: 80%;
+  height: 450px; 
+  margin: 100px auto; 
+  background-color: #f2f2f2; 
+  border: 1px solid #04339c; 
+  border-radius: 5px; /* Rounded corners */
+  padding: 5px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for aesthetics */
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+}
+
+.filter-icon {
+  width: 12px; 
+  height: 12px; 
+  margin-right: 8px; /* Space between icon and text */
+}
+
+.filter-text {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.filter-title {
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+@keyframes spreadFlags {
+  from {
+    transform: translate(-100%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+.range-slider {
+  position: relative;
+  width: 100%;
+  padding: 20px 0;
+}
+
+#slider-track-salary {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  background: #ddd;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#slider-track-rent {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  background: #ddd;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 5px; /* Match the height of the track */
+  background: transparent;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none; /* Disable pointer events on the slider background */
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px; 
+  height: 20px; 
+  background: #04339c;
+  cursor: pointer;
+  position: relative;
+  z-index: 3;
+  pointer-events: all; /* Enable pointer events on the slider thumb */
+  border-radius: 0; /* Make it a bar shape */
+}
+
+.slider::-moz-range-thumb {
+  background: #04339c;
+  cursor: pointer;
+  pointer-events: all;
+  border-radius: 0; /* Make it a bar shape */
+}
+
+.salary-range-filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  padding: 10px;
+}
+
+.salary-input {
+    width: 60px; 
+    padding: 5px;
+    margin: 0 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.grey-filter .country-circle {
+  filter: grayscale(100%);
+}
+
+.apply-filter-button {
+  padding: 10px 20px;
+  margin-top: 5px;
+  background-color: #04339c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: center; 
+}
+
+.apply-filter-button:hover {
+  background-color: #032a70;
+}
+
+.grid-scale {
+  fill: #616161; 
+  font-size: 0.65em;
 }
