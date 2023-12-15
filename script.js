@@ -1,11 +1,11 @@
+let pricesMap = new Map();
+
 // Function to initialize the grid of countries
 function initCountryGrid() {
 
-    // Load CSV file for countries
+    // Load CSV files
     const countriesPromise = d3.csv("./data/countries.csv");
-    // Load CSV file for country prices
     const pricesPromise = d3.csv("./data/country_prices.csv");
-    // Load CSV file for country indices
     const indicesPromise = d3.csv("./data/country_indices.csv");
 
     // When both files are loaded
@@ -14,8 +14,12 @@ function initCountryGrid() {
         const pricesData = values[1];
         const indicesData = values[2];
 
+        // Print data to console
+        console.log(countriesData);
+        console.log(pricesData);
+        console.log(indicesData);
+
         // Map prices data to country names for easy lookup
-        const pricesMap = new Map();
         pricesData.forEach(d => {
             if (!pricesMap.has(d.country)) pricesMap.set(d.country, {});
             pricesMap.get(d.country)[d.item_name] = d.average_price;
@@ -30,51 +34,54 @@ function initCountryGrid() {
         // Select container for the grid
         const container = d3.select("#countries-grid");
 
-        // Create a div for each country
-        const country = container.selectAll(".country")
-            .data(countriesData)
-            .enter()
-            .append("div")
-            .attr("class", "country");
+        // Iterate over countriesData to create a div for each country with an animation delay
+        countriesData.forEach((countryData, index) => {
+            const delay = index * 50; 
 
-        // Append the flag circle and event handlers to each country div
-        country.append("div")
-            .attr("class", "country-circle")
-            .style("background-image", d => `url('${d.flag}')`)
-            .on("mouseover", function(event, d) {
-                // Show tooltip on mouseover
-                const prices = pricesMap.get(d.country);
-                const indices = indicesMap.get(d.country);
-                const salary = prices ? `${parseFloat(prices["Average Monthly Net Salary (After Tax), Salaries And Financing"]).toFixed(2)}` : "N/A";
-                const rent = prices ? `${parseFloat(prices["Apartment (1 bedroom) in City Centre, Rent Per Month"]).toFixed(2)}` : "N/A";
-                const radarChartHtml = indices ? createRadarChart(indices) : "<div>No data available</div>";
+            const countryDiv = container.append("div")
+                .datum(countryData)
+                .attr("class", "country")
+                .style("animation-delay", `${delay}ms`);
 
-                const tooltipHtml = `
-                <div>
+            // Append the flag circle and event handlers to each country div
+            countryDiv.append("div")
+                .attr("class", "country-circle")
+                .style("background-image", `url('${countryData.flag}')`)
+                .on("mouseover", function(event) {
+                    // Show tooltip on mouseover
+                    const prices = pricesMap.get(countryData.country);
+                    const indices = indicesMap.get(countryData.country);
+                    const salary = prices ? `${parseFloat(prices["Average Monthly Net Salary (After Tax), Salaries And Financing"]).toFixed(2)}` : "N/A";
+                    const rent = prices ? `${parseFloat(prices["Apartment (1 bedroom) in City Centre, Rent Per Month"]).toFixed(2)}` : "N/A";
+                    const radarChartHtml = indices ? createRadarChart(indices) : "<div>No data available</div>";
+
+                    const tooltipHtml = `
                     <div>
-                        <div><strong>${d.country}</strong></div>
-                        <div class="tooltip-info">Average monthly net salary: <strong>${salary}€</strong></div>
-                        <div class="tooltip-info">Average monthly rent price in city center: <strong>${rent}€</strong></div>
+                        <div>
+                            <div><strong>${countryData.country}</strong></div>
+                            <div class="tooltip-info">Average monthly net salary: <strong>${salary}€</strong></div>
+                            <div class="tooltip-info">Average monthly rent price in city center: <strong>${rent}€</strong></div>
+                        </div>
+                        <div>${radarChartHtml}</div>
                     </div>
-                    <div>${radarChartHtml}</div>
-                </div>
-            `;
+                    `;
 
-                d3.select("#tooltip")
-                    .style("opacity", 1)
-                    .html(tooltipHtml)
-                    .style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY + 10) + "px");
-            })
-            .on("mouseout", function() {
-                // Hide tooltip on mouseout
-                d3.select("#tooltip").style("opacity", 0);
-            });
+                    d3.select("#tooltip")
+                        .style("opacity", 1)
+                        .html(tooltipHtml)
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY + 10) + "px");
+                })
+                .on("mouseout", function() {
+                    // Hide tooltip on mouseout
+                    d3.select("#tooltip").style("opacity", 0);
+                });
 
-        // Append the country name to each country div
-        country.append("div")
-            .attr("class", "country-name")
-            .text(d => d.country);
+            // Append the country name to each country div
+            countryDiv.append("div")
+                .attr("class", "country-name")
+                .text(countryData.country);
+        });
     });
 }
 
@@ -106,7 +113,7 @@ function createRadarChart(countryData) {
     };
 
     // Dimensions and radius of the radar chart
-    const width = 200, height = 200, radius = 70;
+    const width = 400, height = 200, radius = 70;
     const angleSlice = Math.PI * 2 / indices.length;
 
     // Create SVG element
@@ -127,11 +134,23 @@ function createRadarChart(countryData) {
 
     // Draw circular grid
     radarGroup.selectAll(".grid-circle")
-        .data(d3.range(1, 4))  // Number of circles
+        .data(d3.range(0, 5))  // Number of circles
         .enter()
         .append("circle")
         .attr("class", "grid-circle")
         .attr("r", d => radiusScale(d * 25));  // Scale each circle (25, 50, 75, 100)
+
+    // Add scale text
+    radarGroup.selectAll(".grid-scale")
+        .data(d3.range(0, 5))  // Number of scale values
+        .enter()
+        .append("text")
+        .attr("class", "grid-scale")
+        .attr("x", 0)
+        .attr("y", d => -radiusScale(d * 25))  // Position the text at each circle
+        .attr("dy", "0.4em")
+        .attr("text-anchor", "middle")
+        .text(d => d * 25)  // Text is the scale value
 
     // Draw axis lines
     const axis = radarGroup.selectAll(".axis")
@@ -186,6 +205,121 @@ function createRadarChart(countryData) {
     return svg.node().outerHTML;
 
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const minSliderSalary = document.getElementById("salary-range-min");
+    const maxSliderSalary = document.getElementById("salary-range-max");
+    const minInputSalary = document.getElementById("salary-input-min");
+    const maxInputSalary = document.getElementById("salary-input-max");
+
+    const minSliderRent = document.getElementById("rent-range-min");
+    const maxSliderRent = document.getElementById("rent-range-max");
+    const minInputRent = document.getElementById("rent-input-min");
+    const maxInputRent = document.getElementById("rent-input-max");
+
+    function setSliderTrack(minSlider, maxSlider, trackId) {
+        const min = Math.min(parseInt(minSlider.value), parseInt(maxSlider.value));
+        const max = Math.max(parseInt(minSlider.value), parseInt(maxSlider.value));
+        const percentMin = (min / maxSlider.max) * 100;
+        const percentMax = (max / maxSlider.max) * 100;
+        const track = document.getElementById(trackId);
+        track.style.background = `linear-gradient(to right, #ddd ${percentMin}% , #04339c ${percentMin}% , #04339c ${percentMax}%, #ddd ${percentMax}%)`;
+    }
+
+    // Salary Range Event Listeners
+    minSliderSalary.addEventListener("input", function() {
+        if (parseInt(minSliderSalary.value) > parseInt(maxSliderSalary.value)) {
+            minSliderSalary.value = maxSliderSalary.value;
+        }
+        minInputSalary.value = minSliderSalary.value;
+        setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
+    });
+
+    maxSliderSalary.addEventListener("input", function() {
+        if (parseInt(maxSliderSalary.value) < parseInt(minSliderSalary.value)) {
+            maxSliderSalary.value = minSliderSalary.value;
+        }
+        maxInputSalary.value = maxSliderSalary.value;
+        setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
+    });
+
+    // Rent Range Event Listeners
+    minSliderRent.addEventListener("input", function() {
+        if (parseInt(minSliderRent.value) > parseInt(maxSliderRent.value)) {
+            minSliderRent.value = maxSliderRent.value;
+        }
+        minInputRent.value = minSliderRent.value;
+        setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
+    });
+
+    maxSliderRent.addEventListener("input", function() {
+        if (parseInt(maxSliderRent.value) < parseInt(minSliderRent.value)) {
+            maxSliderRent.value = minSliderRent.value;
+        }
+        maxInputRent.value = maxSliderRent.value;
+        setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
+    });
+
+    // Update sliders when input values change
+    minInputSalary.addEventListener("input", function() {
+        if (parseInt(minInputSalary.value) > parseInt(maxInputSalary.value)) {
+            minInputSalary.value = maxInputSalary.value;
+        }
+        minSliderSalary.value = minInputSalary.value; 
+        setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
+    });
+
+    maxInputSalary.addEventListener("input", function() {
+        if (parseInt(maxInputSalary.value) < parseInt(minInputSalary.value)) {
+            maxInputSalary.value = minInputSalary.value;
+        }
+        maxSliderSalary.value = maxInputSalary.value; 
+        setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
+    });
+
+    minInputRent.addEventListener("input", function() {
+        if (parseInt(minInputRent.value) > parseInt(maxInputRent.value)) {
+            minInputRent.value = maxInputRent.value;
+        }
+        minSliderRent.value = minInputRent.value; 
+        setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
+    });
+
+    maxInputRent.addEventListener("input", function() {
+        if (parseInt(maxInputRent.value) < parseInt(minInputRent.value)) {
+            maxInputRent.value = minInputRent.value;
+        }
+        maxSliderRent.value = maxInputRent.value; 
+        setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
+    });
+
+    function applyFilter() {
+        const minSalary = parseInt(minInputSalary.value)
+        const maxSalary = parseInt(maxInputSalary.value)
+        const minRent = parseInt(minInputRent.value)
+        const maxRent = parseInt(maxInputRent.value)
+    
+        d3.selectAll(".country").each(function(d) {
+            const countryElement = d3.select(this);
+            const countryData = pricesMap.get(d.country);
+            const salary = countryData ? parseFloat(countryData["Average Monthly Net Salary (After Tax), Salaries And Financing"]) : 0;
+            const rent = countryData ? parseFloat(countryData["Apartment (1 bedroom) in City Centre, Rent Per Month"]) : 0;
+    
+            const isWithinSalaryRange = salary >= minSalary && salary <= maxSalary;
+            const isWithinRentRange = rent >= minRent && rent <= maxRent;
+    
+            countryElement.classed("grey-filter", !(isWithinSalaryRange && isWithinRentRange));
+        });
+    }
+
+    document.getElementById("apply-filter-btn").addEventListener("click", function() {
+        applyFilter();
+    });
+
+    // Initialize the slider tracks
+    setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
+    setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
+});
 
 // Call function to initialize
 initCountryGrid();

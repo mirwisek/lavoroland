@@ -8,12 +8,64 @@
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-	<img src="./img/eu.png" alt="EU" id="eu-logo">
-	<h1 class="responsive-svg-container">
-		What will be your next EU destination for work?
-	</h1>
-	<div id="countries-grid" class="responsive-svg-container"></div>
-	<div id="tooltip"></div>
+	<div class="main-container">
+		<div class="left-container">
+			<img src="./img/eu.png" alt="EU" id="eu-logo">
+			<h1 class="responsive-svg-container">
+				What will be your next EU destination for work?
+			</h1>
+			<div class="text-box">
+				<p class="text-paragraph"> 
+					This interactive tool is designed to help fresh graduates strategically select their next move 
+					in the European job market. By presenting different factors such as quality of life, average salaries and rent 
+					prices in an accessible and user-friendly format, users can compare, contrast, and filter different European 
+					countries at a glance. </p>
+				<p class="text-paragraph"> 
+					The visualization empowers users to make well-informed decisions on where they might want to relocate for work 
+					based on a holistic set of data points that matter most to them. Data is currently being retrieved from 
+					<a href="https://www.numbeo.com" style="color: blue;" target="_blank">Numbeo</a>,
+					the world's largest cost of living database. </p>
+			</div>
+			<div id="countries-grid" class="responsive-svg-container"></div>
+			<div id="tooltip"></div>
+		</div>
+		<div class="right-container">
+			<div id="filter-box">
+				<div class="filter-header">
+					<img src="./img/filter.png" alt="Filter" class="filter-icon">
+					<span class="filter-text">Filter</span>
+				</div>
+				<div class="salary-range-filter">
+					<div class="filter-title">Salary range</div>
+					<div class="range-slider">
+						<div id="slider-track-salary"></div>
+						<input type="range" id="salary-range-min" min="0" max="5000" value="0" class="slider" />
+						<input type="range" id="salary-range-max" min="0" max="5000" value="5000" class="slider" />
+					</div>
+                    <div class="range-values">
+                        <input type="number" id="salary-input-min" value="0" min="0" max="5000" class="salary-input" />
+                        <span>-</span>
+                        <input type="number" id="salary-input-max" value="5000" min="0" max="5000" class="salary-input" />
+						<span>€</span>
+                    </div>
+					<br>
+					<div class="filter-title">Rent Price range</div>
+					<div class="range-slider">
+						<div id="slider-track-rent"></div>
+						<input type="range" id="rent-range-min" min="0" max="2000" value="0" class="slider" />
+						<input type="range" id="rent-range-max" min="0" max="2000" value="2000" class="slider" />
+					</div>
+					<div class="range-values">
+						<input type="number" id="rent-input-min" value="0" min="0" max="2000" class="salary-input" />
+                        <span>-</span>
+                        <input type="number" id="rent-input-max" value="2000" min="0" max="2000" class="salary-input" />
+						<span>€</span>
+					</div>
+				</div>
+				<button id="apply-filter-btn" class="apply-filter-button">Apply Filters</button>
+			</div>
+		</div>
+	</div>
 	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 	<script src="./script.js"></script>
 </body>
