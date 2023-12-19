@@ -1,23 +1,17 @@
 let pricesMap = new Map();
+let indicesMap = new Map();
+let countriesData = [];
+let minInputSalary, maxInputSalary, minInputRent, maxInputRent;
 
 // Function to initialize the grid of countries
-function initCountryGrid() {
-
-    // Load CSV files
-    const countriesPromise = d3.csv("./data/countries.csv");
-    const pricesPromise = d3.csv("./data/country_prices.csv");
-    const indicesPromise = d3.csv("./data/country_indices.csv");
-
-    // When both files are loaded
-    Promise.all([countriesPromise, pricesPromise, indicesPromise]).then(function(values) {
-        const countriesData = values[0];
-        const pricesData = values[1];
-        const indicesData = values[2];
-
-        // Print data to console
-        console.log(countriesData);
-        console.log(pricesData);
-        console.log(indicesData);
+async function initCountryGrid() {
+    try {
+        // Load CSV files
+        const [countriesData, pricesData, indicesData] = await Promise.all([
+            d3.csv("./data/countries.csv"),
+            d3.csv("./data/country_prices.csv"),
+            d3.csv("./data/country_indices.csv")
+        ]);
 
         // Map prices data to country names for easy lookup
         pricesData.forEach(d => {
@@ -26,63 +20,68 @@ function initCountryGrid() {
         });
 
         // Map indices data to country names for easy lookup
-        const indicesMap = new Map();
         indicesData.forEach(d => {
             indicesMap.set(d.country, d);
         });
 
-        // Select container for the grid
-        const container = d3.select("#countries-grid");
+        // Create initial grid with countries
+        createCountryGrid(countriesData);
+    } catch (error) {
+        console.error("Error loading CSV data: ", error);
+    }
+}
 
-        // Iterate over countriesData to create a div for each country with an animation delay
-        countriesData.forEach((countryData, index) => {
-            const delay = index * 50; 
+function createCountryGrid(countries) {
+    const container = d3.select("#countries-grid").html("");
 
-            const countryDiv = container.append("div")
-                .datum(countryData)
-                .attr("class", "country")
-                .style("animation-delay", `${delay}ms`);
+    countries.forEach((countryData, index) => {
+        const delay = index * 50;
 
-            // Append the flag circle and event handlers to each country div
-            countryDiv.append("div")
-                .attr("class", "country-circle")
-                .style("background-image", `url('${countryData.flag}')`)
-                .on("mouseover", function(event) {
-                    // Show tooltip on mouseover
-                    const prices = pricesMap.get(countryData.country);
-                    const indices = indicesMap.get(countryData.country);
-                    const salary = prices ? `${parseFloat(prices["Average Monthly Net Salary (After Tax), Salaries And Financing"]).toFixed(2)}` : "N/A";
-                    const rent = prices ? `${parseFloat(prices["Apartment (1 bedroom) in City Centre, Rent Per Month"]).toFixed(2)}` : "N/A";
-                    const radarChartHtml = indices ? createRadarChart(indices) : "<div>No data available</div>";
+        const countryDiv = container.append("div")
+            .datum(countryData)
+            .attr("class", "country")
+            .style("animation-delay", `${delay}ms`);
 
-                    const tooltipHtml = `
-                    <div>
-                        <div>
-                            <div><strong>${countryData.country}</strong></div>
-                            <div class="tooltip-info">Average monthly net salary: <strong>${salary}€</strong></div>
-                            <div class="tooltip-info">Average monthly rent price in city center: <strong>${rent}€</strong></div>
-                        </div>
-                        <div>${radarChartHtml}</div>
-                    </div>
-                    `;
+        const countryCircle = countryDiv.append("div")
+            .attr("class", "country-circle")
+            .style("background-image", `url('${countryData.flag}')`);
 
-                    d3.select("#tooltip")
-                        .style("opacity", 1)
-                        .html(tooltipHtml)
-                        .style("left", (event.pageX + 10) + "px")
-                        .style("top", (event.pageY + 10) + "px");
-                })
-                .on("mouseout", function() {
-                    // Hide tooltip on mouseout
-                    d3.select("#tooltip").style("opacity", 0);
-                });
+        countryCircle.on("mouseover", event => showTooltip(event, countryData));
+        countryCircle.on("mouseout", () => hideTooltip());
 
-            // Append the country name to each country div
-            countryDiv.append("div")
-                .attr("class", "country-name")
-                .text(countryData.country);
-        });
+        countryDiv.append("div")
+            .attr("class", "country-name")
+            .text(countryData.country);
     });
+}
+
+function showTooltip(event, countryData) {
+    const prices = pricesMap.get(countryData.country);
+    const indices = indicesMap.get(countryData.country);
+    const salary = prices ? `${parseFloat(prices["Average Monthly Net Salary (After Tax), Salaries And Financing"]).toFixed(2)}` : "N/A";
+    const rent = prices ? `${parseFloat(prices["Apartment (1 bedroom) in City Centre, Rent Per Month"]).toFixed(2)}` : "N/A";
+    const radarChartHtml = indices ? createRadarChart(indices) : "<div>No data available</div>";
+
+    const tooltipHtml = `
+        <div>
+            <div>
+                <div><strong>${countryData.country}</strong></div>
+                <div class="tooltip-info">Average monthly net salary: <strong>${salary}€</strong></div>
+                <div class="tooltip-info">Average monthly rent price in city center: <strong>${rent}€</strong></div>
+            </div>
+            <div>${radarChartHtml}</div>
+        </div>
+    `;
+
+    d3.select("#tooltip")
+        .style("opacity", 1)
+        .html(tooltipHtml)
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY + 10) + "px");
+}
+
+function hideTooltip() {
+    d3.select("#tooltip").style("opacity", 0);
 }
 
 // Function to create a radar chart
@@ -132,27 +131,37 @@ function createRadarChart(countryData) {
         .domain([0, 100])
         .range([0, radius]);
 
-    // Draw circular grid
+    drawGridCircles(radarGroup, radiusScale);
+    drawScaleText(radarGroup, radiusScale);
+    drawAxes(radarGroup, indices, radiusScale, angleSlice, indexLabels, indexColors);
+    drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice, indexColors);
+
+    return svg.node().outerHTML;
+}
+
+function drawGridCircles(radarGroup, radiusScale) {
     radarGroup.selectAll(".grid-circle")
-        .data(d3.range(0, 5))  // Number of circles
+        .data(d3.range(0, 5))
         .enter()
         .append("circle")
         .attr("class", "grid-circle")
-        .attr("r", d => radiusScale(d * 25));  // Scale each circle (25, 50, 75, 100)
+        .attr("r", d => radiusScale(d * 25));
+}
 
-    // Add scale text
+function drawScaleText(radarGroup, radiusScale) {
     radarGroup.selectAll(".grid-scale")
-        .data(d3.range(0, 5))  // Number of scale values
+        .data(d3.range(0, 5))
         .enter()
         .append("text")
         .attr("class", "grid-scale")
         .attr("x", 0)
-        .attr("y", d => -radiusScale(d * 25))  // Position the text at each circle
+        .attr("y", d => -radiusScale(d * 25))
         .attr("dy", "0.4em")
         .attr("text-anchor", "middle")
-        .text(d => d * 25)  // Text is the scale value
+        .text(d => d * 25);
+}
 
-    // Draw axis lines
+function drawAxes(radarGroup, indices, radiusScale, angleSlice, indexLabels, indexColors) {
     const axis = radarGroup.selectAll(".axis")
         .data(indices)
         .enter().append("g")
@@ -164,7 +173,6 @@ function createRadarChart(countryData) {
         .attr("x2", (_, i) => radiusScale(100) * Math.cos(angleSlice * i - Math.PI / 2))
         .attr("y2", (_, i) => radiusScale(100) * Math.sin(angleSlice * i - Math.PI / 2));
 
-    // Draw axis labels
     axis.append("text")
         .attr("class", "axis-label")
         .attr("x", (_, i) => radiusScale(110) * Math.cos(angleSlice * i - Math.PI / 2))
@@ -173,14 +181,15 @@ function createRadarChart(countryData) {
         .attr("text-anchor", "middle")
         .text(d => indexLabels[d])
         .style("fill", d => indexColors[d]);
+}
 
+function drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice, indexColors) {
     // Create data structure for plotting
     const data = indices.map(key => ({
         axis: key,
         value: countryData[key]
     }));
 
-    // Draw radar line
     const lineGenerator = d3.lineRadial()
         .radius(d => radiusScale(d.value))
         .angle((_, i) => i * angleSlice)
@@ -191,7 +200,6 @@ function createRadarChart(countryData) {
         .attr("d", lineGenerator)
         .attr("class", "radar-line");
 
-    // Draw radar points
     radarGroup.selectAll(".radar-point")
         .data(data)
         .enter()
@@ -199,23 +207,67 @@ function createRadarChart(countryData) {
         .attr("class", "radar-point")
         .attr("cx", (d, i) => radiusScale(d.value) * Math.cos(angleSlice * i - Math.PI / 2))
         .attr("cy", (d, i) => radiusScale(d.value) * Math.sin(angleSlice * i - Math.PI / 2))
-        .attr("r", 3)  // Radius of the points
-        .style("fill", d => indexColors[d.axis])
+        .attr("r", 3)
+        .style("fill", d => indexColors[d.axis]);
+}
 
-    return svg.node().outerHTML;
+function applyFilter() {
+    const minSalary = parseInt(minInputSalary.value);
+    const maxSalary = parseInt(maxInputSalary.value);
+    const minRent = parseInt(minInputRent.value);
+    const maxRent = parseInt(maxInputRent.value);
 
+    const countries = Array.from(d3.selectAll(".country").nodes());
+
+    const [filteredCountries, nonFilteredCountries] = countries.reduce((acc, countryElement) => {
+        const countryData = pricesMap.get(d3.select(countryElement).datum().country);
+        const salary = countryData ? parseFloat(countryData["Average Monthly Net Salary (After Tax), Salaries And Financing"]) : 0;
+        const rent = countryData ? parseFloat(countryData["Apartment (1 bedroom) in City Centre, Rent Per Month"]) : 0;
+
+        const isWithinSalaryRange = salary >= minSalary && salary <= maxSalary;
+        const isWithinRentRange = rent >= minRent && rent <= maxRent;
+
+        if (isWithinSalaryRange && isWithinRentRange) {
+            d3.select(countryElement).classed("grey-filter", false);
+            acc[0].push(countryElement);
+        } else {
+            d3.select(countryElement).classed("grey-filter", true);
+            acc[1].push(countryElement);
+        }
+
+        return acc;
+    }, [[], []]);
+
+    const sortCountries = (a, b) => {
+        const countryA = d3.select(a).datum().country;
+        const countryB = d3.select(b).datum().country;
+        return countryA.localeCompare(countryB);
+    };
+
+    // Order filteredCountries and nonFilteredCountries alphabetically
+    filteredCountries.sort(sortCountries);
+    nonFilteredCountries.sort(sortCountries);
+
+    // Reorder countries based on filter
+    const countriesGrid = d3.select("#countries-grid").node();
+    [...filteredCountries, ...nonFilteredCountries].forEach(country => {
+        countriesGrid.appendChild(country);
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    // Event listeners and slider initialization
     const minSliderSalary = document.getElementById("salary-range-min");
     const maxSliderSalary = document.getElementById("salary-range-max");
-    const minInputSalary = document.getElementById("salary-input-min");
-    const maxInputSalary = document.getElementById("salary-input-max");
-
     const minSliderRent = document.getElementById("rent-range-min");
     const maxSliderRent = document.getElementById("rent-range-max");
-    const minInputRent = document.getElementById("rent-input-min");
-    const maxInputRent = document.getElementById("rent-input-max");
+
+    // Initialize input elements
+    minInputSalary = document.getElementById("salary-input-min");
+    maxInputSalary = document.getElementById("salary-input-max");
+    minInputRent = document.getElementById("rent-input-min");
+    maxInputRent = document.getElementById("rent-input-max");
+
 
     function setSliderTrack(minSlider, maxSlider, trackId) {
         const min = Math.min(parseInt(minSlider.value), parseInt(maxSlider.value));
@@ -292,25 +344,6 @@ document.addEventListener("DOMContentLoaded", function() {
         maxSliderRent.value = maxInputRent.value; 
         setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
     });
-
-    function applyFilter() {
-        const minSalary = parseInt(minInputSalary.value)
-        const maxSalary = parseInt(maxInputSalary.value)
-        const minRent = parseInt(minInputRent.value)
-        const maxRent = parseInt(maxInputRent.value)
-    
-        d3.selectAll(".country").each(function(d) {
-            const countryElement = d3.select(this);
-            const countryData = pricesMap.get(d.country);
-            const salary = countryData ? parseFloat(countryData["Average Monthly Net Salary (After Tax), Salaries And Financing"]) : 0;
-            const rent = countryData ? parseFloat(countryData["Apartment (1 bedroom) in City Centre, Rent Per Month"]) : 0;
-    
-            const isWithinSalaryRange = salary >= minSalary && salary <= maxSalary;
-            const isWithinRentRange = rent >= minRent && rent <= maxRent;
-    
-            countryElement.classed("grey-filter", !(isWithinSalaryRange && isWithinRentRange));
-        });
-    }
 
     document.getElementById("apply-filter-btn").addEventListener("click", function() {
         applyFilter();
