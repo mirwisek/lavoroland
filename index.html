@@ -10,6 +10,22 @@
 	<!-- Bootstrap for Grid Fluid Layout and components -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+	<!-- For tabs Alpine & Tailwind -->
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+	<script>
+		tailwind.config = {
+			theme: {
+				extend: {
+					fontFamily: {
+						inter: ['Inter', 'sans-serif'],
+						caveat: ['Caveat', 'cursive'],
+					},
+				},
+			},
+		};
+	</script>
 </head>
 <body>
 	<div class="container-fluid main-container">
@@ -82,7 +98,76 @@
 		<div class="row">
 			<div id="svg-placeholder" class="svg-container">
 				<div class="svg-content">
-					<!-- Your SVG goes here -->
+					<!-- Embedded page -->
+					<div x-data="{ activeTab: 1 }">
+
+						<!-- Buttons -->
+						<div class="flex justify-center">
+							<div class="max-[480px]:max-w-[180px] inline-flex flex-wrap justify-center bg-slate-200 rounded-[20px] p-1 mb-8 min-[480px]:mb-12">
+					
+								<button
+									id="tab-1"
+									class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
+									:class="activeTab === 1 ? 'bg-white text-slate-900' : 'text-slate-600 hover:text-slate-900'"
+									@click="activeTab = 1"
+								>Mirwise</button>
+								<button
+									id="tab-2"
+									class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
+									:class="activeTab === 2 ? 'bg-white text-slate-900' : 'text-slate-600 hover:text-slate-900'"
+									@click="activeTab = 2"
+								>Sayyor</button>
+								
+							</div>
+						</div>
+					
+						<!-- Tab panels -->
+						<div class="max-w-[840px] mx-auto">
+							<div class="relative flex flex-col">
+					
+								<!-- Panel #1 -->
+								<article
+									id="tabpanel-1"
+									class="w-full bg-white rounded-2xl shadow-xl min-[480px]:flex items-stretch focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300"
+									x-show="activeTab === 1"
+									x-transition:enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 transform order-first"
+									x-transition:enter-start="opacity-0 -translate-y-8"
+									x-transition:enter-end="opacity-100 translate-y-0"
+									x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-300 transform absolute"
+									x-transition:leave-start="opacity-100 translate-y-0"
+									x-transition:leave-end="opacity-0 translate-y-12"                        
+								>
+
+									<div id="multi-bar-chart" class=""></div>
+
+									<figure class="min-[480px]:w-1/2 p-2">
+										<img class="w-full h-[180px] min-[480px]:h-full object-cover rounded-lg" width="304" height="214" src="./tabs-image-01.jpg" alt="Tab 01" />
+									</figure>
+								</article>
+								<!-- Panel #2 -->
+	
+								<article
+									id="tabpanel-2"
+									class="w-full bg-white rounded-2xl shadow-xl min-[480px]:flex items-stretch focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300"
+									x-show="activeTab === 2"
+									x-transition:enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 transform order-first"
+									x-transition:enter-start="opacity-0 -translate-y-8"
+									x-transition:enter-end="opacity-100 translate-y-0"
+									x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-300 transform absolute"
+									x-transition:leave-start="opacity-100 translate-y-0"
+									x-transition:leave-end="opacity-0 translate-y-12"                        
+								>
+									<div id="stacked-bar-chart" class=""></div>
+									<figure class="min-[480px]:w-1/2 p-2">
+										<img class="w-full h-[180px] min-[480px]:h-full object-cover rounded-lg" width="304" height="214" src="./tabs-image-01.jpg" alt="Tab 01" />
+									</figure>
+								</article>
+								<!-- Panel #3 -->
+					
+							</div>
+						</div>
+					
+					</div>
 				</div>
 				<button id="close-svg-view" class="close-svg-button">
 					<i class="fas fa-times"></i>
