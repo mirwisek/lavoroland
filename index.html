@@ -103,7 +103,7 @@
 
 						<!-- Buttons -->
 						<div class="flex justify-center">
-							<div class="max-[480px]:max-w-[180px] inline-flex flex-wrap justify-center bg-slate-200 rounded-[20px] p-1 mb-8 min-[480px]:mb-12">
+							<div class="max-[480px]:max-w-[180px] inline-flex flex-wrap justify-center bg-slate-200 rounded-[20px] p-1 mb-4 min-[480px]:mb-12">
 					
 								<button
 									id="tab-1"
@@ -122,48 +122,43 @@
 						</div>
 					
 						<!-- Tab panels -->
-						<div class="max-w-[840px] mx-auto">
+						<div class="max-w-full mx-h-full">
 							<div class="relative flex flex-col">
-					
+
 								<!-- Panel #1 -->
 								<article
 									id="tabpanel-1"
-									class="w-full bg-white rounded-2xl shadow-xl min-[480px]:flex items-stretch focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300"
+									class="mx-auto mx-4 md:mx-2 lg:mx-16 w-full max-w-[70%] bg-white rounded-2xl shadow-xl min-h-full flex items-stretch focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300"
 									x-show="activeTab === 1"
 									x-transition:enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 transform order-first"
 									x-transition:enter-start="opacity-0 -translate-y-8"
 									x-transition:enter-end="opacity-100 translate-y-0"
 									x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-300 transform absolute"
 									x-transition:leave-start="opacity-100 translate-y-0"
-									x-transition:leave-end="opacity-0 translate-y-12"                        
-								>
+									x-transition:leave-end="opacity-0 translate-y-12">
 
-									<div id="multi-bar-chart" class=""></div>
-
-									<figure class="min-[480px]:w-1/2 p-2">
-										<img class="w-full h-[180px] min-[480px]:h-full object-cover rounded-lg" width="304" height="214" src="./tabs-image-01.jpg" alt="Tab 01" />
-									</figure>
+									<div id="multi-bar-chart" class="relative z-10 w-full h-auto"></div>
 								</article>
 								<!-- Panel #2 -->
-	
+
 								<article
 									id="tabpanel-2"
-									class="w-full bg-white rounded-2xl shadow-xl min-[480px]:flex items-stretch focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300"
+									class="mx-auto mx-4 md:mx-2 lg:mx-16 w-full max-w-[70%] bg-white rounded-2xl shadow-xl min-h-full flex items-stretch focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300"
 									x-show="activeTab === 2"
 									x-transition:enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 transform order-first"
 									x-transition:enter-start="opacity-0 -translate-y-8"
 									x-transition:enter-end="opacity-100 translate-y-0"
 									x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-300 transform absolute"
 									x-transition:leave-start="opacity-100 translate-y-0"
-									x-transition:leave-end="opacity-0 translate-y-12"                        
-								>
+									x-transition:leave-end="opacity-0 translate-y-12">
+
 									<div id="stacked-bar-chart" class=""></div>
 									<figure class="min-[480px]:w-1/2 p-2">
-										<img class="w-full h-[180px] min-[480px]:h-full object-cover rounded-lg" width="304" height="214" src="./tabs-image-01.jpg" alt="Tab 01" />
+
 									</figure>
 								</article>
 								<!-- Panel #3 -->
-					
+
 							</div>
 						</div>
 					
@@ -176,6 +171,7 @@
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+	<script type="module" src="./jobs_compare/script.js"></script>
 	<script src="./site_script.js"></script>
 	<script src="./script.js"></script>
 </body>

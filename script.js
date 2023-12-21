@@ -10,7 +10,7 @@ async function initCountryGrid() {
         const [countriesData, pricesData, indicesData] = await Promise.all([
             d3.csv("./data/countries.csv"),
             d3.csv("./data/country_prices.csv"),
-            d3.csv("./data/country_indices.csv")
+            d3.csv("./data/country_indices.csv"),
         ]);
 
         // Map prices data to country names for easy lookup
@@ -26,6 +26,7 @@ async function initCountryGrid() {
 
         // Create initial grid with countries
         createCountryGrid(countriesData);
+
     } catch (error) {
         console.error("Error loading CSV data: ", error);
     }

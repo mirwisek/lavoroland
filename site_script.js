@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
 	var compareBtn = document.getElementById('compare-btn');
 	var svgPlaceholder = document.getElementById('svg-placeholder');
@@ -22,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var tabContents = document.querySelectorAll('.tab-content');
 
     // Add click event to each tab button
-    tabButtons.forEach(function(btn) {
+    tabButtons.forEach(function(btn, index) {
         btn.addEventListener('click', function() {
             // Remove active class from all tab buttons and contents
             tabButtons.forEach(function(button) { button.classList.remove('active'); });
@@ -35,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+
     // Close button functionality
     var closeBtn = document.getElementById('close-svg-view');
     var svgPlaceholder = document.getElementById('svg-placeholder');
@@ -43,5 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Initial tab active state
-    tabButtons[0].click();
+    if (tabButtons.length > 0) {
+        tabButtons[0].click();
+    }
+
+    import('./jobs_compare/script.js').then(d => {
+        d.createTheMultiBarChart()
+    });
 });
