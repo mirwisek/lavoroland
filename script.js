@@ -379,9 +379,9 @@ function getCheckedCountries() {
         }
     });
     
-    console.log("Checked countries: ", checkedCountries);
+    // console.log("Checked countries: ", checkedCountries);
     
-    plot_health();
+    plot_health(checkedCountries);
 }
 
 const button = d3.select("#compare-btn");
@@ -391,22 +391,25 @@ var margin = {top: 20, right: 20, bottom: 130, left: 50},
 width = 460 - margin.left - margin.right,
 height = 400 - margin.top - margin.bottom;
 
-async function plot_health() {
+async function plot_health(checkedCountries) {
     try {
         // Load CSV files
         const [data] = await Promise.all([
             d3.csv("./data/insurance_proportion.csv")
         ]);
 
-        console.log("data", data);
+        // console.log("data", data);
+
+        // console.log("checkedCountries", checkedCountries);
 
         var filteredData = data.filter(function(d) 
         {
-            if( (d["name"] == "Germany") || (d["name"] == "France"))
+            if( (checkedCountries.findIndex(element => element.includes(d["name"]))) != -1)
             {
                 return d;
             }
         });
+        // console.log("filteredData", filteredData);
 
         var subgroups = data.columns.slice(1);
         
@@ -488,15 +491,15 @@ const createMarimekkoChart = (filteredData, subgroups) => {
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-    console.log("filteredData", filteredData);
-    console.log("subgroups", subgroups);
+    // console.log("filteredData", filteredData);
+    // console.log("subgroups", subgroups);
 
     // List of subgroups = header of the csv files = soil condition here
     // var subgroups = filteredData.columns.slice(1)
 
     // List of groups = species here = value of the first column called group -> I show them on the X axis
     var groups = d3.map(filteredData, function(d){return(d.name)});
-    console.log("groups", groups)
+    // console.log("groups", groups)
     
     // Add X axis
     var x = d3.scaleBand()
