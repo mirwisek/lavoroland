@@ -66,6 +66,14 @@ h1 {
   white-space: nowrap; /* Prevent the name from wrapping */
 }
 
+.country-checkbox {
+  position: absolute;
+  top: -5px; /* Adjust the top position to move it further up */
+  left: -15px; /* Adjust the left position to move it further to the left */
+  margin: 5px;
+  z-index: 1; /* Ensure it's positioned above the country-circle */
+}
+
 #eu-logo {
   position: absolute;
   top: 0;
