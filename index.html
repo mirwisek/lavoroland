@@ -5,68 +5,201 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>VA Assignment 4</title>
 	<link rel="stylesheet" type="text/css" href="./style.css">
+	<!-- For adding icons-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+	<!-- Bootstrap for Grid Fluid Layout and components -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+	<!-- For tabs Alpine & Tailwind -->
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+	<script>
+		tailwind.config = {
+			theme: {
+				extend: {
+					fontFamily: {
+						inter: ['Inter', 'sans-serif'],
+						caveat: ['Caveat', 'cursive'],
+					},
+				},
+			},
+		};
+	</script>
 </head>
 <body>
-	<div class="main-container">
-		<div class="left-container">
-			<img src="./img/eu.png" alt="EU" id="eu-logo">
-			<h1 class="responsive-svg-container">
-				What will be your next EU destination for work?
-			</h1>
-			<div class="text-box">
-				<p class="text-paragraph"> 
-					This interactive tool is designed to help fresh graduates strategically select their next move 
-					in the European job market. By presenting different factors such as quality of life, average salaries and rent 
-					prices in an accessible and user-friendly format, users can compare, contrast, and filter different European 
-					countries at a glance. </p>
-				<p class="text-paragraph"> 
-					The visualization empowers users to make well-informed decisions on where they might want to relocate for work 
-					based on a holistic set of data points that matter most to them. Data is currently being retrieved from 
-					<a href="https://www.numbeo.com" style="color: blue;" target="_blank">Numbeo</a>,
-					the world's largest cost of living database. </p>
+	<div class="container-fluid main-container">
+		<div class="row">
+			<div class="col-12 col-lg-9 left-container">
+				<img src="./img/eu.png" alt="EU" id="eu-logo">
+				<h1 class="responsive-svg-container">
+					What will be your next EU destination for work?
+				</h1>
+				<div class="text-box">
+					<p class="text-paragraph"> 
+						This interactive tool is designed to help fresh graduates strategically select their next move 
+						in the European job market. By presenting different factors such as quality of life, average salaries and rent 
+						prices in an accessible and user-friendly format, users can compare, contrast, and filter different European 
+						countries at a glance. </p>
+					<p class="text-paragraph"> 
+						The visualization empowers users to make well-informed decisions on where they might want to relocate for work 
+						based on a holistic set of data points that matter most to them. Data is currently being retrieved from 
+						<a href="https://www.numbeo.com" style="color: blue;" target="_blank">Numbeo</a>,
+						the world's largest cost of living database. </p>
+				</div>
+				<div id="countries-grid" class="responsive-svg-container"></div>
+				<div id="tooltip"></div>
 			</div>
-			<div id="countries-grid" class="responsive-svg-container"></div>
-			<div id="tooltip"></div>
+			<div class="col-12 col-lg-3 right-container">
+				<div class="filter-container">
+					<div id="filter-box" class="row">
+						<div class="filter-header">
+							<img src="./img/filter.png" alt="Filter" class="filter-icon">
+							<span class="filter-text">Filter</span>
+						</div>
+						<div class="salary-range-filter">
+							<div class="filter-title">Salary range</div>
+							<div class="range-slider">
+								<div id="slider-track-salary"></div>
+								<input type="range" id="salary-range-min" min="0" max="5000" value="0" class="slider" />
+								<input type="range" id="salary-range-max" min="0" max="5000" value="5000" class="slider" />
+							</div>
+							<div class="range-values">
+								<input type="number" id="salary-input-min" value="0" min="0" max="5000" class="salary-input" />
+								<span>-</span>
+								<input type="number" id="salary-input-max" value="5000" min="0" max="5000" class="salary-input" />
+								<span>€</span>
+							</div>
+							<br>
+							<div class="filter-title">Rent Price range</div>
+							<div class="range-slider">
+								<div id="slider-track-rent"></div>
+								<input type="range" id="rent-range-min" min="0" max="2000" value="0" class="slider" />
+								<input type="range" id="rent-range-max" min="0" max="2000" value="2000" class="slider" />
+							</div>
+							<div class="range-values">
+								<input type="number" id="rent-input-min" value="0" min="0" max="2000" class="salary-input" />
+								<span>-</span>
+								<input type="number" id="rent-input-max" value="2000" min="0" max="2000" class="salary-input" />
+								<span>€</span>
+							</div>
+						</div>
+						<button id="apply-filter-btn" class="apply-filter-button">Apply Filters</button>
+					
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<button id="compare-btn" class="btn btn-primary btn-block">Compare</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="right-container">
-			<div id="filter-box">
-				<div class="filter-header">
-					<img src="./img/filter.png" alt="Filter" class="filter-icon">
-					<span class="filter-text">Filter</span>
+		<div class="row">
+			<div id="svg-placeholder" class="svg-container">
+				<div class="svg-content">
+					<!-- Embedded page -->
+					<div x-data="{ activeTab: 1 }">
+
+						<!-- Buttons -->
+						<div class="flex justify-center">
+							<div class="max-[480px]:max-w-[180px] inline-flex flex-wrap justify-center bg-slate-200 rounded-[20px] p-1 mb-4 min-[480px]:mb-12">
+					
+								<button
+									id="tab-1"
+									class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
+									:class="activeTab === 1 ? 'bg-white text-slate-900' : 'text-slate-600 hover:text-slate-900'"
+									@click="activeTab = 1"
+								>Wages</button>
+								<button
+									id="tab-2"
+									class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
+									:class="activeTab === 2 ? 'bg-white text-slate-900' : 'text-slate-600 hover:text-slate-900'"
+									@click="activeTab = 2"
+								>Healthcare</button>
+								
+							</div>
+						</div>
+					
+						<!-- Tab panels -->
+						<div class="max-w-full mx-h-full overflow-y-auto">
+							<div class="relative flex flex-col">
+
+								<!-- Panel #1 -->
+								<article
+								id="tabpanel-1"
+								class="w-full bg-white rounded-2xl shadow-xl min-[480px]:flex items-stretch focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300"
+								x-show="activeTab === 1"
+								x-transition:enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 transform order-first"
+								x-transition:enter-start="opacity-0 -translate-y-8"
+								x-transition:enter-end="opacity-100 translate-y-0"
+								x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-300 transform absolute"
+								x-transition:leave-start="opacity-100 translate-y-0"
+								x-transition:leave-end="opacity-0 translate-y-12" >
+										<div class="w-[70%] max-h-[680px] mx-auto">
+											<h2 class="jobs-title text-center">Average yearly compensation for IT roles in Europe [2023]</h2>
+										<div id="multi-bar-chart" class="relative z-10  mx-auto"></div>
+									</div>
+								</article>
+								<!-- Panel #2 -->
+
+								<article
+									id="tabpanel-2"
+									class="w-full bg-white rounded-2xl shadow-xl min-[480px]:flex items-stretch focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300"
+									x-show="activeTab === 2"
+									x-transition:enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 transform order-first"
+									x-transition:enter-start="opacity-0 -translate-y-8"
+									x-transition:enter-end="opacity-100 translate-y-0"
+									x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-300 transform absolute"
+									x-transition:leave-start="opacity-100 translate-y-0"
+									x-transition:leave-end="opacity-0 translate-y-12"                        
+								>
+									<div id="Health" class="w-[70%] max-h-[680px] mx-auto">
+
+										<div class="container">
+				
+											<h1 class="responsive-svg-container">
+												Let's compare the 2 countries selected in more detail
+											</h1>
+										</div>
+																		
+										<div class="container">
+											<label for="countryPairs">Select Country Pairs:</label>
+										</div>
+										
+										<div class="container">
+											<select id="country1" multiple>
+												<!-- Options will be dynamically populated using JavaScript -->
+											</select>
+											<select id="country2" multiple>
+												<!-- Options will be dynamically populated using JavaScript -->
+											</select>
+										</div>
+
+										<h2>Health Insurance Sources</h2>
+									
+										<div class="container">
+											<button type="button" id="compare_btn" onclick="updateChart()">Compare</button>
+										</div>
+
+										<div id="stacked-bar-chart" class=""></div>
+										
+									</div>
+								</article>			
+							</div>
+						</div>
+					
+					</div>
 				</div>
-				<div class="salary-range-filter">
-					<div class="filter-title">Salary range</div>
-					<div class="range-slider">
-						<div id="slider-track-salary"></div>
-						<input type="range" id="salary-range-min" min="0" max="5000" value="0" class="slider" />
-						<input type="range" id="salary-range-max" min="0" max="5000" value="5000" class="slider" />
-					</div>
-                    <div class="range-values">
-                        <input type="number" id="salary-input-min" value="0" min="0" max="5000" class="salary-input" />
-                        <span>-</span>
-                        <input type="number" id="salary-input-max" value="5000" min="0" max="5000" class="salary-input" />
-						<span>€</span>
-                    </div>
-					<br>
-					<div class="filter-title">Rent Price range</div>
-					<div class="range-slider">
-						<div id="slider-track-rent"></div>
-						<input type="range" id="rent-range-min" min="0" max="2000" value="0" class="slider" />
-						<input type="range" id="rent-range-max" min="0" max="2000" value="2000" class="slider" />
-					</div>
-					<div class="range-values">
-						<input type="number" id="rent-input-min" value="0" min="0" max="2000" class="salary-input" />
-                        <span>-</span>
-                        <input type="number" id="rent-input-max" value="2000" min="0" max="2000" class="salary-input" />
-						<span>€</span>
-					</div>
-				</div>
-				<button id="apply-filter-btn" class="apply-filter-button">Apply Filters</button>
+				<button id="close-svg-view" class="close-svg-button">
+					<i class="fas fa-times"></i>
+				</button>
 			</div>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+	<script type="module" src="./jobs_compare/script.js"></script>
+	<script src="./site_script.js"></script>
 	<script src="./script.js"></script>
 </body>
 </html>
