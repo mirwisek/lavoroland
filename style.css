@@ -348,3 +348,11 @@ h1 {
 }
 
 /* Tab component styles */
+
+.jobs-title {
+  margin-top: 0.2em;
+  font-size: 1.2em;
+  font-family: Montserrat;
+  text-align: center;
+  color: #2d7dfe;
+}

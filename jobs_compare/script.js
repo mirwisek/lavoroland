@@ -176,7 +176,8 @@ const createBarChart = (dataDA, dataML, colors) => {
   });
 
   const currencyLabel = svg.append("text")
-  .attr("x", x(0))
+  .attr("x", 350)
+  // .attr("x", x(0))
   .attr("y", y.range()[1] + y.bandwidth() * 3.5)
   .attr("font-size", 12)
   .attr("font-family", "Montserrat, sans-serif")
@@ -184,8 +185,8 @@ const createBarChart = (dataDA, dataML, colors) => {
   .text("Per year compensation in €");
 
   // Get the bounding box of the text
-  const currencyTextBoundingBox = currencyLabel.node().getBBox();
-  currencyLabel.attr("x", x(0) - currencyTextBoundingBox.width / 2)
+  // const currencyTextBoundingBox = currencyLabel.node().getBBox();
+  // currencyLabel.attr("x", x(0) - currencyTextBoundingBox.width / 2)
 
   // Disclaimer text for justifying missing countries
   // const disclaimerLabel = svg.append("text")
@@ -289,30 +290,30 @@ const createBarChart = (dataDA, dataML, colors) => {
 function addLegendLabel(svg, x, text, posDA, gradientId, textColor) {
 
   const boxPadding = [20, 30] // v, h
-  const topMarginLegend = 2
+  const topMarginLegend = 22
 
   console.log('POS DA: ', x(posDA))
   // console.log('POS DA: ', x(posDS))
 
-  const legendDABox = svg.append("rect")
-    .attr("x", 275)
-    // .attr("x", x(posDA))
-    .attr("y", topMarginLegend)
-    .attr("width", 180)
-    .attr("height", 80)
-    .attr("rx", 5)
-    .attr("ry", 5)
-    .attr("fill", "rgba(255, 255, 255, 0.1)")
-    .attr("stroke", colorsBlue[1])
-    .attr("stroke-width", 1);
+  // const legendDABox = svg.append("rect")
+  //   // .attr("x", 275)
+  //   .attr("x", x(posDA))
+  //   .attr("y", topMarginLegend)
+  //   .attr("width", 180)
+  //   .attr("height", 80)
+  //   .attr("rx", 5)
+  //   .attr("ry", 5)
+  //   .attr("fill", "rgba(255, 255, 255, 0.1)")
+  //   .attr("stroke", colorsBlue[1])
+  //   .attr("stroke-width", 1);
 
-    console.log(legendDABox)
+  //   console.log(legendDABox)
 
   // Add text inside the rectangle
   const fontSize = 12;
 
   const legendDALabel = svg.append("text")
-    .attr("x", 275)
+    .attr("x", x(posDA) - 50)
     .attr("y", topMarginLegend)
     .attr("font-size", fontSize)
     .attr("font-family", "Montserrat, sans-serif")
@@ -323,20 +324,29 @@ function addLegendLabel(svg, x, text, posDA, gradientId, textColor) {
    * Dynamically adjust the size of the box based on text size
    */
   // Get the bounding box of the text
-  const textBoundingBox = legendDALabel.node().getBBox();
+  requestAnimationFrame(() => {
+    // const textBoundingBox = legendDALabel.node().getBBox();
+    // console.log('Text Bounding Box - x:', textBoundingBox.x);
+    // console.log('Text Bounding Box - y:', textBoundingBox.y);
+    // console.log('Text Bounding Box - width:', textBoundingBox.width);
+    // console.log('Text Bounding Box - height:', textBoundingBox.height);
 
-  // Calculate the width of the rectangle based on text size
-  const boxWidth = textBoundingBox.width + boxPadding[1]
-  const boxHeight = textBoundingBox.height + boxPadding[0]
-  legendDABox.attr("width", boxWidth)
-  legendDABox.attr("height", boxHeight)
-  legendDABox.attr("x", textBoundingBox.x - boxWidth / 2)
+    
+    // // // Calculate the width of the rectangle based on text size
+    // const boxWidth = textBoundingBox.width + boxPadding[1]
+    // const boxHeight = textBoundingBox.height + boxPadding[0]
+    // legendDABox.attr("width", boxWidth)
+    // legendDABox.attr("height", boxHeight)
+    // legendDABox.attr("x", textBoundingBox.x - boxWidth / 2)
 
-  legendDALabel.attr("x", textBoundingBox.x - textBoundingBox.width / 2)
-  legendDALabel.attr("y", topMarginLegend + boxHeight / 2 + textBoundingBox.height / 4)
+    // legendDALabel.attr("x", textBoundingBox.x - textBoundingBox.width / 2)
+    // legendDALabel.attr("y", topMarginLegend + boxHeight / 2 + textBoundingBox.height / 4)
 
-  const positions = [[textBoundingBox.x, textBoundingBox.y], [textBoundingBox.x + textBoundingBox.width, textBoundingBox.y + textBoundingBox.height]]
-  appendGradientDef(svg, gradientId, positions, ["#8f8672", "#f4efe6"])
+    // const positions = [[textBoundingBox.x, textBoundingBox.y], [textBoundingBox.x + textBoundingBox.width, textBoundingBox.y + textBoundingBox.height]]
+    // appendGradientDef(svg, gradientId, positions, ["#8f8672", "#f4efe6"])
+  });
+  
+
 }
 
 /**
