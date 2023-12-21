@@ -116,7 +116,7 @@
 									class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
 									:class="activeTab === 2 ? 'bg-white text-slate-900' : 'text-slate-600 hover:text-slate-900'"
 									@click="activeTab = 2"
-								>Sayyor</button>
+								>Healthcare</button>
 								
 							</div>
 						</div>
@@ -150,15 +150,42 @@
 									x-transition:enter-end="opacity-100 translate-y-0"
 									x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-300 transform absolute"
 									x-transition:leave-start="opacity-100 translate-y-0"
-									x-transition:leave-end="opacity-0 translate-y-12">
+									x-transition:leave-end="opacity-0 translate-y-12"                        
+								>
+									<div id="Health" class="">
 
-									<div id="stacked-bar-chart" class=""></div>
-									<figure class="min-[480px]:w-1/2 p-2">
+										<div class="container">
+				
+											<h1 class="responsive-svg-container">
+												Let's compare the 2 countries selected in more detail
+											</h1>
+										</div>
+									
+										<br><br><br><br><br><br>
+									
+										<div class="container">
+											<label for="countryPairs">Select Country Pairs:</label>
+										</div>
+										
+										<div class="container">
+											<select id="country1" multiple>
+												<!-- Options will be dynamically populated using JavaScript -->
+											</select>
+											<select id="country2" multiple>
+												<!-- Options will be dynamically populated using JavaScript -->
+											</select>
+										</div>
 
-									</figure>
-								</article>
-								<!-- Panel #3 -->
+										<h2>Health Insurance Sources</h2>
+									
+										<div class="container">
+											<button type="button" id="compare_btn" onclick="updateChart()">Compare</button>
+										</div>
 
+										<div id="stacked-bar-chart" class=""></div>
+										
+									</div>
+								</article>			
 							</div>
 						</div>
 					
