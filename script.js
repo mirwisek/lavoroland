@@ -1,7 +1,7 @@
 let pricesMap = new Map();
 let indicesMap = new Map();
 let countriesData = [];
-let minInputSalary, maxInputSalary, minInputRent, maxInputRent;
+let minInputSalary, maxInputSalary, minInputRent, maxInputRent, minInputRentOutside, maxInputRentOutside;
 
 // Function to initialize the grid of countries
 async function initCountryGrid() {
@@ -66,14 +66,16 @@ function showTooltip(event, countryData) {
     const indices = indicesMap.get(countryData.country);
     const salary = prices ? `${parseFloat(prices["Average Monthly Net Salary (After Tax), Salaries And Financing"]).toFixed(2)}` : "N/A";
     const rent = prices ? `${parseFloat(prices["Apartment (1 bedroom) in City Centre, Rent Per Month"]).toFixed(2)}` : "N/A";
+    const rent_outside = prices ? `${parseFloat(prices["Apartment (1 bedroom) Outside of Centre, Rent Per Month"]).toFixed(2)}` : "N/A";
     const radarChartHtml = indices ? createRadarChart(indices) : "<div>No data available</div>";
 
     const tooltipHtml = `
         <div>
             <div>
                 <div><strong>${countryData.country}</strong></div>
-                <div class="tooltip-info">Average monthly net salary: <strong>${salary}€</strong></div>
-                <div class="tooltip-info">Average monthly rent price in city center: <strong>${rent}€</strong></div>
+                <div class="tooltip-info">Average monthly net salary (after tax): <strong>${salary}€</strong></div>
+                <div class="tooltip-info">Average monthly rent in city center (1 bedroom): <strong>${rent}€</strong></div>
+                <div class="tooltip-info">Average monthly rent outside of city center (1 bedroom): <strong>${rent_outside}€</strong></div>
             </div>
             <div>${radarChartHtml}</div>
         </div>
@@ -199,7 +201,7 @@ function drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice
     const lineGenerator = d3.lineRadial()
         .radius(d => radiusScale(d.value))
         .angle((_, i) => i * angleSlice)
-        .curve(d3.curveCardinalClosed);
+        .curve(d3.curveLinearClosed);
 
     radarGroup.append("path")
         .datum(data)
@@ -222,6 +224,8 @@ function applyFilter() {
     const maxSalary = parseInt(maxInputSalary.value);
     const minRent = parseInt(minInputRent.value);
     const maxRent = parseInt(maxInputRent.value);
+    const minRentOutside = parseInt(minInputRentOutside.value);
+    const maxRentOutside = parseInt(maxInputRentOutside.value);
 
     const countries = Array.from(d3.selectAll(".country").nodes());
 
@@ -229,11 +233,13 @@ function applyFilter() {
         const countryData = pricesMap.get(d3.select(countryElement).datum().country);
         const salary = countryData ? parseFloat(countryData["Average Monthly Net Salary (After Tax), Salaries And Financing"]) : 0;
         const rent = countryData ? parseFloat(countryData["Apartment (1 bedroom) in City Centre, Rent Per Month"]) : 0;
+        const rentOutside = countryData ? parseFloat(countryData["Apartment (1 bedroom) Outside of Centre, Rent Per Month"]) : 0;
 
         const isWithinSalaryRange = salary >= minSalary && salary <= maxSalary;
         const isWithinRentRange = rent >= minRent && rent <= maxRent;
+        const isWithinRentOutsideRange = rentOutside >= minRentOutside && rentOutside <= maxRentOutside;
 
-        if (isWithinSalaryRange && isWithinRentRange) {
+        if (isWithinSalaryRange && isWithinRentRange && isWithinRentOutsideRange) {
             d3.select(countryElement).classed("grey-filter", false);
             acc[0].push(countryElement);
         } else {
@@ -267,12 +273,16 @@ document.addEventListener("DOMContentLoaded", function() {
     const maxSliderSalary = document.getElementById("salary-range-max");
     const minSliderRent = document.getElementById("rent-range-min");
     const maxSliderRent = document.getElementById("rent-range-max");
+    const minSliderRentOutside = document.getElementById("rent-range-min-outside");
+    const maxSliderRentOutside = document.getElementById("rent-range-max-outside");
 
     // Initialize input elements
     minInputSalary = document.getElementById("salary-input-min");
     maxInputSalary = document.getElementById("salary-input-max");
     minInputRent = document.getElementById("rent-input-min");
     maxInputRent = document.getElementById("rent-input-max");
+    minInputRentOutside = document.getElementById("rent-input-min-outside");
+    maxInputRentOutside = document.getElementById("rent-input-max-outside");
 
 
     function setSliderTrack(minSlider, maxSlider, trackId) {
@@ -318,6 +328,23 @@ document.addEventListener("DOMContentLoaded", function() {
         setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
     });
 
+    // Rent Outside Range Event Listeners
+    minSliderRentOutside.addEventListener("input", function() {
+        if (parseInt(minSliderRentOutside.value) > parseInt(maxSliderRentOutside.value)) {
+            minSliderRentOutside.value = maxSliderRentOutside.value;
+        }
+        minInputRentOutside.value = minSliderRentOutside.value;
+        setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
+    });
+
+    maxSliderRentOutside.addEventListener("input", function() {
+        if (parseInt(maxSliderRentOutside.value) < parseInt(minSliderRentOutside.value)) {
+            maxSliderRentOutside.value = minSliderRentOutside.value;
+        }
+        maxInputRentOutside.value = maxSliderRentOutside.value;
+        setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
+    });
+
     // Update sliders when input values change
     minInputSalary.addEventListener("input", function() {
         if (parseInt(minInputSalary.value) > parseInt(maxInputSalary.value)) {
@@ -351,6 +378,22 @@ document.addEventListener("DOMContentLoaded", function() {
         setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
     });
 
+    minInputRentOutside.addEventListener("input", function() {
+        if (parseInt(minInputRentOutside.value) > parseInt(maxInputRentOutside.value)) {
+            minInputRentOutside.value = maxInputRentOutside.value;
+        }
+        minSliderRentOutside.value = minInputRentOutside.value; 
+        setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
+    });
+
+    maxInputRentOutside.addEventListener("input", function() {
+        if (parseInt(maxInputRentOutside.value) < parseInt(minInputRentOutside.value)) {
+            maxInputRentOutside.value = minInputRentOutside.value;
+        }
+        maxSliderRentOutside.value = maxInputRentOutside.value; 
+        setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
+    });
+
     document.getElementById("apply-filter-btn").addEventListener("click", function() {
         applyFilter();
     });
@@ -358,6 +401,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Initialize the slider tracks
     setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
     setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
+    setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
 });
 
 // Call function to initialize

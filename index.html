@@ -58,7 +58,7 @@
 							<span class="filter-text">Filter</span>
 						</div>
 						<div class="salary-range-filter">
-							<div class="filter-title">Salary range</div>
+							<div class="filter-title">Average monthly net salary (after tax)</div>
 							<div class="range-slider">
 								<div id="slider-track-salary"></div>
 								<input type="range" id="salary-range-min" min="0" max="5000" value="0" class="slider" />
@@ -71,7 +71,7 @@
 								<span>€</span>
 							</div>
 							<br>
-							<div class="filter-title">Rent Price range</div>
+							<div class="filter-title">Average monthly rent in city center (1 bedroom)</div>
 							<div class="range-slider">
 								<div id="slider-track-rent"></div>
 								<input type="range" id="rent-range-min" min="0" max="2000" value="0" class="slider" />
@@ -81,6 +81,19 @@
 								<input type="number" id="rent-input-min" value="0" min="0" max="2000" class="salary-input" />
 								<span>-</span>
 								<input type="number" id="rent-input-max" value="2000" min="0" max="2000" class="salary-input" />
+								<span>€</span>
+							</div>
+							<br>
+							<div class="filter-title">Average monthly rent outside city center (1 bedroom)</div>
+							<div class="range-slider">
+								<div id="slider-track-rent-outside"></div>
+								<input type="range" id="rent-range-min-outside" min="0" max="2000" value="0" class="slider" />
+								<input type="range" id="rent-range-max-outside" min="0" max="2000" value="2000" class="slider" />
+							</div>
+							<div class="range-values">
+								<input type="number" id="rent-input-min-outside" value="0" min="0" max="2000" class="salary-input" />
+								<span>-</span>
+								<input type="number" id="rent-input-max-outside" value="2000" min="0" max="2000" class="salary-input" />
 								<span>€</span>
 							</div>
 						</div>
