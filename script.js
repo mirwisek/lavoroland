@@ -219,7 +219,7 @@ function drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice
         .style("fill", d => indexColors[d.axis]);
 }
 
-function applyFilter() {
+function applyFilters() {
     const minSalary = parseInt(minInputSalary.value);
     const maxSalary = parseInt(maxInputSalary.value);
     const minRent = parseInt(minInputRent.value);
@@ -267,6 +267,57 @@ function applyFilter() {
     });
 }
 
+const defaultValues = {
+    minSalary: 0,
+    maxSalary: 5000,
+    minRent: 0,
+    maxRent: 2000,
+    minRentOutside: 0,
+    maxRentOutside: 2000
+};
+
+function resetFilters() {
+    // Reset sliders
+    const minSliderSalary = document.getElementById("salary-range-min");
+    const maxSliderSalary = document.getElementById("salary-range-max");
+    const minSliderRent = document.getElementById("rent-range-min");
+    const maxSliderRent = document.getElementById("rent-range-max");
+    const minSliderRentOutside = document.getElementById("rent-range-min-outside");
+    const maxSliderRentOutside = document.getElementById("rent-range-max-outside");
+
+    minSliderSalary.value = defaultValues.minSalary;
+    maxSliderSalary.value = defaultValues.maxSalary;
+    minSliderRent.value = defaultValues.minRent;
+    maxSliderRent.value = defaultValues.maxRent;
+    minSliderRentOutside.value = defaultValues.minRentOutside;
+    maxSliderRentOutside.value = defaultValues.maxRentOutside;
+
+    // Reset number boxes
+    document.getElementById("salary-input-min").value = defaultValues.minSalary;
+    document.getElementById("salary-input-max").value = defaultValues.maxSalary;
+    document.getElementById("rent-input-min").value = defaultValues.minRent;
+    document.getElementById("rent-input-max").value = defaultValues.maxRent;
+    document.getElementById("rent-input-min-outside").value = defaultValues.minRentOutside;
+    document.getElementById("rent-input-max-outside").value = defaultValues.maxRentOutside;
+
+    // Update slider tracks
+    setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
+    setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
+    setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
+
+    // Call any other functions required to update the UI after resetting
+    applyFilters();
+}
+
+function setSliderTrack(minSlider, maxSlider, trackId) {
+    const min = Math.min(parseInt(minSlider.value), parseInt(maxSlider.value));
+    const max = Math.max(parseInt(minSlider.value), parseInt(maxSlider.value));
+    const percentMin = (min / maxSlider.max) * 100;
+    const percentMax = (max / maxSlider.max) * 100;
+    const track = document.getElementById(trackId);
+    track.style.background = `linear-gradient(to right, #ddd ${percentMin}% , #04339c ${percentMin}% , #04339c ${percentMax}%, #ddd ${percentMax}%)`;
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     // Event listeners and slider initialization
     const minSliderSalary = document.getElementById("salary-range-min");
@@ -283,16 +334,6 @@ document.addEventListener("DOMContentLoaded", function() {
     maxInputRent = document.getElementById("rent-input-max");
     minInputRentOutside = document.getElementById("rent-input-min-outside");
     maxInputRentOutside = document.getElementById("rent-input-max-outside");
-
-
-    function setSliderTrack(minSlider, maxSlider, trackId) {
-        const min = Math.min(parseInt(minSlider.value), parseInt(maxSlider.value));
-        const max = Math.max(parseInt(minSlider.value), parseInt(maxSlider.value));
-        const percentMin = (min / maxSlider.max) * 100;
-        const percentMax = (max / maxSlider.max) * 100;
-        const track = document.getElementById(trackId);
-        track.style.background = `linear-gradient(to right, #ddd ${percentMin}% , #04339c ${percentMin}% , #04339c ${percentMax}%, #ddd ${percentMax}%)`;
-    }
 
     // Salary Range Event Listeners
     minSliderSalary.addEventListener("input", function() {
@@ -394,9 +435,8 @@ document.addEventListener("DOMContentLoaded", function() {
         setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
     });
 
-    document.getElementById("apply-filter-btn").addEventListener("click", function() {
-        applyFilter();
-    });
+    document.getElementById("apply-filter-btn").addEventListener("click", applyFilters);
+    document.getElementById("reset-filter-btn").addEventListener("click", resetFilters);
 
     // Initialize the slider tracks
     setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
