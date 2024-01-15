@@ -41,14 +41,15 @@ function createCountryGrid(countries) {
         const countryDiv = container.append("div")
             .datum(countryData)
             .attr("class", "country")
-            .style("animation-delay", `${delay}ms`);
-
-        const countryCircle = countryDiv.append("div")
-            .attr("class", "country-circle")
+            .style("animation-delay", `${delay}ms`)
             .style("background-image", `url('${countryData.flag}')`);
 
-        countryCircle.on("mouseover", event => showTooltip(event, countryData));
-        countryCircle.on("mouseout", () => hideTooltip());
+        /*const countryCircle = countryDiv.append("div")
+            .attr("class", "country-circle")
+            .style("background-image", `url('${countryData.flag}')`);*/
+
+        countryDiv.on("mouseover", event => showTooltip(event, countryData));
+        countryDiv.on("mouseout", () => hideTooltip());
 
         countryDiv.append("div")
             .attr("class", "country-name")
