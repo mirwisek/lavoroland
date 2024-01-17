@@ -54,6 +54,14 @@ function createCountryGrid(countries) {
         countryDiv.append("div")
             .attr("class", "country-name")
             .text(countryData.country);
+
+        // Append radar chart for each country
+        const indices = indicesMap.get(countryData.country);
+        if (indices) {
+            const radarChartSvg = createRadarChart(indices);
+            //radarChartSvg.classList.add('radar-chart-svg');
+            countryDiv.node().appendChild(radarChartSvg);
+        }
         
         // sayyor's code
         countryDiv.append("input")
@@ -68,7 +76,6 @@ function showTooltip(event, countryData) {
     const salary = prices ? `${parseFloat(prices["Average Monthly Net Salary (After Tax), Salaries And Financing"]).toFixed(2)}` : "N/A";
     const rent = prices ? `${parseFloat(prices["Apartment (1 bedroom) in City Centre, Rent Per Month"]).toFixed(2)}` : "N/A";
     const rent_outside = prices ? `${parseFloat(prices["Apartment (1 bedroom) Outside of Centre, Rent Per Month"]).toFixed(2)}` : "N/A";
-    const radarChartHtml = indices ? createRadarChart(indices) : "<div>No data available</div>";
 
     const tooltipHtml = `
         <div>
@@ -78,7 +85,6 @@ function showTooltip(event, countryData) {
                 <div class="tooltip-info">Average monthly rent in city center (1 bedroom): <strong>${rent}€</strong></div>
                 <div class="tooltip-info">Average monthly rent outside of city center (1 bedroom): <strong>${rent_outside}€</strong></div>
             </div>
-            <div>${radarChartHtml}</div>
         </div>
     `;
 
@@ -121,7 +127,7 @@ function createRadarChart(countryData) {
     };
 
     // Dimensions and radius of the radar chart
-    const width = 400, height = 200, radius = 70;
+    const width = 90, height = 90, radius = 50;
     const angleSlice = Math.PI * 2 / indices.length;
 
     // Create SVG element
@@ -129,7 +135,14 @@ function createRadarChart(countryData) {
         .attr("width", width)
         .attr("height", height)
         .style("display", "block")
-        .style("margin", "auto");
+        .style("margin", "auto")
+        .style("position", "relative") // Add this line
+        .style("z-index", "1") // Add this line
+        .style("position", "absolute")
+        .style("top", "60%")  // Center the SVG in the div
+        .style("left", "50%") // Center the SVG in the div
+        .attr("viewBox", `-10 -10 ${120} ${120}`)
+        .style("transform", "translate(-50%, -50%)"); // Center the SVG in the div
 
     // Add group element to hold radar chart
     const radarGroup = svg.append("g")
@@ -145,7 +158,7 @@ function createRadarChart(countryData) {
     drawAxes(radarGroup, indices, radiusScale, angleSlice, indexLabels, indexColors);
     drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice, indexColors);
 
-    return svg.node().outerHTML;
+    return svg.node();
 }
 
 function drawGridCircles(radarGroup, radiusScale) {
