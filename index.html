@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>VA Assignment 4</title>
+	<title>The Big Picture tool</title>
 	<link rel="stylesheet" type="text/css" href="./style.css">
 	<!-- For adding icons-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
@@ -52,6 +52,73 @@
 			</div>
 			<div class="col-12 col-lg-3 right-container">
 				<div class="filter-container">
+					<div id="weight-box" class="row">
+						<div class="filter-header">
+							<img src="./img/equalizer.png" alt="Filter" class="filter-icon">
+							<span class="filter-text">Weights</span>
+							<div class="info-icon">
+								<img src="./img/info.png" alt="Info">
+								<span class="tooltip-text">After assigning the weights of each of the 5 indicators, the order the of the countries that most meet your interests will change accordingly.</span>
+							</div>
+						</div>
+						<div class="weights-slider-container">
+							<!-- https://dribbble.com/search/mini-progress-bar -->
+							<div class="indicator">
+								<label for="quality-of-life">Quality of Life</label>
+								<div class="segmented-bar" id="quality-of-life">
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+								</div>
+							</div>
+							<div class="indicator">
+								<label for="purchasing-power">Purchasing Power</label>
+								<div class="segmented-bar" id="purchasing-power">
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+								</div>
+							</div>
+							<div class="indicator">
+								<label for="rent-price">Rent Price</label>
+								<div class="segmented-bar" id="rent-price">
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+								</div>
+							</div>
+							<div class="indicator">
+								<label for="health-care">Health Care</label>
+								<div class="segmented-bar" id="health-care">
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+								</div>
+							</div>
+							<div class="indicator">
+								<label for="safety">Safety</label>
+								<div class="segmented-bar" id="safety">
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+									<div class="bar-segment"></div>
+								</div>
+							</div>
+						</div>
+						<div class="button-container">
+							<button id="assign-weights-btn" class="apply-filter-button">Assign</button>
+							<button id="reset-weights-btn" class="reset-filter-button">Reset weights</button>
+						</div>
+					</div>
 					<div id="filter-box" class="row">
 						<div class="filter-header">
 							<img src="./img/filter.png" alt="Filter" class="filter-icon">
@@ -104,20 +171,6 @@
 						<div class="button-container">
 							<button id="apply-filter-btn" class="apply-filter-button">Search</button>
 							<button id="reset-filter-btn" class="reset-filter-button">Reset filters</button>
-						</div>
-					</div>
-					<div id="weight-box" class="row">
-						<div class="filter-header">
-							<img src="./img/equalizer.png" alt="Filter" class="filter-icon">
-							<span class="filter-text">Weights</span>
-							<div class="info-icon">
-								<img src="./img/info.png" alt="Info">
-								<span class="tooltip-text">After assigning the weights of each of the 5 indicators, the order the of the countries that most meet your interests will change accordingly.</span>
-							</div>
-						</div>
-						<div class="button-container">
-							<button id="assign-weights-btn" class="apply-filter-button">Assign</button>
-							<button id="reset-weights-btn" class="reset-filter-button">Reset weights</button>
 						</div>
 					</div>
 					<div class="row">
