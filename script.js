@@ -3,6 +3,48 @@ let indicesMap = new Map();
 let countriesData = [];
 let minInputSalary, maxInputSalary, minInputRent, maxInputRent, minInputRentOutside, maxInputRentOutside;
 
+// Reference: https://colorbrewer2.org/#type=qualitative&scheme=Set1&n=5
+const indexColors = {
+    "quality_of_life_index": "#e41a1c",
+    "purchasing_power_incl_rent_index": "#377eb8",
+    "rent_index": "#4daf4a",
+    "health_care_index": "#984ea3",
+    "safety_index": "#ff7f00"
+};
+
+// Function to create a weight bar for a given indicator
+function createWeightBar(indicator, containerId) {
+    const container = d3.select(`#${containerId}`);
+    const segments = container.selectAll(".bar-segment");
+
+    // Initialize all segments to grey
+    segments.style("background-color", "grey");
+
+    // Color only the first segment of each bar
+    const firstSegment = container.select(".bar-segment:first-child");
+    firstSegment.style("background-color", indexColors[indicator]);
+
+    // Add click event listener to each segment
+    segments.each(function(_, i) {
+        d3.select(this).on("click", function() {
+            // On click, color the clicked segment and all previous segments with the original color
+            // and the next ones to grey
+            segments.each(function(_, j) {
+                d3.select(this).style("background-color", j <= i ? indexColors[indicator] : "grey");
+            });
+        });
+    });
+}
+
+// Function to initialize the bars with only the first segment colored
+function initializeWeightBars() {
+    createWeightBar("quality_of_life_index", "quality-of-life");
+    createWeightBar("purchasing_power_incl_rent_index", "purchasing-power");
+    createWeightBar("rent_index", "rent-price");
+    createWeightBar("health_care_index", "health-care");
+    createWeightBar("safety_index", "safety");
+}
+
 // Function to initialize the grid of countries
 async function initCountryGrid() {
     try {
@@ -100,7 +142,7 @@ function hideTooltip() {
 }
 
 // Function to create a radar chart
-function createRadarChart(countryData) {
+function createRadarChart(countryData, delayAfterFilter = false) {
     const indices = [
         "quality_of_life_index",
         "purchasing_power_incl_rent_index",
@@ -117,15 +159,6 @@ function createRadarChart(countryData) {
         "safety_index": "safety"
     }
 
-    // Reference: https://colorbrewer2.org/#type=qualitative&scheme=Set1&n=5
-    const indexColors = {
-        "quality_of_life_index": "#e41a1c",
-        "purchasing_power_incl_rent_index": "#377eb8",
-        "rent_index": "#4daf4a",
-        "health_care_index": "#984ea3",
-        "safety_index": "#ff7f00"
-    };
-
     // Dimensions and radius of the radar chart
     const width = 90, height = 90, radius = 50;
     const angleSlice = Math.PI * 2 / indices.length;
@@ -134,15 +167,8 @@ function createRadarChart(countryData) {
     const svg = d3.create("svg")
         .attr("width", width)
         .attr("height", height)
-        .style("display", "block")
-        .style("margin", "auto")
-        .style("position", "relative") // Add this line
-        .style("z-index", "1") // Add this line
-        .style("position", "absolute")
-        .style("top", "60%")  // Center the SVG in the div
-        .style("left", "50%") // Center the SVG in the div
-        .attr("viewBox", `-10 -10 ${120} ${120}`)
-        .style("transform", "translate(-50%, -50%)"); // Center the SVG in the div
+        .attr("class", "radar-chart-svg")
+        .attr("viewBox", `-10 -10 120 120`);
 
     // Add group element to hold radar chart
     const radarGroup = svg.append("g")
@@ -155,8 +181,8 @@ function createRadarChart(countryData) {
 
     drawGridCircles(radarGroup, radiusScale);
     drawScaleText(radarGroup, radiusScale);
-    drawAxes(radarGroup, indices, radiusScale, angleSlice, indexLabels, indexColors);
-    drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice, indexColors);
+    drawAxes(radarGroup, indices, radiusScale, angleSlice, indexLabels);
+    drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice, delayAfterFilter);
 
     return svg.node();
 }
@@ -183,9 +209,9 @@ function drawScaleText(radarGroup, radiusScale) {
         .text(d => d * 25);
 }
 
-function drawAxes(radarGroup, indices, radiusScale, angleSlice, indexLabels, indexColors) {
+function drawAxes(radarGroup, indices, radiusScale, angleSlice, indexLabels) {
     const axis = radarGroup.selectAll(".axis")
-        .data(indices)
+        //.data(indices)
         .enter().append("g")
         .attr("class", "axis");
 
@@ -205,7 +231,7 @@ function drawAxes(radarGroup, indices, radiusScale, angleSlice, indexLabels, ind
         .style("fill", d => indexColors[d]);
 }
 
-function drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice, indexColors) {
+function drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice, delayAfterFilter = false) {
     // Create data structure for plotting
     const data = indices.map(key => ({
         axis: key,
@@ -220,7 +246,19 @@ function drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice
     radarGroup.append("path")
         .datum(data)
         .attr("d", lineGenerator)
-        .attr("class", "radar-line");
+        .attr("class", "radar-area")
+        .transition() // Start a transition
+        .duration(1000) // Set the duration of the transition
+        .delay(delayAfterFilter ? 200 : 0) // Set the delay of the transition
+        .attrTween("d", function(d) { // Create a tween on the "d" attribute
+            const interpolate = d3.interpolate(0, 1); // Interpolate from 0 to 1
+            return function(t) {
+                return lineGenerator(d.map((d, i) => ({
+                    axis: d.axis,
+                    value: interpolate(t) * d.value
+                })));
+            };
+        });
 
     radarGroup.selectAll(".radar-point")
         .data(data)
@@ -278,6 +316,27 @@ function applyFilters() {
     const countriesGrid = d3.select("#countries-grid").node();
     [...filteredCountries, ...nonFilteredCountries].forEach(country => {
         countriesGrid.appendChild(country);
+    });
+
+    updateRadarCharts(filteredCountries);
+    updateRadarCharts(nonFilteredCountries);
+}
+
+function updateRadarCharts(countries) {
+    // Loop through countries and re-create radar charts with animation
+    countries.forEach((countryElement) => {
+        const countryData = d3.select(countryElement).datum();
+        const countryName = countryData.country;
+
+        // Remove existing radar chart
+        d3.select(countryElement).select("svg").remove();
+
+        // Re-create radar chart with animation
+        const indices = indicesMap.get(countryName);
+        if (indices) {
+            const radarChartSvg = createRadarChart(indices, true); // Pass true to animate
+            countryElement.appendChild(radarChartSvg);
+        }
     });
 }
 
@@ -348,6 +407,9 @@ document.addEventListener("DOMContentLoaded", function() {
     maxInputRent = document.getElementById("rent-input-max");
     minInputRentOutside = document.getElementById("rent-input-min-outside");
     maxInputRentOutside = document.getElementById("rent-input-max-outside");
+
+    // Initialize the weight bars with only the first segment colored
+    initializeWeightBars();
 
     // Salary Range Event Listeners
     minSliderSalary.addEventListener("input", function() {
@@ -765,6 +827,4 @@ const createParallelCoordinates = (data, dimensions) => {
         .attr("y", -9)
         .text(function(d) { return d; })
         .style("fill", "black")
-
-
 }
