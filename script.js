@@ -13,8 +13,8 @@ const indexColors = {
 };
 
 // Function to create a weight bar for a given indicator
-function createWeightBar(indicator, containerId) {
-    const container = d3.select(`#${containerId}`);
+function createWeightBar(indicator) {
+    const container = d3.select(`#${indicator}`);
     const segments = container.selectAll(".bar-segment");
 
     // Initialize all segments to grey
@@ -38,11 +38,25 @@ function createWeightBar(indicator, containerId) {
 
 // Function to initialize the bars with only the first segment colored
 function initializeWeightBars() {
-    createWeightBar("quality_of_life_index", "quality-of-life");
-    createWeightBar("purchasing_power_incl_rent_index", "purchasing-power");
-    createWeightBar("rent_index", "rent-price");
-    createWeightBar("health_care_index", "health-care");
-    createWeightBar("safety_index", "safety");
+    createWeightBar("quality_of_life_index");
+    createWeightBar("purchasing_power_incl_rent_index");
+    createWeightBar("rent_index");
+    createWeightBar("health_care_index");
+    createWeightBar("safety_index");
+    applyFilters();
+}
+
+// Function to get the weights of each indicator
+function getWeights() {
+    const weights = {};
+    d3.selectAll(".indicator").each(function() {
+        const indicator = this.querySelector("label").getAttribute("for");
+        const coloredSegments = d3.select(this).selectAll(".bar-segment")
+            .filter(function() { return d3.select(this).style("background-color") !== "grey"; })
+            .size();
+        weights[indicator] = coloredSegments;
+    });
+    return weights;
 }
 
 // Function to initialize the grid of countries
@@ -68,6 +82,9 @@ async function initCountryGrid() {
 
         // Create initial grid with countries
         createCountryGrid(countriesData);
+
+        // Apply filters to the grid
+        applyFilters();
 
     } catch (error) {
         console.error("Error loading CSV data: ", error);
@@ -271,7 +288,22 @@ function drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice
         .style("fill", d => indexColors[d.axis]);
 }
 
+// Function to calculate the score of a country based on the weights of the indicators
+function calculateScore(countryData, weights) {
+    let score = 0;
+    // I'm skipping the first element because it's the country name
+    for (const [indicator, value] of Object.entries(countryData).slice(1)) {
+        const weight = weights[indicator];
+        score += (weight || 0) * parseFloat(value);
+    }
+    // Print country and score together
+    console.log(countryData.country, score);
+    return score;
+}
+
 function applyFilters() {
+    const weights = getWeights();
+
     const minSalary = parseInt(minInputSalary.value);
     const maxSalary = parseInt(maxInputSalary.value);
     const minRent = parseInt(minInputRent.value);
@@ -280,6 +312,13 @@ function applyFilters() {
     const maxRentOutside = parseInt(maxInputRentOutside.value);
 
     const countries = Array.from(d3.selectAll(".country").nodes());
+
+    countries.forEach(countryElement => {
+        const countryName = d3.select(countryElement).datum().country;
+        const countryData = indicesMap.get(countryName);
+        const score = calculateScore(countryData, weights);
+        d3.select(countryElement).datum().score = score; // Assign score to each country
+    });
 
     const [filteredCountries, nonFilteredCountries] = countries.reduce((acc, countryElement) => {
         const countryData = pricesMap.get(d3.select(countryElement).datum().country);
@@ -303,12 +342,10 @@ function applyFilters() {
     }, [[], []]);
 
     const sortCountries = (a, b) => {
-        const countryA = d3.select(a).datum().country;
-        const countryB = d3.select(b).datum().country;
-        return countryA.localeCompare(countryB);
+        return d3.select(b).datum().score - d3.select(a).datum().score; // Sort by score descending
     };
 
-    // Order filteredCountries and nonFilteredCountries alphabetically
+    // Order filteredCountries and nonFilteredCountries by their final score
     filteredCountries.sort(sortCountries);
     nonFilteredCountries.sort(sortCountries);
 
@@ -513,6 +550,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("apply-filter-btn").addEventListener("click", applyFilters);
     document.getElementById("reset-filter-btn").addEventListener("click", resetFilters);
+    document.getElementById("assign-weights-btn").addEventListener("click", applyFilters);
+    document.getElementById("reset-weights-btn").addEventListener("click", initializeWeightBars);
 
     // Initialize the slider tracks
     setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
