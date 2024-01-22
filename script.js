@@ -27,11 +27,11 @@ function createWeightBar(indicator) {
     // Add click event listener to each segment
     segments.each(function(_, i) {
         d3.select(this).on("click", function() {
-            // On click, color the clicked segment and all previous segments with the original color
-            // and the next ones to grey
+            // On click, color the clicked segment and all previous segments with the original color and the next ones to grey
             segments.each(function(_, j) {
                 d3.select(this).style("background-color", j <= i ? indexColors[indicator] : "grey");
             });
+            applyFilters();
         });
     });
 }
@@ -301,6 +301,19 @@ function calculateScore(countryData, weights) {
     return score;
 }
 
+function updateWinner() {
+    // Remove the winner class and the image from all countries
+    d3.selectAll(".country").classed("winner", false);
+    d3.selectAll(".country .winner-image").remove();
+
+    // Add the winner class to the first country
+    const firstCountry = d3.select(".country");
+    firstCountry.classed("winner", true);
+    firstCountry.append("img")
+                .attr("src", "./img/winner.png")
+                .attr("class", "winner-image");
+}
+
 function applyFilters() {
     const weights = getWeights();
 
@@ -357,6 +370,9 @@ function applyFilters() {
 
     updateRadarCharts(filteredCountries);
     updateRadarCharts(nonFilteredCountries);
+
+    // Update the golden background for the first country
+    updateWinner();
 }
 
 function updateRadarCharts(countries) {
@@ -548,15 +564,29 @@ document.addEventListener("DOMContentLoaded", function() {
         setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
     });
 
-    document.getElementById("apply-filter-btn").addEventListener("click", applyFilters);
     document.getElementById("reset-filter-btn").addEventListener("click", resetFilters);
-    document.getElementById("assign-weights-btn").addEventListener("click", applyFilters);
     document.getElementById("reset-weights-btn").addEventListener("click", initializeWeightBars);
 
     // Initialize the slider tracks
     setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
     setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
     setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
+
+    // Get all slider elements
+    const sliders = document.querySelectorAll('#filter-box .slider');
+
+    // Add event listeners to each slider
+    sliders.forEach(slider => {
+        slider.addEventListener('change', applyFilters);
+    });
+
+    // Get all number input elements within elements with class 'range-values'
+    const numberInputs = document.querySelectorAll('.range-values input[type=number]');
+
+    // Add event listeners to each number input
+    numberInputs.forEach(input => {
+        input.addEventListener('change', applyFilters);
+    });
 });
 
 // Call function to initialize
