@@ -122,10 +122,19 @@ function createCountryGrid(countries) {
             countryDiv.node().appendChild(radarChartSvg);
         }
         
-        // sayyor's code
+        // Append checkbox
         countryDiv.append("input")
         .attr("type", "checkbox")
         .attr("class", "country-checkbox");
+
+        // Add click event listener to toggle checkbox when the div is clicked
+        countryDiv.on("click", function(event) {
+            // If the clicked element is not the checkbox, toggle the checkbox state
+            if (event.target.type !== "checkbox") {
+                const checkbox = d3.select(this).select(".country-checkbox").node();
+                checkbox.checked = !checkbox.checked;
+            }
+        });
     });
 }
 
@@ -158,7 +167,7 @@ function hideTooltip() {
     d3.select("#tooltip").style("opacity", 0);
 }
 
-// Function to create a radar chart
+
 function createRadarChart(countryData, delayAfterFilter = false) {
     const indices = [
         "quality_of_life_index",
@@ -264,11 +273,11 @@ function drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice
         .datum(data)
         .attr("d", lineGenerator)
         .attr("class", "radar-area")
-        .transition() // Start a transition
-        .duration(1000) // Set the duration of the transition
-        .delay(delayAfterFilter ? 200 : 0) // Set the delay of the transition
-        .attrTween("d", function(d) { // Create a tween on the "d" attribute
-            const interpolate = d3.interpolate(0, 1); // Interpolate from 0 to 1
+        .transition() 
+        .duration(1000) 
+        .delay(delayAfterFilter ? 200 : 0) 
+        .attrTween("d", function(d) { 
+            const interpolate = d3.interpolate(0, 1); 
             return function(t) {
                 return lineGenerator(d.map((d, i) => ({
                     axis: d.axis,
@@ -296,8 +305,6 @@ function calculateScore(countryData, weights) {
         const weight = weights[indicator];
         score += (weight || 0) * parseFloat(value);
     }
-    // Print country and score together
-    console.log(countryData.country, score);
     return score;
 }
 
@@ -355,7 +362,7 @@ function applyFilters() {
     }, [[], []]);
 
     const sortCountries = (a, b) => {
-        return d3.select(b).datum().score - d3.select(a).datum().score; // Sort by score descending
+        return d3.select(b).datum().score - d3.select(a).datum().score; 
     };
 
     // Order filteredCountries and nonFilteredCountries by their final score
@@ -376,7 +383,7 @@ function applyFilters() {
 }
 
 function updateRadarCharts(countries) {
-    // Loop through countries and re-create radar charts with animation
+    // Loop through countries
     countries.forEach((countryElement) => {
         const countryData = d3.select(countryElement).datum();
         const countryName = countryData.country;
@@ -431,7 +438,6 @@ function resetFilters() {
     setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
     setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
 
-    // Call any other functions required to update the UI after resetting
     applyFilters();
 }
 
