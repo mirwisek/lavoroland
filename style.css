@@ -524,3 +524,11 @@
   right: 10px;
   width: 30px;
 }
+
+.horizontal-divider {
+  border: 0;
+  height: 3px;
+  background-image: linear-gradient(to right, #fff, #04339c, #fff);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

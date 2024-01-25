@@ -333,6 +333,10 @@ function applyFilters() {
 
     const countries = Array.from(d3.selectAll(".country").nodes());
 
+    // Get references to the two grids
+    const matchingCountriesGrid = d3.select("#countries-grid");
+    const nonMatchingCountriesGrid = d3.select("#countries-grid-grey");
+
     countries.forEach(countryElement => {
         const countryName = d3.select(countryElement).datum().country;
         const countryData = indicesMap.get(countryName);
@@ -352,9 +356,11 @@ function applyFilters() {
 
         if (isWithinSalaryRange && isWithinRentRange && isWithinRentOutsideRange) {
             d3.select(countryElement).classed("grey-filter", false);
+            matchingCountriesGrid.node().appendChild(countryElement);
             acc[0].push(countryElement);
         } else {
             d3.select(countryElement).classed("grey-filter", true);
+            nonMatchingCountriesGrid.node().appendChild(countryElement);
             acc[1].push(countryElement);
         }
 
@@ -369,10 +375,14 @@ function applyFilters() {
     filteredCountries.sort(sortCountries);
     nonFilteredCountries.sort(sortCountries);
 
-    // Reorder countries based on filter
-    const countriesGrid = d3.select("#countries-grid").node();
-    [...filteredCountries, ...nonFilteredCountries].forEach(country => {
-        countriesGrid.appendChild(country);
+    // Previously filtered countries are added to the matching grid
+    filteredCountries.forEach(countryElement => {
+        matchingCountriesGrid.node().appendChild(countryElement);
+    });
+
+    // Previously non-filtered countries are added to the non-matching grid
+    nonFilteredCountries.forEach(countryElement => {
+        nonMatchingCountriesGrid.node().appendChild(countryElement);
     });
 
     updateRadarCharts(filteredCountries);
