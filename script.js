@@ -86,9 +86,29 @@ async function initCountryGrid() {
         // Apply filters to the grid
         applyFilters();
 
+        // scentedWidgets(pricesData);
+
     } catch (error) {
         console.error("Error loading CSV data: ", error);
     }
+}
+
+function scentedWidgets(pricesData) {
+    const countrySalaries = pricesData.filter(item => item.item_name === "Average Monthly Net Salary (After Tax), Salaries And Financing");
+    console.log(countrySalaries)
+
+    var countrySalaries_cf = crossfilter(countrySalaries),
+        salary = countrySalaries_cf.dimension(function(d) {return d.average_price});
+    console.log('test',salary)
+
+    var charts = [
+        barChart()
+        .dimension(hour)
+        .group(hours)
+      .x(d3.scale.linear()
+        .domain([0, 24])
+        .rangeRound([0, 10 * 24]))
+    ];
 }
 
 function createCountryGrid(countries) {
@@ -347,6 +367,7 @@ function applyFilters() {
     const [filteredCountries, nonFilteredCountries] = countries.reduce((acc, countryElement) => {
         const countryData = pricesMap.get(d3.select(countryElement).datum().country);
         const salary = countryData ? parseFloat(countryData["Average Monthly Net Salary (After Tax), Salaries And Financing"]) : 0;
+
         const rent = countryData ? parseFloat(countryData["Apartment (1 bedroom) in City Centre, Rent Per Month"]) : 0;
         const rentOutside = countryData ? parseFloat(countryData["Apartment (1 bedroom) Outside of Centre, Rent Per Month"]) : 0;
 
@@ -663,31 +684,15 @@ async function plot_health(checkedCountries) {
         // console.log("subgroups", subgroups);
         // console.log("filteredData", filteredData);
 
+        // console.log(filteredData)
+
         // Plot the Health section on the tab
-        createMarimekkoChart(filteredData, subgroups)
+        createMarimekkoChart(filteredData, subgroups);
 
         // Get unique country names
         var uniqueNames = d3.map(insurance_data, function(d) {
             return d.name;
         });
-
-        // Populate the dropdown menus with country options
-        var select1 = document.getElementById("country1");
-        var select2 = document.getElementById("country2");
-
-        for(i = 0; i < uniqueNames.length; i++) {
-            var opt = uniqueNames[i];
-
-            var el1 = document.createElement("option");
-            el1.textContent = opt;
-            el1.value = opt;
-            select1.appendChild(el1);
-
-            var el2 = document.createElement("option");
-            el2.textContent = opt;
-            el2.value = opt;
-            select2.appendChild(el2);
-        }
 
         // // // FOR PARALLEL COORDINATES
         // var filteredIndexes = insurance_data.filter(function(d) 
@@ -704,42 +709,12 @@ async function plot_health(checkedCountries) {
     }
 }
 
-async function updateChart(data) {
-    // Update the Marimekko Chart based on the new selection
-    try {
-        // Load CSV files
-        const [data] = await Promise.all([
-            d3.csv("./data/insurance_proportion.csv")
-        ]);
-
-        var c1 = document.getElementById("country1");
-        var c2 = document.getElementById("country2");
-        var c1_txt = c1.options[c1.selectedIndex].text;
-        var c2_txt = c2.options[c2.selectedIndex].text;
-
-        // Clear existing chart
-        d3.select("#stacked-bar-chart").selectAll("*").remove();
-
-        // Filter the data for selected countries
-        var filteredData = data.filter(function(d) 
-        { 
-                if( (d["name"] == c1_txt) || (d["name"]==c2_txt))
-                { 
-                    return d;
-                } 
-        })
-
-        var subgroups = data.columns.slice(1)
-        createMarimekkoChart(filteredData, subgroups);
-    
-    } catch (error) {
-        console.error("Error loading CSV data: ", error);
-    }
-}
-
+/**
+ * Function to create a Marimekko Chart using D3.js
+ * @param {Array} filteredData - Data of only the countries to plot
+ * @param {Array} subgroups - column names
+ */
 const createMarimekkoChart = (filteredData, subgroups) => {
-    // Plot the Marimekko Chart
-
     // append the svg object to the body of the page
     var svg = d3.select("#stacked-bar-chart")
     .append("svg")
@@ -752,13 +727,143 @@ const createMarimekkoChart = (filteredData, subgroups) => {
     // console.log("filteredData", filteredData);
     // console.log("subgroups", subgroups);
 
+    // Extract groups for X-axis from the dataset
+    var groups = d3.map(filteredData, function(d){return(d.name)});
+    
+    // X-axis scale
+    let x = d3.scaleBand()
+              .domain(groups)
+              .range([0, width])
+              .padding(0.2);
+    svg.append("g")
+       .attr("transform", `translate(0, ${height})`)
+       .call(d3.axisBottom(x).tickSizeOuter(0));
+
+    // Y-axis scale
+    let y = d3.scaleLinear()
+                .domain([0, 100])
+                .range([height, 0]);
+    svg.append("g")
+        .call(d3.axisLeft(y));
+
+    // Y-axis label
+    svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "end")
+        .attr("y", 6)
+        .attr("dy", ".75em")
+        .attr("transform", "rotate(-90)")
+        .text("% of Insurance Cost");
+
+    // Color palette for subgroups
+    var color = d3.scaleOrdinal()
+        .domain(subgroups)
+        .range(['#19bbac', '#186edd', '#d86855', '#fcb71b'])
+        
+    // Normalize the data -> sum of each group must be 100!
+    filteredData.forEach(d => {
+        let total = subgroups.reduce((acc, subgroup) => acc + +d[subgroup], 0);
+        subgroups.forEach(subgroup => {
+            d[subgroup] = (d[subgroup] / total) * 100;
+        });
+    });
+    console.log('subgroups', subgroups);
+
+    // Define additional subgroups for legend
+    let legendSubgroups = [
+        "Other Insurances",
+        "Public Insurance",
+        "Private Insurance",
+        "Insured by Employer"];
+
+    // Legend circles
+    svg.selectAll(".legend-dots")
+       .data(legendSubgroups)
+       .enter()
+       .append("circle")
+           .attr("cx", 10)
+           .attr("cy", (d, i) => 280 + i * 20)
+           .attr("r", 7)
+           .style("fill", color);
+
+    // Legend labels
+    svg.selectAll(".legend-labels")
+        .data(legendSubgroups)
+        .enter()
+        .append("text")
+            .attr("x", 30)
+            .attr("y", (d, i) => 280 + i * 20)
+            .style("fill", color)
+            .text(d => d)
+            .attr("text-anchor", "left")
+            .style("font-size", "12px")
+            .style("alignment-baseline", "middle");
+
+    // Stack the data by subgroups
+    let stackedData = d3.stack()
+                        .keys(subgroups)(filteredData);
+
+    // Create the bars
+    svg.append("g")
+        .selectAll("g")
+        .data(stackedData)
+        .enter().append("g")
+            .attr("fill", d => color(d.key))
+        .selectAll("rect")
+        .data(d => d)
+        .enter().append("rect")
+            .attr("x", d => x(d.data.name))
+            .attr("y", d => y(d[1]))
+            .attr("height", d => y(d[0]) - y(d[1]))
+            .attr("width", x.bandwidth());
+    
+    // Add tooltip
+    svg.append("g")
+    .selectAll("g")
+    // Enter in the stack data = loop key per key = group per group
+    .data(stackedData)
+    .enter().append("g")
+        .attr("fill", d => color(d.key))
+    .selectAll("rect")
+    // enter a second time = loop subgroup per subgroup to add all rectangles
+    .data(function(d) { return d; })
+    .enter().append("rect")
+        .attr("x", d => x(d.data.name))
+        .attr("y", d => y(d[1]))
+        .attr("height", d => y(d[0]) - y(d[1]))
+        .attr("width", x.bandwidth())
+        // Tooltip interactivity
+        .on("mouseover", function(event, d) {
+            d3.select("#tooltip")
+              .style("opacity", 1)
+              .html(`<br>Source: ${d.key}<br>Value: ${d[1] - d[0]}`)
+              .style("left", (event.pageX + 10) + "px")
+              .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", function() {
+            d3.select("#tooltip").style("opacity", 0);
+        });
+}
+
+const createGroupedBarChart = (filteredData, subgroups) => {
+    // append the svg object to the body of the page
+    var svg = d3.select("#grouped-bar-chart")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+    // console.log("filteredData", filteredData);
+    // console.log("subgroups", subgroups);
+
     // List of subgroups = header of the csv files = soil condition here
-    // var subgroups = filteredData.columns.slice(1)
+    // var subgroups = data.columns.slice(1)
 
     // List of groups = species here = value of the first column called group -> I show them on the X axis
     var groups = d3.map(filteredData, function(d){return(d.name)});
-    // console.log("groups", groups)
-    
+
     // Add X axis
     var x = d3.scaleBand()
         .domain(groups)
@@ -766,77 +871,42 @@ const createMarimekkoChart = (filteredData, subgroups) => {
         .padding([0.2])
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x).tickSizeOuter(0));
+        .call(d3.axisBottom(x).tickSize(0));
 
     // Add Y axis
     var y = d3.scaleLinear()
-        .domain([0, 100])
+        .domain([0, 40])
         .range([ height, 0 ]);
     svg.append("g")
         .call(d3.axisLeft(y));
 
-    // Adding Y axis label
-    svg.append("text")
-        .attr("class", "y label")
-        .attr("text-anchor", "end")
-        .attr("y", 6)
-        .attr("dy", ".75em")
-        .attr("transform", "rotate(-90)")
-        .text("% of insurance cost");
+    // Another scale for subgroup position?
+    var xSubgroup = d3.scaleBand()
+        .domain(subgroups)
+        .range([0, x.bandwidth()])
+        .padding([0.05])
 
     // color palette = one color per subgroup
     var color = d3.scaleOrdinal()
         .domain(subgroups)
-        .range(['#003049','#D62828','#F77F00', 'FCBF49', 'EAE2B7'])
-        
-    // Normalize the data -> sum of each group must be 100!
-    filteredDataNormalized = []
-    filteredData.forEach(function(d){
-        // Compute the total
-        tot = 0
-        for (i in subgroups){ name=subgroups[i] ; tot += +d[name] }
-        // Now normalize
-        for (i in subgroups){ name=subgroups[i] ; d[name] = d[name] / tot * 100}
-    })
+        .range(['#e41a1c','#377eb8','#4daf4a'])
 
-    subgroups1 = ["others", "by_public", "private", "by_employer"];
-
-    // Add one dot in the legend for each name.
-    svg.selectAll("mydots")
-        .data(subgroups1)
-        .enter()
-        .append("circle")
-        .attr("cx", 10)
-        .attr("cy", function(d,i){ return 280 + i*20}) // 100 is where the first dot appears. 25 is the distance between dots
-        .attr("r", 7)
-        .style("fill", function(d){ return color(d)})
-
-    // console.log("subgroups", subgroups)
-
-    // Add one dot in the legend for each name.
-    svg.selectAll("mylabels")
-        .data(subgroups1)
-        .enter()
-        .append("text")
-        .attr("x", 30)
-        .attr("y", function(d,i){ return 280 + i*20}) // 100 is where the first dot appears. 25 is the distance between dots
-        .style("fill", function(d){ return color(d)})
-        .text(function(d){ return d})
-        .attr("text-anchor", "left")
-        .style("font-size", "12px")
-        .style("alignment-baseline", "middle")
-    
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
         .keys(subgroups)
-        (filteredData)
+        (filteredData);
+    
+    // console.log("stackedData", stackedData);
+    // console.log("")
 
     // Show the bars
     svg.append("g")
         .selectAll("g")
-        // Enter in the stack data = loop key per key = group per group
+        // Enter in data = loop group per group
         .data(stackedData)
-        .enter().append("g")
+        .enter()
+        .append("g")
+            .attr("transform", function(d) { return "translate(" + x(d.group) + ",0)"; })
         .attr("fill", function(d) { return color(d.key); })
         .selectAll("rect")
         // enter a second time = loop subgroup per subgroup to add all rectangles
@@ -846,6 +916,81 @@ const createMarimekkoChart = (filteredData, subgroups) => {
             .attr("y", function(d) { return y(d[1]); })
             .attr("height", function(d) { return y(d[0]) - y(d[1]); })
             .attr("width",x.bandwidth())
+    //     .selectAll("rect")
+    //     .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
+    //     .enter().append("rect")
+    //         .attr("x", function(d) { return xSubgroup(d.key); })
+    //         .attr("y", function(d) { return y(d.value); })
+    //         .attr("width", xSubgroup.bandwidth())
+    //         .attr("height", function(d) { return height - y(d.value); })
+    //         .attr("fill", function(d) { return color(d.key); });
+}
+
+const originalGroupBarChart = (data, dimensions) => {
+    // append the svg object to the body of the page
+    var svg = d3.select("#orig-bar-chart")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform",
+        "translate(" + margin.left + "," + margin.top + ")");
+
+    // Parse the Data
+    d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_stacked.csv", function(data) {
+
+        // List of subgroups = header of the csv files = soil condition here
+        var subgroups = data.columns.slice(1)
+
+        // List of groups = species here = value of the first column called group -> I show them on the X axis
+        var groups = d3.map(data, function(d){return(d.group)}).keys()
+
+        // Add X axis
+        var x = d3.scaleBand()
+        .domain(groups)
+        .range([0, width])
+        .padding([0.2])
+        svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x).tickSize(0));
+
+        // Add Y axis
+        var y = d3.scaleLinear()
+        .domain([0, 40])
+        .range([ height, 0 ]);
+        svg.append("g")
+        .call(d3.axisLeft(y));
+
+        // Another scale for subgroup position?
+        var xSubgroup = d3.scaleBand()
+        .domain(subgroups)
+        .range([0, x.bandwidth()])
+        .padding([0.05])
+
+        // color palette = one color per subgroup
+        var color = d3.scaleOrdinal()
+        .domain(subgroups)
+        .range(['#e41a1c','#377eb8','#4daf4a'])
+
+        // Show the bars
+        svg.append("g")
+        .selectAll("g")
+        // Enter in data = loop group per group
+        .data(data)
+        .enter()
+        .append("g")
+        .attr("transform", function(d) { return "translate(" + x(d.group) + ",0)"; })
+        .selectAll("rect")
+        .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
+        .enter().append("rect")
+        .attr("x", function(d) { return xSubgroup(d.key); })
+        .attr("y", function(d) { return y(d.value); })
+        .attr("width", xSubgroup.bandwidth())
+        .attr("height", function(d) { return height - y(d.value); })
+        .attr("fill", function(d) { return color(d.key); });
+
+})
+
 }
 
 const createParallelCoordinates = (data, dimensions) => {

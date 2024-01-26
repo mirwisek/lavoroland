@@ -33,6 +33,7 @@
 				<h1 class="responsive-h1-container">
 					What will be your next EU destination for work?
 				</h1>
+
 				<div class="text-box">
 					<p class="text-paragraph"> 
 						This interactive tool is designed to help fresh graduates strategically select their next move 
@@ -130,6 +131,17 @@
 						</div>
 						<div class="salary-range-filter">
 							<div class="filter-title">Average monthly net salary (after tax)</div>
+
+							<div class="crosswidget" id="sepal-width">
+								<div class="crosswidget-title">
+								  <span>sepal width</span>
+								  <span class="undo" style="cursor: pointer;">
+									<i class="fa fa-undo"></i>
+								  </span>
+								</div>
+								<div class="crosswidget-body"></div>
+							</div>
+
 							<div class="range-slider">
 								<div id="slider-track-salary"></div>
 								<input type="range" id="salary-range-min" min="0" max="5000" value="0" class="slider" />
@@ -248,27 +260,15 @@
 											</h1>
 										</div>
 																		
-										<div class="container">
-											<label for="countryPairs">Select Country Pairs:</label>
-										</div>
-										
-										<div class="container">
-											<select id="country1" multiple>
-												<!-- Options will be dynamically populated using JavaScript -->
-											</select>
-											<select id="country2" multiple>
-												<!-- Options will be dynamically populated using JavaScript -->
-											</select>
-										</div>
-
 										<h2>Health Insurance Sources</h2>
-									
-										<div class="container">
-											<button type="button" id="compare_btn" onclick="updateChart()">Compare</button>
-										</div>
 
 										<div id="stacked-bar-chart" class=""></div>
-										
+										<div id="tooltip" style="position: absolute; opacity: 0; pointer-events: none; background-color: white; border: solid 1px #dcdcdc; padding: 5px; border-radius: 5px;"></div>
+
+
+										<div id="grouped-bar-chart" class=""></div>
+
+										<div id="tester" style="width:600px;height:250px;"></div>
 									</div>
 								</article>			
 							</div>
@@ -283,8 +283,11 @@
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+	<script src="crosswidget.js"></script>
 	<script type="module" src="./jobs_compare/script.js"></script>
 	<script src="./site_script.js"></script>
 	<script src="./script.js"></script>
+	<script>
+	</script>
 </body>
 </html>
