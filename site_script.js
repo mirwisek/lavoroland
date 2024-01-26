@@ -7,11 +7,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	// Show the SVG placeholder when the Compare button is clicked
 	compareBtn.addEventListener('click', function() {
 		svgPlaceholder.style.display = 'flex';
+        document.body.classList.add('no-scroll');
 	});
 
 	// Hide the SVG placeholder when the close button is clicked
 	closeSvgViewBtn.addEventListener('click', function() {
 		svgPlaceholder.style.display = 'none';
+        document.body.classList.remove('no-scroll');
 	});
 });
 

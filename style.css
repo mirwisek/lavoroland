@@ -431,23 +431,38 @@
 .svg-container:not(.user-select-none) {
 	display: none; /* Hidden by default */
 	position: fixed; /* Fixed position to cover the whole screen */
-	top: 0;
+	bottom: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
 	background: rgba(0, 0, 0, 0.5); 
 	z-index: 10; /* Higher than other content */
 	justify-content: center;
-	align-items: center;
+	align-items: end;
 }
 
+/* Ensure popup is scrollable */
 .svg-content {
-	width: 100%; 
-	height: 100%; 
+  overflow-y: auto; /* or 'scroll' depending on your needs */
+  /* max-height: 90vh;  Adjust based on your design */
+  position: fixed; /* or 'absolute', centered via CSS */
+  z-index: 1000; /* Ensure it's above other content */
+  width: 96%; 
+	height: 96%; 
 	background: rgb(246, 251, 255); /* For visibility */
-	border-radius: 8px; /* Optional: for styled corners */
+	border-radius: 15px 0px; /* Optional: for styled corners */
 	padding: 20px;
-	position: relative; /* For absolute positioning of the close button */
+}
+
+/* 
+ * Stop the main page from scrolling when popup is open
+ */
+
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  position: fixed; /* Prevent scrolling without hiding the scrollbar */
 }
 
 .close-svg-button {
