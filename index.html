@@ -6,6 +6,8 @@
 	<title>The Big Picture tool</title>
 	<link rel="stylesheet" type="text/css" href="./style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://kit.fontawesome.com/155fa85c2a.js" crossorigin="anonymous"></script>
+
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
@@ -27,6 +29,7 @@
 </head>
 <body>
 	<div class="container-fluid main-container">
+		
 		<div class="row">
 			<div class="col-12 col-lg-9 left-container">
 				<img src="./img/eu.png" alt="EU" id="eu-logo">
@@ -184,11 +187,6 @@
 							<button id="reset-filter-btn" class="reset-filter-button">Reset filters</button>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-12">
-							<button id="compare-btn" class="btn btn-primary btn-block">Compare</button>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -279,7 +277,22 @@
 				<button id="close-svg-view" class="close-svg-button">
 					<i class="fas fa-times"></i>
 				</button>
+
+				  
 			</div>
+		</div>
+		
+		<div class="fab-container">
+			<input type="checkbox" id="fabToggle" class="fab-toggle" hidden />
+			<label for="fabToggle" class="fab-button">
+				<span class="fab-icon">
+					<i class="fas fa-code-compare"></i>
+				</span>
+				<span class="fab-text unselectable">Compare</span> 
+				<span class="plus-icon">
+					<i class="fas fa-plus"></i>
+				</span>
+			</label>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>

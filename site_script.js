@@ -1,20 +1,30 @@
 
 document.addEventListener('DOMContentLoaded', function() {
-	var compareBtn = document.getElementById('compare-btn');
-	var svgPlaceholder = document.getElementById('svg-placeholder');
-	var closeSvgViewBtn = document.getElementById('close-svg-view');
+	var compareCheckbox = document.getElementById('fabToggle'); // Assuming this is now the ID of your checkbox
+var svgPlaceholder = document.getElementById('svg-placeholder');
+var closeSvgViewCheckbox = document.getElementById('close-svg-view'); // Assuming this is now a checkbox too
 
-	// Show the SVG placeholder when the Compare button is clicked
-	compareBtn.addEventListener('click', function() {
+// Toggle the SVG placeholder based on the checkbox state
+compareCheckbox.addEventListener('change', function() {
+	if(compareCheckbox.checked) {
 		svgPlaceholder.style.display = 'flex';
         document.body.classList.add('no-scroll');
-	});
-
-	// Hide the SVG placeholder when the close button is clicked
-	closeSvgViewBtn.addEventListener('click', function() {
+	} else {
 		svgPlaceholder.style.display = 'none';
         document.body.classList.remove('no-scroll');
-	});
+	}
+});
+
+// Optionally, if closeSvgViewCheckbox is a separate control to hide the SVG,
+// it should uncheck the compareCheckbox.
+closeSvgViewCheckbox.addEventListener('change', function() {
+	if(!closeSvgViewCheckbox.checked) {
+		compareCheckbox.checked = false; // Uncheck the compare checkbox
+		svgPlaceholder.style.display = 'none';
+        document.body.classList.remove('no-scroll');
+	}
+});
+
 });
 
 
