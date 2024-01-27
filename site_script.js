@@ -54,6 +54,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var svgPlaceholder = document.getElementById('svg-placeholder');
     closeBtn.addEventListener('click', function() {
         svgPlaceholder.style.display = 'none';
+        // Clear existing chart
+        d3.select("#stacked-bar-chart").selectAll("*").remove();
+        d3.select("#grouped-bar-chart").selectAll("*").remove();
     });
 
     // Initial tab active state
