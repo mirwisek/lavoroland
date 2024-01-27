@@ -654,16 +654,13 @@ function getCheckedCountries() {
 const button = d3.select("#compare-btn");
 button.on("click", getCheckedCountries);
 
-var margin = {top: 20, right: 20, bottom: 130, left: 50},
-width = 460 - margin.left - margin.right,
-height = 400 - margin.top - margin.bottom;
-
 async function plot_health(checkedCountries) {
     try {
         // Load CSV files
-        const [insurance_data, indexes] = await Promise.all([
+        const [insurance_data, indexes, countries] = await Promise.all([
             d3.csv("./data/insurance_proportion.csv"),
-            d3.csv("./data/health_indexes.csv")
+            d3.csv("./data/health_indexes.csv"),
+            d3.csv("./data/countries.csv")
         ]);
 
         // console.log("data", data);
@@ -687,7 +684,7 @@ async function plot_health(checkedCountries) {
         // console.log(filteredData)
 
         // Plot the Health section on the tab
-        createMarimekkoChart(filteredData, subgroups);
+        createMarimekkoChart(filteredData, subgroups, countries);
 
         // Get unique country names
         var uniqueNames = d3.map(insurance_data, function(d) {
@@ -714,7 +711,11 @@ async function plot_health(checkedCountries) {
  * @param {Array} filteredData - Data of only the countries to plot
  * @param {Array} subgroups - column names
  */
-const createMarimekkoChart = (filteredData, subgroups) => {
+const createMarimekkoChart = (filteredData, subgroups, countries) => {
+    var margin = {top: 20, right: 120, bottom: 130, left: 50},
+        width = 560 - margin.left - margin.right,
+        height = 460 - margin.top - margin.bottom;
+
     // append the svg object to the body of the page
     var svg = d3.select("#stacked-bar-chart")
     .append("svg")
@@ -769,40 +770,29 @@ const createMarimekkoChart = (filteredData, subgroups) => {
     });
     console.log('subgroups', subgroups);
 
-    // Define additional subgroups for legend
-    let legendSubgroups = [
-        "Other Insurances",
-        "Public Insurance",
-        "Private Insurance",
-        "Insured by Employer"];
+    // Define more readable text for labels
+    let keyToLegendLabel = {
+        "percentage_insurance_employer":"Insured by Employer",
+        "percentage_insurance_private":"Private Insurance",
+        "percentage_insurance_public":"Public Insurance",
+        "percentage_insurance_none":"Other Insurances"
+    };
 
-    // Legend circles
-    svg.selectAll(".legend-dots")
-       .data(legendSubgroups)
-       .enter()
-       .append("circle")
-           .attr("cx", 10)
-           .attr("cy", (d, i) => 280 + i * 20)
-           .attr("r", 7)
-           .style("fill", color);
-
-    // Legend labels
-    svg.selectAll(".legend-labels")
-        .data(legendSubgroups)
-        .enter()
-        .append("text")
-            .attr("x", 30)
-            .attr("y", (d, i) => 280 + i * 20)
-            .style("fill", color)
-            .text(d => d)
-            .attr("text-anchor", "left")
-            .style("font-size", "12px")
-            .style("alignment-baseline", "middle");
+    // Sort subgroups by the value of the first country
+    let subgroupSums = subgroups.map(subgroup => {
+        return {
+            subgroup: subgroup,
+            total: filteredData[0][subgroup]
+        };
+    });
+    
+    subgroupSums.sort((a, b) => b.total - a.total);
+    console.log('subgroupSums', subgroupSums);
+    subgroups = subgroupSums.map(d => d.subgroup);
 
     // Stack the data by subgroups
     let stackedData = d3.stack()
                         .keys(subgroups)(filteredData);
-
     // Create the bars
     svg.append("g")
         .selectAll("g")
@@ -810,39 +800,65 @@ const createMarimekkoChart = (filteredData, subgroups) => {
         .enter().append("g")
             .attr("fill", d => color(d.key))
         .selectAll("rect")
-        .data(d => d)
+        .data(d => d.map(item => ({ ...item, key: d.key })))
         .enter().append("rect")
             .attr("x", d => x(d.data.name))
             .attr("y", d => y(d[1]))
             .attr("height", d => y(d[0]) - y(d[1]))
-            .attr("width", x.bandwidth());
+            .attr("width", x.bandwidth())
+            // Add tooltip
+            .on("mouseover", function(event, d) {
+                d3.select("#tooltip")
+                  .style("opacity", 1)
+                  .html(`${keyToLegendLabel[d.key]}:  <strong>${(d[1] - d[0]).toFixed(2)}</strong>`)
+                  .style("left", (event.pageX + 10) + "px")
+                  .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function() {
+                d3.select("#tooltip").style("opacity", 0);});
     
-    // Add tooltip
-    svg.append("g")
-    .selectAll("g")
-    // Enter in the stack data = loop key per key = group per group
-    .data(stackedData)
-    .enter().append("g")
-        .attr("fill", d => color(d.key))
-    .selectAll("rect")
-    // enter a second time = loop subgroup per subgroup to add all rectangles
-    .data(function(d) { return d; })
-    .enter().append("rect")
-        .attr("x", d => x(d.data.name))
-        .attr("y", d => y(d[1]))
-        .attr("height", d => y(d[0]) - y(d[1]))
-        .attr("width", x.bandwidth())
-        // Tooltip interactivity
-        .on("mouseover", function(event, d) {
-            d3.select("#tooltip")
-              .style("opacity", 1)
-              .html(`<br>Source: ${d.key}<br>Value: ${d[1] - d[0]}`)
-              .style("left", (event.pageX + 10) + "px")
-              .style("top", (event.pageY - 28) + "px");
-        })
-        .on("mouseout", function() {
-            d3.select("#tooltip").style("opacity", 0);
-        });
+    const countryNames = new Set(filteredData.map(d => d.name));
+    const relevantCountries = countries.filter(country => countryNames.has(country.country));
+
+    const flagSize = 30;
+    const flagYPosition = height + margin.bottom - flagSize - 135;
+    svg.append("g").selectAll("image")
+                    .data(relevantCountries)
+                    .enter()
+                    .append("image")
+                        .attr("xlink:href", d => d.flag)
+                        .attr("x", d => x(d.country) + x.bandwidth() / 2 - flagSize / 2) // Center the flag under each bar
+                        .attr("y", flagYPosition) // Adjust this to position the flags below the x-axis
+                        .attr("width", flagSize)
+                        .attr("height", flagSize);
+
+    let reversedSubgroups = [...subgroups].reverse();
+    
+    const legendXStart = width + margin.left - 50;
+    const legendYStart = 10;
+
+    // Legend circles
+    svg.selectAll(".legend-dots")
+       .data(reversedSubgroups)
+       .enter()
+       .append("circle")
+           .attr("cx", legendXStart)
+           .attr("cy", (d, i) => legendYStart + i * 20)
+           .attr("r", 7)
+           .style("fill", color);
+    
+    // Legend labels
+    svg.selectAll(".legend-labels")
+        .data(reversedSubgroups)
+        .enter()
+        .append("text")
+            .attr("x", legendXStart + 20)
+            .attr("y", (d, i) => legendYStart + i * 20)
+            .style("fill", color)
+            .text(d => keyToLegendLabel[d])
+            .attr("text-anchor", "left")
+            .style("font-size", "12px")
+            .style("alignment-baseline", "middle");
 }
 
 const createGroupedBarChart = (filteredData, subgroups) => {
@@ -892,7 +908,7 @@ const createGroupedBarChart = (filteredData, subgroups) => {
         .range(['#e41a1c','#377eb8','#4daf4a'])
 
     //stack the data? --> stack per subgroup
-    var stackedData = d3.stack()
+    let stackedData = d3.stack()
         .keys(subgroups)
         (filteredData);
     
