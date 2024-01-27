@@ -37,8 +37,8 @@
   font-size: 0.8em;
   animation: spreadFlags 0.5s ease-out forwards;
   position: relative;
-  background-size: 35px 30px; /* Cover the entire div */
-  background-position: 5px 0; /* Adjust the left margin */
+  background-size: 30px 30px; /* Cover the entire div */
+  background-position: 5px 5px; /* Adjust the left margin */
   background-repeat: no-repeat; /* Ensure the image doesn't repeat */
 }
 
@@ -87,7 +87,7 @@
 }*/
 
 .country-name {
-  margin-left: 45px; 
+  margin-left: 40px; 
   font-size: 1em; 
   color: #000; 
   align-self: flex-start; /* Align the name to the top of the div */
