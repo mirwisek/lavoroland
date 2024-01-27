@@ -651,7 +651,7 @@ function getCheckedCountries() {
     plot_health(checkedCountries);
 }
 
-const button = d3.select("#compare-btn");
+const button = d3.select("#fabToggle");
 button.on("click", getCheckedCountries);
 
 async function plot_health(checkedCountries) {
@@ -683,8 +683,9 @@ async function plot_health(checkedCountries) {
         // Plot Particular Expenses for the selected countries as Grouped Bar Chart
         // Leave only the data for expenses and for the chosen countries
         // 1, 18,  
+        console.log("prices", prices);
         var filteredPrices = prices.filter(function(d) {
-            if ((checkedCountries.findIndex(element => element.includes(d["country"])) !== -1) && !["105","26","27"].includes(d.item_id)) {
+            if ((checkedCountries.findIndex(element => element.includes(d["country"])) !== -1) && !["105.0","26.0","27.0","18.0"].includes(d.item_id)) {
                 return d;
             }
         });
@@ -728,7 +729,7 @@ async function plot_health(checkedCountries) {
 }
 
 const createGroupedBarChart = (subgroups, groups, data, countries) => {
-    var margin = {top: 20, right: 20, bottom: 20, left: 100},
+    var margin = {top: 20, right: 20, bottom: 20, left: 120},
         width = 560 - margin.left - margin.right,
         height = 460 - margin.top - margin.bottom;
 
@@ -830,7 +831,6 @@ const createGroupedBarChart = (subgroups, groups, data, countries) => {
             .attr("dy", ".35em")
             .style("text-anchor", "start")
             .text(subgroup);});
-
 }
 
 /**
