@@ -68,13 +68,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // Close button functionality
-    var closeBtn = document.getElementById('close-svg-view');
+    var closeBtn = document.getElementById('fabToggle');
     var svgPlaceholder = document.getElementById('svg-placeholder');
     closeBtn.addEventListener('click', function() {
+
         svgPlaceholder.style.display = 'none';
         // Clear existing chart
         d3.select("#stacked-bar-chart").selectAll("*").remove();
         d3.select("#grouped-bar-chart").selectAll("*").remove();
+
+        var expensesDiv = document.getElementById("expenses-checkboxes");
+        if (expensesDiv) {
+            expensesDiv.innerHTML = ""; // This will remove the content inside the div
+}
     });
 
     // Initial tab active state
