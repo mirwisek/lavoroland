@@ -135,16 +135,6 @@
 						<div class="salary-range-filter">
 							<div class="filter-title">Average monthly net salary (after tax)</div>
 
-							<div class="crosswidget" id="sepal-width">
-								<div class="crosswidget-title">
-								  <span>sepal width</span>
-								  <span class="undo" style="cursor: pointer;">
-									<i class="fa fa-undo"></i>
-								  </span>
-								</div>
-								<div class="crosswidget-body"></div>
-							</div>
-
 							<div class="range-slider">
 								<div id="slider-track-salary"></div>
 								<input type="range" id="salary-range-min" min="0" max="5000" value="0" class="slider" />
@@ -231,7 +221,11 @@
 										<h2>Health Insurance Sources</h2>
 
 										<div id="stacked-bar-chart" class=""></div>
-										<div id="tooltip" style="position: absolute; opacity: 0; pointer-events: none; background-color: white; border: solid 1px #dcdcdc; padding: 5px; border-radius: 5px;"></div>
+										<!-- <div id="tooltip-stacked" class="z-60" style="position: absolute; opacity: 0; pointer-events: none; background-color: white; border: solid 1px #dcdcdc; padding: 5px; border-radius: 5px;"></div> -->
+										<div id="tooltip-stacked" role="tooltip" class="absolute z-100 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+											Tooltip content
+											<div class="tooltip-arrow" data-popper-arrow></div>
+										</div>
 									</div>
 								</article>	
 								
@@ -239,6 +233,8 @@
 								<article id="article-4" class="w-full bg-white" >
 									<div id="Health" class="w-[70%] max-h-[680px] mx-auto">
 										<div id="grouped-bar-chart" class=""></div>
+										<div id="expenses-checkboxes" class=""></div>
+										<div id="tooltip-grouped" style="position: absolute; opacity: 0; pointer-events: none; background-color: white; border: solid 1px #dcdcdc; padding: 5px; border-radius: 5px;"></div>
 
 										<div id="tester" style="width:600px;height:250px;"></div>
 									</div>
