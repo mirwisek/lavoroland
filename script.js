@@ -990,10 +990,9 @@ const createMarimekkoChart = (filteredInsurance, subgroups, countries) => {
             .attr("y", d => y(d[1]))
             .attr("height", d => y(d[0]) - y(d[1]))
             .attr("width", x.bandwidth())
-            .attr("data-tooltip-target","tooltip-default")
             // Add tooltip
             .on("mouseover", function(event, d) {
-                console.log("marimekko d: ", d);
+                // console.log("marimekko d: ", d);
                 d3.select("#tooltip-stacked")
                   .style("opacity", 1)
                   .html(`${keyToLegendLabel[d.key]}:  <strong>${(d[1] - d[0]).toFixed(2)}</strong>`)
