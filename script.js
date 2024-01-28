@@ -857,15 +857,16 @@ const createGroupedBarChart = (subgroups, groups, data) => {
             .attr("fill", function(d) { return color(d.key); })
             // Add tooltip
             .on("mouseover", function(event, d) {
-                console.log("stacked d: ", d);
                 let value = parseFloat(d.value);
+                console.log("stacked d: ", `${d.key}: <strong>\u20AC${(value).toFixed(2)}</strong>`);
                 d3.select("#tooltip-grouped")
-                .style("opacity", 1)
-                .html(`${d.key}: <strong>\u20AC${(value).toFixed(2)}</strong>`)
-                .style("left", (event.pageX + 5) + "px")
-                .style("top", (event.pageY - 5) + "px");
+                    .style("opacity", 1)
+                    .html(`${d.key}: <strong>\u20AC${(value).toFixed(2)}</strong>`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY + 10) + "px");
             })
             .on("mouseout", function() {
+                console.log("Mouseout event triggered.");
                 d3.select("#tooltip-grouped").style("opacity", 0);
             });
     
@@ -992,10 +993,10 @@ const createMarimekkoChart = (filteredInsurance, subgroups, countries) => {
             .attr("width", x.bandwidth())
             // Add tooltip
             .on("mouseover", function(event, d) {
-                // console.log("marimekko d: ", d);
+                console.log("marimekko d: ", d);
                 d3.select("#tooltip-stacked")
                   .style("opacity", 1)
-                  .html(`${keyToLegendLabel[d.key]}:  <strong>${(d[1] - d[0]).toFixed(2)}</strong>`)
+                  .html(`${keyToLegendLabel[d.key]}:  <strong>${(d[1] - d[0]).toFixed(2)}%</strong>`)
                   .style("left", (event.pageX + 10) + "px")
                   .style("top", (event.pageY - 28) + "px");
             })
