@@ -446,7 +446,7 @@
   overflow-y: auto; /* or 'scroll' depending on your needs */
   /* max-height: 90vh;  Adjust based on your design */
   position: fixed; /* or 'absolute', centered via CSS */
-  z-index: 1000; /* Ensure it's above other content */
+  z-index: 100; /* Ensure it's above other content */
   width: 96%; 
 	height: 96%; 
 	background: rgb(246, 251, 255); /* For visibility */
@@ -567,7 +567,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 200;
 }
 
 .fab-button {
@@ -663,4 +663,37 @@
   -moz-user-select: none;     /* Firefox */
   -ms-user-select: none;      /* Internet Explorer/Edge */
   user-select: none;          /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+/**
+  * Sankey Compensation styles
+  */
+
+.node rect {
+  cursor: move;
+  fill-opacity: .9;
+  shape-rendering: crispEdges;
+}
+
+.node text {
+    pointer-events: none;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.link {
+    fill: none;
+    stroke-opacity: .4;
+}
+
+.link:hover {
+    stroke-opacity: .5;
+}
+
+/**
+  * Bottom Charts Nav Bar
+  */
+
+.border-opacity {
+  /* --tw-border-opacity: 0.2; */
+  border-color: rgba(191, 219, 254, 0.5);
 }

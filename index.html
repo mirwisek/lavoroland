@@ -196,59 +196,29 @@
 					<!-- Embedded page -->
 					<div x-data="{ activeTab: 1 }">
 
-						<!-- Buttons -->
-						<div class="flex justify-center">
-							<div class="max-[480px]:max-w-[180px] inline-flex flex-wrap justify-center bg-slate-200 rounded-[20px] p-1 mb-4 min-[480px]:mb-12">
-					
-								<button
-									id="tab-1"
-									class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
-									:class="activeTab === 1 ? 'bg-white text-slate-900' : 'text-slate-600 hover:text-slate-900'"
-									@click="activeTab = 1"
-								>Wages</button>
-								<button
-									id="tab-2"
-									class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
-									:class="activeTab === 2 ? 'bg-white text-slate-900' : 'text-slate-600 hover:text-slate-900'"
-									@click="activeTab = 2"
-								>Healthcare</button>
-								
-							</div>
-						</div>
-					
+						
 						<!-- Tab panels -->
-						<div class="max-w-full mx-h-full overflow-y-auto">
+						<div class="max-w-full mx-h-full">
 							<div class="relative flex flex-col">
 
 								<!-- Panel #1 -->
-								<article
-								id="tabpanel-1"
-								class="w-full bg-white rounded-2xl shadow-xl min-[480px]:flex items-stretch focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300"
-								x-show="activeTab === 1"
-								x-transition:enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 transform order-first"
-								x-transition:enter-start="opacity-0 -translate-y-8"
-								x-transition:enter-end="opacity-100 translate-y-0"
-								x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-300 transform absolute"
-								x-transition:leave-start="opacity-100 translate-y-0"
-								x-transition:leave-end="opacity-0 translate-y-12" >
-										<div class="w-[70%] max-h-[680px] mx-auto">
+								<article id="article-1" class="w-full bg-white">
+										<div class="w-[70%] mx-auto">
 											<h2 class="jobs-title text-center">Average yearly compensation for IT roles in Europe [2023]</h2>
-										<div id="multi-bar-chart" class="relative z-10  mx-auto"></div>
+										<div id="multi-bar-chart" class="relative z-20  mx-auto"></div>
 									</div>
 								</article>
-								<!-- Panel #2 -->
 
-								<article
-									id="tabpanel-2"
-									class="w-full bg-white rounded-2xl shadow-xl min-[480px]:flex items-stretch focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300"
-									x-show="activeTab === 2"
-									x-transition:enter="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-700 transform order-first"
-									x-transition:enter-start="opacity-0 -translate-y-8"
-									x-transition:enter-end="opacity-100 translate-y-0"
-									x-transition:leave="transition ease-[cubic-bezier(0.68,-0.3,0.32,1)] duration-300 transform absolute"
-									x-transition:leave-start="opacity-100 translate-y-0"
-									x-transition:leave-end="opacity-0 translate-y-12"                        
-								>
+								<!-- Panel #2 -->
+								<article id="article-2" class="w-full bg-white" >
+									<div class="w-[70%] mx-auto">
+										<h2 class="jobs-title text-center">Break down of payrange per multiple criterias</h2>
+										<div id="sankey-compensation-chart" class="relative z-20  mx-auto"></div>
+									</div>
+								</article>
+								
+								<!-- Panel #3 -->
+								<article id="article-3" class="w-full bg-white" >
 									<div id="Health" class="w-[70%] max-h-[680px] mx-auto">
 
 										<div class="container">
@@ -262,16 +232,55 @@
 
 										<div id="stacked-bar-chart" class=""></div>
 										<div id="tooltip" style="position: absolute; opacity: 0; pointer-events: none; background-color: white; border: solid 1px #dcdcdc; padding: 5px; border-radius: 5px;"></div>
-
-
+									</div>
+								</article>	
+								
+								<!-- Panel #4 -->
+								<article id="article-4" class="w-full bg-white" >
+									<div id="Health" class="w-[70%] max-h-[680px] mx-auto">
 										<div id="grouped-bar-chart" class=""></div>
 
 										<div id="tester" style="width:600px;height:250px;"></div>
 									</div>
-								</article>			
+								</article>	
+							</div>
+						</div>	
+						
+						
+						<!-- Buttons -->
+						<div class="fixed bottom-1 left-0 right-0 z-50">
+							<div class="flex justify-center">
+								<div class="max-[480px]:max-w-[180px] inline-flex flex-wrap justify-center bg-blue-500 rounded-[30px] ring-4  ring-blue-400/50 p-1 mb-4 min-[480px]:mb-12">
+						
+									<button
+										id="tab-1" data-scroll="#article-1"
+										class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
+										:class="activeTab === 1 ? 'bg-white text-slate-900' : 'text-white hover:text-slate-900'"
+										@click="activeTab = 1"
+									>Wages</button>
+									<button
+										id="tab-2" data-scroll="#article-2"
+										class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
+										:class="activeTab === 2 ? 'bg-white text-slate-900' : 'text-white hover:text-slate-900'"
+										@click="activeTab = 2"
+									>Compensation</button>
+									<button
+										id="tab-3" data-scroll="#article-3"
+										class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
+										:class="activeTab === 3 ? 'bg-white text-slate-900' : 'text-white hover:text-slate-900'"
+										@click="activeTab = 3"
+									>Healthcare</button>
+									<button
+										id="tab-4" data-scroll="#article-4"
+										class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
+										:class="activeTab === 4 ? 'bg-white text-slate-900' : 'text-white hover:text-slate-900'"
+										@click="activeTab = 4"
+									>Expenditures</button>
+									
+								</div>
 							</div>
 						</div>
-					
+
 					</div>
 				</div>
 				<button id="close-svg-view" class="close-svg-button">
@@ -298,6 +307,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 	<script src="crosswidget.js"></script>
 	<script type="module" src="./jobs_compare/script.js"></script>
+	<script type="module" src="./sankey-compensation/sankey.js"></script>
 	<script src="./site_script.js"></script>
 	<script src="./script.js"></script>
 	<script>

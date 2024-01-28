@@ -42,7 +42,6 @@ export function createTheMultiBarChart() {
       devType: d.DevType,
       country: d.Country
     })).then(data => {
-      console.log(data)
   
       /**
        * Some filtering, followed by average-calcualation for salaries, followed by sorting
@@ -58,10 +57,6 @@ export function createTheMultiBarChart() {
       // Filter out countries with compTotal === 0 from dataML and dataDA
       const dataDA = averageCompTotal(groupedDataDA).filter(d => d.compTotal !== 0)
       const dataML = averageCompTotal(groupedDataML).filter(d => d.compTotal !== 0)
-
-      
-      console.log("dataDA:", dataDA);
-      console.log("dataML:", dataML);
   
       // Extract unique countries from dataML and dataDA
       const countriesML = new Set(dataML.map(d => d.country));
@@ -111,13 +106,6 @@ const createBarChart = (dataDA, dataML, colors) => {
 
   const positiveMax = Math.max(maxDA, maxML)
   const extent = [-positiveMax, positiveMax]
-
-  
-
-  console.log("dataDA:", dataDA);
-  console.log("dataML:", dataML);
-  console.log("positiveMax:", positiveMax);
-  console.log("extent:", extent);
 
   // Create the positional scales.
   const x = d3.scaleLinear()
@@ -202,7 +190,6 @@ const createBarChart = (dataDA, dataML, colors) => {
 
   xAxisValues.forEach(i => {
     if (i != 0) { // Skip the center i.e. 0 index, since we'll draw another straight line on top of bars
-      console.log(`For ${i} the value of x: ${x(i)}`)
       // Dotted Quartile Line
       svg.append("line")
         .attr("x1", x(i))
@@ -292,7 +279,6 @@ function addLegendLabel(svg, x, text, posDA, gradientId, textColor) {
   const boxPadding = [20, 30] // v, h
   const topMarginLegend = 22
 
-  console.log('POS DA: ', x(posDA))
   // console.log('POS DA: ', x(posDS))
 
   // const legendDABox = svg.append("rect")
