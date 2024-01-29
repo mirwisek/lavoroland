@@ -759,6 +759,14 @@ const createGroupedBarChart = (subgroups, groups, data, textFontSize) => {
         .domain([0, maxValue+20])
         .range([0, width]);
 
+    // Add X axis label
+    svg.append("text")
+        .attr("x", width / 2) // Adjust the x-coordinate as needed
+        .attr("y", height + margin.top + 40) // Adjust the y-coordinate as needed
+        .style("text-anchor", "middle") // Center the text horizontally
+        .style("font-size", textFontSize)
+        .text("Cost in Euros \u20AC");
+
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x))
