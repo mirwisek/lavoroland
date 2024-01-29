@@ -1,28 +1,32 @@
 import "./sankey_setup.js";
 
-
 // Helper function to generate a unique identifier
 function generateUID() {
     return Math.random().toString(36).substr(2, 9);
 }
 
 // set the dimensions and margins of the graph
+// const legendWidth = 200;
+const absoluteWidth = 1000;
 var margin = { top: 10, right: 10, bottom: 10, left: 10 },
-width = 1000 - margin.left - margin.right,
-height = 700 - margin.top - margin.bottom;
+width = absoluteWidth - margin.left - margin.right,
+height = 500 - margin.top - margin.bottom;
+// chartEnd = absoluteWidth - legendWidth;
 
 // format variables
 var formatNumber = d3.format(",.0f"),    // zero decimal places
-format = function (d) { return formatNumber(d) + " Euro"; },
+format = function (d) { return formatNumber(d) + " €"; },
 color = d3.scaleOrdinal(d3.schemeCategory10);
 
 // append the svg object to the body of the page
-const svg = d3.select("#sankey-compensation-chart").append("svg")
-.attr("width", width + margin.left + margin.right)
-.attr("height", height + margin.top + margin.bottom)
-.append("g")
-.attr("transform",
-"translate(" + margin.left + "," + margin.top + ")");
+// const svg = d3.select("#sankey-compensation-chart").append("svg")
+// .attr("width", width + margin.left + margin.right)
+// .attr("height", height + margin.top + margin.bottom)
+// .append("g")
+// .attr("transform",
+// "translate(" + margin.left + "," + margin.top + ")");
+
+
 // .attr("viewBox", [0, 0, width, extraHeight])
 // .attr("style", "max-width: 100%; height: auto; font: 10px sans-serif;");
 
@@ -32,24 +36,59 @@ var sankey = d3.sankey()
 .nodePadding(40)
 .size([width, height]);
 
+console.log(d3.sankey())
+
 var path = sankey.link();
 
+var csvData = null;
+var svg = null;
+
+
+export function createSankeyChart(filtered_countries) {
+    console.log("Creating Sankey chart");
+    // Check if SVG already exists, if not create one
+    const svgContainer = d3.select("#sankey-compensation-chart");
+    svg = svgContainer.select("svg");
+    if (svg.empty()) {
+        console.log("empty Sankey chart");
+        svg = svgContainer.append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    } else {
+        console.log("***");
+        // Clear the existing content in the SVG
+        svg.selectAll("*").remove();
+    }
+    
+    if (csvData == null) {
+        // Load data once
+        d3.csv("./data/compensation-sankey.csv").then(data => {
+            csvData = data; // Store the loaded data
+            drawSankeyChart(csvData, filtered_countries); // Initial set of countries
+        });
+    }
+    else 
+        drawSankeyChart(csvData, filtered_countries);
+}
+
 // load the data
-export function createSankeyChart() {
-    d3.csv("./data/compensation-sankey.csv").then( data => {
+function drawSankeyChart(data, filtered_countries) {
     
     //set up graph in same style as original example but empty
     let graph = { "nodes": [], "links": [] };
     
     console.log(data)
     
-    data = data.filter(d => ["France", "Spain", "Finland", "Germany"].includes(d.Country));
-    data = data.slice(0, 60);
+    // data = data.filter(d => ["France", "Spain", "Finland", "Germany"].includes(d.Country));
+    data = data.filter(d => filtered_countries.includes(d.Country));
+    data = data.slice(0, 70);
     
     // Create nodes and links for the Sankey diagram
     data.forEach(d => {
         // const stages = [d.Country, d.Employment, d.EdLevel, d.DevCategory, d.DevType, d.CompRange];
-        const stages = [d.Country, d.Employment, d.EdLevel, d.DevCategory, d.CompRange];
+        const stages = [d.Country, d.Employment, d.EdLevel, d.CompRange];
         stages.forEach((stage, i) => {
             if (i < stages.length - 1) {
                 graph.nodes.push({ "name": stage });
@@ -144,6 +183,7 @@ export function createSankeyChart() {
     .append("title")
     .text(d => `${d.name}\n${format(d.value)}`);
     
+    
     // add in the title for the nodes
     node.append("text")
     .attr("x", -6)
@@ -155,6 +195,16 @@ export function createSankeyChart() {
     .filter(function (d) { return d.x < width / 2; })
     .attr("x", 6 + sankey.nodeWidth())
     .attr("text-anchor", "start");
+
+    // Add compensation label at the end
+
+    // const legendDALabel = svg.append("text")
+    // .attr("x", chartEnd)
+    // .attr("y", height / 2)
+    // .attr("font-size", 10)
+    // .attr("font-family", "Montserrat, sans-serif")
+    // .attr("fill", "#000")
+    // .text("Compensation in €");
     
     // the function for moving the nodes
     
@@ -170,7 +220,6 @@ export function createSankeyChart() {
             sankey.relayout();
             svg.selectAll("path")
             .attr("d", path);
-        }
+    }
         
-    });
 }
