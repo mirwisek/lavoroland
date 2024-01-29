@@ -41,6 +41,7 @@ export function drawHistogramPlot(dataFile, containerId, chartWidth = 300, chart
 
         const defaultSelection = x.range()
 
+
         // Append the bar rectangles to the svg element
         svg.selectAll("rect")
             .data(data)
@@ -104,6 +105,7 @@ export function drawHistogramPlot(dataFile, containerId, chartWidth = 300, chart
             }
         }
 
+
         function brushended({selection}) {
             const target = d3.select(containerId)
             // If the user made a selection
@@ -133,17 +135,41 @@ export function drawHistogramPlot(dataFile, containerId, chartWidth = 300, chart
         // Add interactive hints
 
         // Append a vertical line to the chart
-        // var verticalLine = svg.append("line")
-        //     .attr("opacity", 0) // Initially hidden
-        //     .attr("y1", 0)
-        //     .attr("y2", height)
-        //     .attr("stroke", "white")
-        //     .attr("stroke-width", 2);
+        var verticalLine = svg.append("line")
+            .attr("opacity", 0) // Initially hidden
+            .attr("y1", 0)
+            .attr("y2", height)
+            .attr("stroke", "white")
+            .attr("stroke-width", 2);
 
-        // // Append a tooltip div to the body
-        // var tooltip = d3.select("body").append("div")
-        //     .attr("class", "tooltip")
-        //     .style("opacity", 0);
+        // Append a tooltip div to the body
+        var tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        // target.on("mousemove.tooltip", function(event) {
+        //     console.log("Mouse move event");
+        //     var x0 = d3.pointer(event, this)[0]; // Get the x position of the cursor
+        //     var y0 = d3.pointer(event, this)[1]; // Get the y position of the cursor
+            
+        //     // Update the vertical line position
+        //     verticalLine.attr("opacity", 1)
+        //         .attr("transform", `translate(${x0},0)`);
+    
+        //     // Get the corresponding y value for the x position
+        //     var yValue = 30
+    
+        //     // Update the tooltip content and position
+        //     tooltip.html("Value: " + yValue)
+        //         .style("opacity", 1)
+        //         .style("left", (x0 > width / 2 ? (event.pageX - 100) : (event.pageX + 10)) + "px")
+        //         .style("top", (event.pageY - 28) + "px");
+        // })
+        // .on("mouseout.tooltip", function() {
+        //     // Hide the line and tooltip when not hovering
+        //     verticalLine.attr("opacity", 0);
+        //     tooltip.style("opacity", 0);
+        // });
 
     }).catch(error => {
         console.error("Error:", error);
