@@ -1,6 +1,9 @@
 # student-job-destinations
 An analytical tool to help find graduate students their ideal EU destination for work
 
+<img src="raw/members.png" width="60%">
+
+
 Authors:
 - [Daniel Huf](https://github.com/danielhuf)
 - [Mirwise Khan](https://github.com/mirwisek)
