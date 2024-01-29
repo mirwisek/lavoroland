@@ -628,7 +628,8 @@ async function plot_health(checkedCountries) {
         });
         let result = Object.values(groupedData);
 
-        createGroupedBarChart(checkedCountries, itemNames, groupedData, countries);
+        createGroupedBarChart(checkedCountries, itemNames, groupedData);
+        addCheckboxes(checkedCountries, itemNames, groupedData);
 
         // // // FOR PARALLEL COORDINATES
         // var filteredIndexes = insurance_data.filter(function(d) 
@@ -645,7 +646,49 @@ async function plot_health(checkedCountries) {
     }
 }
 
-const createGroupedBarChart = (subgroups, groups, data, countries) => {
+const addCheckboxes = (subgroups, groups, data) => {
+    var checkboxesDiv = d3.select("#expenses-checkboxes");
+    var row;
+
+    groups.forEach((group, index) => {
+        if (index % 3 === 0) {
+            row = checkboxesDiv.append("div").attr("class", "checkbox-row");
+        }
+
+        var label = row.append("label").style("margin-right", "10px");;
+        label.append("input")
+            .attr("type", "checkbox")
+            .attr("checked", true)
+            .attr("value", group)
+            .on("change", () => updateChart(subgroups, data));
+        label.append("span")
+            .text(group);
+    });
+};
+
+function updateChart(subgroups, data) {
+    console.log("updateChart data", data);
+    var activeGroups = [];
+    d3.selectAll("#expenses-checkboxes input[type='checkbox']").each(function() {
+        cb = d3.select(this);
+        grp = cb.property("value");
+
+        if(cb.property("checked")){
+            activeGroups.push(grp);
+        }
+    });
+    // data = data.filter(d => activeGroups.includes(d.group));
+
+    console.log("data active", activeGroups);
+    createGroupedBarChart(subgroups, activeGroups, data)
+}
+
+const createGroupedBarChart = (subgroups, groups, data) => {
+    // Remove existing bars before redrawing
+    d3.select("#grouped-bar-chart").selectAll("svg").remove();
+
+    data = data.filter(d => groups.includes(d.group));
+
     var margin = {top: 20, right: 20, bottom: 20, left: 120},
         width = 560 - margin.left - margin.right,
         height = 460 - margin.top - margin.bottom;
@@ -715,6 +758,7 @@ const createGroupedBarChart = (subgroups, groups, data, countries) => {
 
     // Show the bars
     svg.append("g")
+        .attr("class", "bar-group")
         .selectAll("g")
         .data(data)
         .enter()
@@ -723,11 +767,25 @@ const createGroupedBarChart = (subgroups, groups, data, countries) => {
         .selectAll("rect")
         .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
         .enter().append("rect")
-        .attr("y", function(d) { return ySubgroup(d.key); })
-        .attr("x", 0)
-        .attr("height", ySubgroup.bandwidth())
-        .attr("width", function(d) { return x(d.value); })
-        .attr("fill", function(d) { return color(d.key); });
+            .attr("y", function(d) { return ySubgroup(d.key); })
+            .attr("x", 0)
+            .attr("height", ySubgroup.bandwidth())
+            .attr("width", function(d) { return x(d.value); })
+            .attr("fill", function(d) { return color(d.key); })
+            // Add tooltip
+            .on("mouseover", function(event, d) {
+                let value = parseFloat(d.value);
+                console.log("stacked d: ", `${d.key}: <strong>\u20AC${(value).toFixed(2)}</strong>`);
+                d3.select("#tooltip-grouped")
+                    .style("opacity", 1)
+                    .html(`${d.key}: <strong>\u20AC${(value).toFixed(2)}</strong>`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY + 10) + "px");
+            })
+            .on("mouseout", function() {
+                console.log("Mouseout event triggered.");
+                d3.select("#tooltip-grouped").style("opacity", 0);
+            });
     
     // draw the legend
     var legend = svg.append("g")
@@ -852,14 +910,15 @@ const createMarimekkoChart = (filteredInsurance, subgroups, countries) => {
             .attr("width", x.bandwidth())
             // Add tooltip
             .on("mouseover", function(event, d) {
-                d3.select("#tooltip")
+                console.log("marimekko d: ", d);
+                d3.select("#tooltip-stacked")
                   .style("opacity", 1)
-                  .html(`${keyToLegendLabel[d.key]}:  <strong>${(d[1] - d[0]).toFixed(2)}</strong>`)
+                  .html(`${keyToLegendLabel[d.key]}:  <strong>${(d[1] - d[0]).toFixed(2)}%</strong>`)
                   .style("left", (event.pageX + 10) + "px")
                   .style("top", (event.pageY - 28) + "px");
             })
             .on("mouseout", function() {
-                d3.select("#tooltip").style("opacity", 0);});
+                d3.select("#tooltip-stacked").style("opacity", 0);});
     
     const countryNames = new Set(filteredInsurance.map(d => d.name));
     const relevantCountries = countries.filter(country => countryNames.has(country.country));
