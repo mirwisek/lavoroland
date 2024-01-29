@@ -1,7 +1,7 @@
 let pricesMap = new Map();
 let indicesMap = new Map();
 let countriesData = [];
-let minInputSalary, maxInputSalary, minInputRent, maxInputRent, minInputRentOutside, maxInputRentOutside;
+let minSalaryLabel, maxSalaryLabel, minRentInCityLabel, maxRentInCityLabel, minRentOutsideCityLabel, maxRentOutsideCityLabel;
 
 // Reference: https://colorbrewer2.org/#type=qualitative&scheme=Set1&n=5
 const indexColors = {
@@ -18,7 +18,7 @@ function createWeightBar(indicator) {
     const segments = container.selectAll(".bar-segment");
 
     // Initialize all segments to grey
-    segments.style("background-color", "grey");
+    segments.style("background-color", "rgb(156 163 175)");
 
     // Color only the first segment of each bar
     const firstSegment = container.select(".bar-segment:first-child");
@@ -29,7 +29,7 @@ function createWeightBar(indicator) {
         d3.select(this).on("click", function() {
             // On click, color the clicked segment and all previous segments with the original color and the next ones to grey
             segments.each(function(_, j) {
-                d3.select(this).style("background-color", j <= i ? indexColors[indicator] : "grey");
+                d3.select(this).style("background-color", j <= i ? indexColors[indicator] : "rgb(156 163 175)");
             });
             applyFilters();
         });
@@ -343,13 +343,24 @@ function updateWinner() {
 
 function applyFilters() {
     const weights = getWeights();
+    let minSalary, maxSalary, minRentIn, maxRentIn, minRentOut, maxRentOut;
 
-    const minSalary = parseInt(minInputSalary.value);
-    const maxSalary = parseInt(maxInputSalary.value);
-    const minRent = parseInt(minInputRent.value);
-    const maxRent = parseInt(maxInputRent.value);
-    const minRentOutside = parseInt(minInputRentOutside.value);
-    const maxRentOutside = parseInt(maxInputRentOutside.value);
+    try {
+        minSalary = Math.floor(parseFloat(minSalaryLabel.innerHTML)) || 0;
+        maxSalary = Math.floor(parseFloat(maxSalaryLabel.innerHTML)) || Infinity;
+        minRentIn = Math.floor(parseFloat(minRentInCityLabel.innerHTML)) || 0;
+        maxRentIn = Math.floor(parseFloat(maxRentInCityLabel.innerHTML)) || Infinity;
+        minRentOut = Math.floor(parseFloat(minRentOutsideCityLabel.innerHTML)) || 0;
+        maxRentOut = Math.floor(parseFloat(maxRentOutsideCityLabel.innerHTML)) || Infinity;
+    } catch (error) {
+        // Handle the error when innerHTML is not accessible
+        minSalary = 0;
+        maxSalary = Infinity;
+        minRentIn = 0;
+        maxRentIn = Infinity;
+        minRentOut = 0;
+        maxRentOut = Infinity;
+    }
 
     const countries = Array.from(d3.selectAll(".country").nodes());
 
@@ -366,14 +377,15 @@ function applyFilters() {
 
     const [filteredCountries, nonFilteredCountries] = countries.reduce((acc, countryElement) => {
         const countryData = pricesMap.get(d3.select(countryElement).datum().country);
-        const salary = countryData ? parseFloat(countryData["Average Monthly Net Salary (After Tax), Salaries And Financing"]) : 0;
 
-        const rent = countryData ? parseFloat(countryData["Apartment (1 bedroom) in City Centre, Rent Per Month"]) : 0;
-        const rentOutside = countryData ? parseFloat(countryData["Apartment (1 bedroom) Outside of Centre, Rent Per Month"]) : 0;
+        const salary = countryData ? Math.floor(parseFloat(countryData["Average Monthly Net Salary (After Tax), Salaries And Financing"])) : 0;
+        const rent = countryData ? Math.floor(parseFloat(countryData["Apartment (1 bedroom) in City Centre, Rent Per Month"])) : 0;
+        const rentOutside = countryData ? Math.floor(parseFloat(countryData["Apartment (1 bedroom) Outside of Centre, Rent Per Month"])) : 0;
 
+        
         const isWithinSalaryRange = salary >= minSalary && salary <= maxSalary;
-        const isWithinRentRange = rent >= minRent && rent <= maxRent;
-        const isWithinRentOutsideRange = rentOutside >= minRentOutside && rentOutside <= maxRentOutside;
+        const isWithinRentRange = rent >= minRentIn && rent <= maxRentIn;
+        const isWithinRentOutsideRange = rentOutside >= minRentOut && rentOutside <= maxRentOut;
 
         if (isWithinSalaryRange && isWithinRentRange && isWithinRentOutsideRange) {
             d3.select(countryElement).classed("grey-filter", false);
@@ -433,189 +445,85 @@ function updateRadarCharts(countries) {
 
 const defaultValues = {
     minSalary: 0,
-    maxSalary: 5000,
+    maxSalary: Infinity,
     minRent: 0,
-    maxRent: 2000,
+    maxRent: Infinity,
     minRentOutside: 0,
-    maxRentOutside: 2000
+    maxRentOutside: Infinity
 };
+
+function parseAttributeValues(id, minLabel, maxLabel) {
+    let histogram = document.getElementById(id);
+    salaries = histogram.getAttribute("data-default").split(",")
+    minLabel.innerHTML = parseInt(salaries[0])
+    maxLabel.innerHTML = parseInt(salaries[1])
+}
 
 function resetFilters() {
     // Reset sliders
-    const minSliderSalary = document.getElementById("salary-range-min");
-    const maxSliderSalary = document.getElementById("salary-range-max");
-    const minSliderRent = document.getElementById("rent-range-min");
-    const maxSliderRent = document.getElementById("rent-range-max");
-    const minSliderRentOutside = document.getElementById("rent-range-min-outside");
-    const maxSliderRentOutside = document.getElementById("rent-range-max-outside");
-
-    minSliderSalary.value = defaultValues.minSalary;
-    maxSliderSalary.value = defaultValues.maxSalary;
-    minSliderRent.value = defaultValues.minRent;
-    maxSliderRent.value = defaultValues.maxRent;
-    minSliderRentOutside.value = defaultValues.minRentOutside;
-    maxSliderRentOutside.value = defaultValues.maxRentOutside;
 
     // Reset number boxes
-    document.getElementById("salary-input-min").value = defaultValues.minSalary;
-    document.getElementById("salary-input-max").value = defaultValues.maxSalary;
-    document.getElementById("rent-input-min").value = defaultValues.minRent;
-    document.getElementById("rent-input-max").value = defaultValues.maxRent;
-    document.getElementById("rent-input-min-outside").value = defaultValues.minRentOutside;
-    document.getElementById("rent-input-max-outside").value = defaultValues.maxRentOutside;
-
-    // Update slider tracks
-    setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
-    setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
-    setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
+    parseAttributeValues('avgNetSalaryHistogram', minSalaryLabel, maxSalaryLabel)
+    parseAttributeValues('rentInCityHistogram', minRentInCityLabel, maxRentInCityLabel)
+    parseAttributeValues('rentOutsideCityHistogram', minRentOutsideCityLabel, maxRentOutsideCityLabel)
 
     applyFilters();
 }
 
-function setSliderTrack(minSlider, maxSlider, trackId) {
-    const min = Math.min(parseInt(minSlider.value), parseInt(maxSlider.value));
-    const max = Math.max(parseInt(minSlider.value), parseInt(maxSlider.value));
-    const percentMin = (min / maxSlider.max) * 100;
-    const percentMax = (max / maxSlider.max) * 100;
-    const track = document.getElementById(trackId);
-    track.style.background = `linear-gradient(to right, #ddd ${percentMin}% , #04339c ${percentMin}% , #04339c ${percentMax}%, #ddd ${percentMax}%)`;
+function parseAndAssignValuesHistogram(histogram, minLabel, maxLabel) {
+    let values = histogram.getAttribute("data-brushed");
+        // Sometimes a use can select a single bar, so we get single value instead of a range
+        // In that case we assign the same value to min and max
+        let [min, max] = values.split(",").map(value => parseInt(value.trim()));
+        if (isNaN(min)) {
+            min = max;
+        }
+        if (isNaN(max)) {
+            max = min;
+        }
+        
+        minLabel.innerHTML = min;
+        maxLabel.innerHTML = max;
 }
 
 document.addEventListener("DOMContentLoaded", function() {
     // Event listeners and slider initialization
-    const minSliderSalary = document.getElementById("salary-range-min");
-    const maxSliderSalary = document.getElementById("salary-range-max");
-    const minSliderRent = document.getElementById("rent-range-min");
-    const maxSliderRent = document.getElementById("rent-range-max");
-    const minSliderRentOutside = document.getElementById("rent-range-min-outside");
-    const maxSliderRentOutside = document.getElementById("rent-range-max-outside");
+    minSalaryLabel = document.getElementById("minSalaryLabel");
+    maxSalaryLabel = document.getElementById("maxSalaryLabel");
+    minRentInCityLabel = document.getElementById("minRentInCityLabel");
+    maxRentInCityLabel = document.getElementById("maxRentInCityLabel");
+    minRentOutsideCityLabel = document.getElementById("minRentOutsideCityLabel");
+    maxRentOutsideCityLabel = document.getElementById("maxRentOutsideCityLabel");
 
     // Initialize input elements
-    minInputSalary = document.getElementById("salary-input-min");
-    maxInputSalary = document.getElementById("salary-input-max");
-    minInputRent = document.getElementById("rent-input-min");
-    maxInputRent = document.getElementById("rent-input-max");
-    minInputRentOutside = document.getElementById("rent-input-min-outside");
-    maxInputRentOutside = document.getElementById("rent-input-max-outside");
+    salaryHistogram = document.getElementById("avgNetSalaryHistogram");
+    rentInCityHistogram = document.getElementById("rentInCityHistogram");
+    rentOutsideCityHistogram = document.getElementById("rentOutsideCityHistogram");
 
     // Initialize the weight bars with only the first segment colored
     initializeWeightBars();
 
     // Salary Range Event Listeners
-    minSliderSalary.addEventListener("input", function() {
-        if (parseInt(minSliderSalary.value) > parseInt(maxSliderSalary.value)) {
-            minSliderSalary.value = maxSliderSalary.value;
-        }
-        minInputSalary.value = minSliderSalary.value;
-        setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
+    salaryHistogram.addEventListener("input", function() {
+        parseAndAssignValuesHistogram(salaryHistogram, minSalaryLabel, maxSalaryLabel)
+        applyFilters();
     });
 
-    maxSliderSalary.addEventListener("input", function() {
-        if (parseInt(maxSliderSalary.value) < parseInt(minSliderSalary.value)) {
-            maxSliderSalary.value = minSliderSalary.value;
-        }
-        maxInputSalary.value = maxSliderSalary.value;
-        setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
+    // Rent in city Range Event Listeners
+    rentInCityHistogram.addEventListener("input", function() {
+        parseAndAssignValuesHistogram(rentInCityHistogram, minRentInCityLabel, maxRentInCityLabel)
+        applyFilters();
     });
 
-    // Rent Range Event Listeners
-    minSliderRent.addEventListener("input", function() {
-        if (parseInt(minSliderRent.value) > parseInt(maxSliderRent.value)) {
-            minSliderRent.value = maxSliderRent.value;
-        }
-        minInputRent.value = minSliderRent.value;
-        setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
+    // Rent outside city Range Event Listeners
+    rentOutsideCityHistogram.addEventListener("input", function() {
+        parseAndAssignValuesHistogram(rentOutsideCityHistogram, minRentOutsideCityLabel, maxRentOutsideCityLabel)
+        applyFilters();
     });
-
-    maxSliderRent.addEventListener("input", function() {
-        if (parseInt(maxSliderRent.value) < parseInt(minSliderRent.value)) {
-            maxSliderRent.value = minSliderRent.value;
-        }
-        maxInputRent.value = maxSliderRent.value;
-        setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
-    });
-
-    // Rent Outside Range Event Listeners
-    minSliderRentOutside.addEventListener("input", function() {
-        if (parseInt(minSliderRentOutside.value) > parseInt(maxSliderRentOutside.value)) {
-            minSliderRentOutside.value = maxSliderRentOutside.value;
-        }
-        minInputRentOutside.value = minSliderRentOutside.value;
-        setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
-    });
-
-    maxSliderRentOutside.addEventListener("input", function() {
-        if (parseInt(maxSliderRentOutside.value) < parseInt(minSliderRentOutside.value)) {
-            maxSliderRentOutside.value = minSliderRentOutside.value;
-        }
-        maxInputRentOutside.value = maxSliderRentOutside.value;
-        setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
-    });
-
-    // Update sliders when input values change
-    minInputSalary.addEventListener("input", function() {
-        if (parseInt(minInputSalary.value) > parseInt(maxInputSalary.value)) {
-            minInputSalary.value = maxInputSalary.value;
-        }
-        minSliderSalary.value = minInputSalary.value; 
-        setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
-    });
-
-    maxInputSalary.addEventListener("input", function() {
-        if (parseInt(maxInputSalary.value) < parseInt(minInputSalary.value)) {
-            maxInputSalary.value = minInputSalary.value;
-        }
-        maxSliderSalary.value = maxInputSalary.value; 
-        setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
-    });
-
-    minInputRent.addEventListener("input", function() {
-        if (parseInt(minInputRent.value) > parseInt(maxInputRent.value)) {
-            minInputRent.value = maxInputRent.value;
-        }
-        minSliderRent.value = minInputRent.value; 
-        setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
-    });
-
-    maxInputRent.addEventListener("input", function() {
-        if (parseInt(maxInputRent.value) < parseInt(minInputRent.value)) {
-            maxInputRent.value = minInputRent.value;
-        }
-        maxSliderRent.value = maxInputRent.value; 
-        setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
-    });
-
-    minInputRentOutside.addEventListener("input", function() {
-        if (parseInt(minInputRentOutside.value) > parseInt(maxInputRentOutside.value)) {
-            minInputRentOutside.value = maxInputRentOutside.value;
-        }
-        minSliderRentOutside.value = minInputRentOutside.value; 
-        setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
-    });
-
-    maxInputRentOutside.addEventListener("input", function() {
-        if (parseInt(maxInputRentOutside.value) < parseInt(minInputRentOutside.value)) {
-            maxInputRentOutside.value = minInputRentOutside.value;
-        }
-        maxSliderRentOutside.value = maxInputRentOutside.value; 
-        setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
-    });
+    
 
     document.getElementById("reset-filter-btn").addEventListener("click", resetFilters);
     document.getElementById("reset-weights-btn").addEventListener("click", initializeWeightBars);
-
-    // Initialize the slider tracks
-    setSliderTrack(minSliderSalary, maxSliderSalary, "slider-track-salary");
-    setSliderTrack(minSliderRent, maxSliderRent, "slider-track-rent");
-    setSliderTrack(minSliderRentOutside, maxSliderRentOutside, "slider-track-rent-outside");
-
-    // Get all slider elements
-    const sliders = document.querySelectorAll('#filter-box .slider');
-
-    // Add event listeners to each slider
-    sliders.forEach(slider => {
-        slider.addEventListener('change', applyFilters);
-    });
 
     // Get all number input elements within elements with class 'range-values'
     const numberInputs = document.querySelectorAll('.range-values input[type=number]');
@@ -649,10 +557,19 @@ function getCheckedCountries() {
     // console.log("Checked countries: ", checkedCountries);
     
     plot_health(checkedCountries);
+    plot_sankey_compensation(checkedCountries);
 }
 
 const button = d3.select("#fabToggle");
 button.on("click", getCheckedCountries);
+
+async function plot_sankey_compensation(checkedCountries) {
+
+    import('./sankey-compensation/sankey.js').then(d => {
+        console.log("checkedCountries", checkedCountries);
+        d.createSankeyChart(checkedCountries)
+    });
+}
 
 async function plot_health(checkedCountries) {
     try {
@@ -1053,3 +970,4 @@ const createParallelCoordinates = (data, dimensions) => {
         .text(function(d) { return d; })
         .style("fill", "black")
 }
+

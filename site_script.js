@@ -25,12 +25,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-});
-
-
-// Tabs functionality
-
-document.addEventListener('DOMContentLoaded', function() {
+    import('./mini_histogram_plot.js').then(d => {
+        d.drawHistogramPlot('./data/avg_monthly_net_salary_after_tax.csv', '#avgNetSalaryHistogram', 300, 70)
+        d.drawHistogramPlot('./data/avg_monthly_rent_in_city.csv', '#rentInCityHistogram', 300, 70)
+        d.drawHistogramPlot('./data/avg_monthly_rent_outside_centre.csv', '#rentOutsideCityHistogram', 300, 70)
+    });
 
     // Select all elements with the 'data-scroll' attribute
     var scrollTriggers = document.querySelectorAll('[data-scroll]');
@@ -51,21 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
-    // Add click event to each tab button
-    // tabButtons.forEach(function(btn, index) {
-    //     btn.addEventListener('click', function() {
-    //         // Remove active class from all tab buttons and contents
-    //         tabButtons.forEach(function(button) { button.classList.remove('active'); });
-    //         tabContents.forEach(function(content) { content.classList.remove('active'); });
-
-    //         // Add active class to the clicked tab and its content
-    //         btn.classList.add('active');
-    //         var target = btn.getAttribute('data-target');
-    //         document.querySelector(target).classList.add('active');
-    //     });
-    // });
-
+    
 
     // Close button functionality
     var closeBtn = document.getElementById('close-svg-view');
@@ -84,9 +69,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     import('./jobs_compare/script.js').then(d => {
         d.createTheMultiBarChart()
-    });
-
-    import('./sankey-compensation/sankey.js').then(d => {
-        d.createSankeyChart()
     });
 });
