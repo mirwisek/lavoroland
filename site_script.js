@@ -4,6 +4,17 @@ document.addEventListener('DOMContentLoaded', function() {
     var svgPlaceholder = document.getElementById('svg-placeholder');
     var closeSvgViewCheckbox = document.getElementById('close-svg-view');
 
+    document.getElementById('dropdownRoleOne').addEventListener('click', function() {
+        var dropdown = document.getElementById('dropdownRoleOneDelay');
+        dropdown.classList.toggle('hidden');
+    });
+
+    document.getElementById('dropdownTwoOne').addEventListener('click', function() {
+        var dropdown = document.getElementById('dropdownRoleTwoDelay');
+        dropdown.classList.toggle('hidden');
+    });
+      
+
     // Toggle the SVG placeholder based on the checkbox state
     compareCheckbox.addEventListener('change', function() {
         if(compareCheckbox.checked) {

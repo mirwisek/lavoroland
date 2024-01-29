@@ -18,7 +18,7 @@ function createWeightBar(indicator) {
     const segments = container.selectAll(".bar-segment");
 
     // Initialize all segments to grey
-    segments.style("background-color", "rgb(156 163 175)");
+    segments.style("background-color", "grey");
 
     // Color only the first segment of each bar
     const firstSegment = container.select(".bar-segment:first-child");
@@ -29,7 +29,7 @@ function createWeightBar(indicator) {
         d3.select(this).on("click", function() {
             // On click, color the clicked segment and all previous segments with the original color and the next ones to grey
             segments.each(function(_, j) {
-                d3.select(this).style("background-color", j <= i ? indexColors[indicator] : "rgb(156 163 175)");
+                d3.select(this).style("background-color", j <= i ? indexColors[indicator] : "grey");
             });
             applyFilters();
         });
@@ -56,6 +56,7 @@ function getWeights() {
             .size();
         weights[indicator] = coloredSegments;
     });
+    console.log("Weightss: ", weights);
     return weights;
 }
 
@@ -319,6 +320,8 @@ function drawRadarLine(radarGroup, indices, countryData, radiusScale, angleSlice
 
 // Function to calculate the score of a country based on the weights of the indicators
 function calculateScore(countryData, weights) {
+    console.log("Country data: ", countryData)
+    console.log("weights: ", weights)
     let score = 0;
     // I'm skipping the first element because it's the country name
     for (const [indicator, value] of Object.entries(countryData).slice(1)) {
@@ -372,6 +375,7 @@ function applyFilters() {
         const countryName = d3.select(countryElement).datum().country;
         const countryData = indicesMap.get(countryName);
         const score = calculateScore(countryData, weights);
+        // console.log("Score: ", score)
         d3.select(countryElement).datum().score = score; // Assign score to each country
     });
 
@@ -711,8 +715,8 @@ const createGroupedBarChart = (subgroups, groups, data, textFontSize) => {
     data = data.filter(d => groups.includes(d.group));
 
     var margin = { top: 10, right: 10, bottom: 50, left: 150 },
-    width = 1000 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
+    width = 900 - margin.left - margin.right,
+    height = 550 - margin.top - margin.bottom;
 
     legendWidth = 150
     // append the svg object to the body of the page
@@ -844,7 +848,7 @@ const createGroupedBarChart = (subgroups, groups, data, textFontSize) => {
 const createMarimekkoChart = (filteredInsurance, subgroups, countries, textFontSize) => {
     var margin = { top: 10, right: 190, bottom: 50, left: 50 },
     width = 1000 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
+    height = 600 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select("#stacked-bar-chart")
@@ -1004,7 +1008,7 @@ const createParallelCoordinates = (data, dimensions) => {
     // set the dimensions and margins of the graph
     var margin = {top: 30, right: 10, bottom: 10, left: 0},
     width = 500 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    height = 300 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select("#stacked-bar-chart")
