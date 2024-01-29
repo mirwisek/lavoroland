@@ -272,6 +272,13 @@
   padding: 10px;
 }
 
+#Health {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+
 .info-icon:hover .tooltip-text {
   visibility: visible;
 }
