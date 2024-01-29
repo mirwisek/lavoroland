@@ -463,9 +463,13 @@ function resetFilters() {
     // Reset sliders
 
     // Reset number boxes
-    parseAttributeValues('avgNetSalaryHistogram', minSalaryLabel, maxSalaryLabel)
-    parseAttributeValues('rentInCityHistogram', minRentInCityLabel, maxRentInCityLabel)
-    parseAttributeValues('rentOutsideCityHistogram', minRentOutsideCityLabel, maxRentOutsideCityLabel)
+    // parseAttributeValues('avgNetSalaryHistogram', minSalaryLabel, maxSalaryLabel)
+    // parseAttributeValues('rentInCityHistogram', minRentInCityLabel, maxRentInCityLabel)
+    // parseAttributeValues('rentOutsideCityHistogram', minRentOutsideCityLabel, maxRentOutsideCityLabel)
+
+    salaryHistogram.dispatchEvent(new Event("reset"));
+    rentInCityHistogram.dispatchEvent(new Event("reset"));
+    rentOutsideCityHistogram.dispatchEvent(new Event("reset"));
 
     applyFilters();
 }

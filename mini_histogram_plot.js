@@ -61,7 +61,7 @@ export function drawHistogramPlot(dataFile, containerId, chartWidth = 300, chart
         .on("end", brushended); // Thus we call at the end
 
         const gb = svg.append("g")
-        .attr("class", "brush")
+        .attr("class", "brush-" + containerId.replace("#", ""))
         .call(brush)
         // .call(brush.move, defaultSelection);
 
@@ -105,9 +105,9 @@ export function drawHistogramPlot(dataFile, containerId, chartWidth = 300, chart
             }
         }
 
+        const target = d3.select(containerId)
 
         function brushended({selection}) {
-            const target = d3.select(containerId)
             // If the user made a selection
             if(selection) {
                 const selectedRange = selection.map(scaleBandInvert(x));
@@ -121,7 +121,7 @@ export function drawHistogramPlot(dataFile, containerId, chartWidth = 300, chart
                 target.attr("data-brushed", values);
 
             } else {    // If the selection was cancelled
-                console.log("Resetting brush");
+                // console.log("Resetting brush");
                 // gb.call(brush.move, defaultSelection);
                 // The defautl is needed for first time
                 target.attr("data-brushed", [minAvgPrice, maxAvgPrice]);    // Send the extreme values on reset
@@ -131,6 +131,11 @@ export function drawHistogramPlot(dataFile, containerId, chartWidth = 300, chart
         }
 
         brushended(false) // Reset the brush
+
+        target.on('reset', function() {
+            var brushElement = d3.select(".brush-" + containerId.replace("#", ""));
+            brush.move(brushElement, null)
+        });
 
         // Add interactive hints
 
