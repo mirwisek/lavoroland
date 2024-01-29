@@ -56,6 +56,7 @@ export function createSankeyChart(filtered_countries) {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
     } else {
         console.log("***");
         // Clear the existing content in the SVG
