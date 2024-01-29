@@ -200,7 +200,7 @@
 			<div id="svg-placeholder" class="svg-container">
 				<div class="svg-content">
 					<!-- Embedded page -->
-					<div x-data="{ activeTab: 1 }">
+					<div x-data="{ activeTab: 2 }">
 
 						
 						<!-- Tab panels -->
@@ -208,10 +208,65 @@
 							<div class="relative flex flex-col">
 
 								<!-- Panel #1 -->
-								<article id="article-1" class="w-full">
+								<article id="article-1" class="w-full" style="display: none;">
 										<div class="w-[70%] mx-auto">
 											<h2 class="jobs-title text-center">Average yearly compensation for IT roles in Europe [2023]</h2>
-										<div id="multi-bar-chart" class="relative z-20  mx-auto"></div>
+											<!-- Input Role 1 -->
+																						
+											<div class="flex items-center justify-between">
+												<div class="relative z-50 ml-64 my-4">
+													<button id="dropdownRoleOne" data-dropdown-toggle="dropdownRoleOneDelay" data-dropdown-delay="500" data-dropdown-trigger="hover" class="relative text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Role 1<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+														<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+														</svg>
+													</button>
+													
+													<!-- Dropdown menu -->
+													<div id="dropdownRoleOneDelay" class="absolute z-100 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+														<ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRoleOne">
+														<li>
+															<a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+														</li>
+														<li>
+															<a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+														</li>
+														<li>
+															<a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+														</li>
+														<li>
+															<a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
+														</li>
+														</ul>
+													</div>
+												</div>
+	
+												<div class="relative z-50 mr-64">
+													<button id="dropdownTwoOne" data-dropdown-toggle="dropdownRoleTwoDelay" data-dropdown-delay="500" data-dropdown-trigger="hover" class="relative text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Role 2<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+														<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+														</svg>
+													</button>
+													
+													<!-- Dropdown menu -->
+													<div id="dropdownRoleTwoDelay" class="absolute z-100 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+														<ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRoleTwo">
+														<li>
+															<a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+														</li>
+														<li>
+															<a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+														</li>
+														<li>
+															<a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+														</li>
+														<li>
+															<a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
+														</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											  
+											
+											<div id="multi-bar-chart" class="relative z-20  mx-auto"></div>
 									</div>
 								</article>
 
@@ -277,7 +332,7 @@
 										<h2 class="jobs-title text-center">Prices of Several Goods and Services</h2>
 										<div id="tooltip-grouped"></div>
 										<div id="grouped-bar-chart" class="mx-auto"></div>
-										<div id="expenses-checkboxes" class=""></div>
+										<div id="expenses-checkboxes" class="flex"></div>
 										<!-- <div id="tooltip-grouped" style="position: absolute; opacity: 0; pointer-events: none; background-color: white; border: solid 1px #dcdcdc; padding: 5px; border-radius: 5px;"></div> -->
 
 									</div>
@@ -294,12 +349,12 @@
 							<div class="flex justify-center">
 								<div class="max-[480px]:max-w-[180px] inline-flex flex-wrap justify-center bg-blue-500 rounded-[30px] ring-4  ring-blue-400/50 p-1 mb-4 min-[480px]:mb-12">
 						
-									<button
+									<!-- <button
 										id="tab-1" data-scroll="#article-1"
 										class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
 										:class="activeTab === 1 ? 'bg-white text-slate-900' : 'text-white hover:text-slate-900'"
-										@click="activeTab = 1"
-									>Wages</button>
+										@click="activeTab = 1" style="display: none;"
+									>Wages</button> -->
 									<button
 										id="tab-2" data-scroll="#article-2"
 										class="flex-1 text-sm font-medium h-8 px-4 rounded-2xl whitespace-nowrap focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 ease-in-out"
