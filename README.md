@@ -4,10 +4,7 @@ An analytical tool to help find graduate students their ideal EU destination for
 <img src="raw/members.png" width="60%">
 
 
-Authors:
-- [Daniel Huf](https://github.com/danielhuf)
-- [Mirwise Khan](https://github.com/mirwisek)
-- [Sayyor Yusupov](https://github.com/SYusupov)
+Authors: [Mirwise Khan](https://github.com/mirwisek), [Daniel Huf](https://github.com/danielhuf), [Sayyor Yusupov](https://github.com/SYusupov)
 
 ### Data
 The directory for storing data files. Contains data from [Numbeo](https://www.numbeo.com) (the world's largest cost of living database), [the Global Health Expenditures](https://apps.who.int/nha/database) database (in collaboration with countries using official statistics), and [StackOverflow surveys](https://insights.stackoverflow.com/survey) regarding IT jobs in Europe.
