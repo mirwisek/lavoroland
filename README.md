@@ -1,4 +1,4 @@
-# student-job-destinations
+# Lavoroland - Best EU destination for fresh graduates [Open-Source]
 An analytical tool to help find graduate students their ideal EU destination for work
 
 <img src="raw/members.png" width="60%">
